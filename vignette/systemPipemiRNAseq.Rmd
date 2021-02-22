@@ -1,0 +1,283 @@
+---
+title: "systemPipemiRNAseq" 
+author: "Author: Daniela Cassol (danielac@ucr.edu) and Thomas Girke (thomas.girke@ucr.edu)"
+date: "Last update: `r format(Sys.time(), '%d %B, %Y')`" 
+output:
+  BiocStyle::html_document:
+    toc_float: true
+    code_folding: show
+package: systemPipeR
+vignette: |
+  %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{WF: Workflow Template}
+  %\VignetteEngine{knitr::rmarkdown}
+fontsize: 14pt
+bibliography: bibtex.bib
+---
+
+```{css, echo=FALSE}
+pre code {
+white-space: pre !important;
+overflow-x: scroll !important;
+word-break: keep-all !important;
+word-wrap: initial !important;
+}
+```
+
+<!--
+- Compile from command-line
+Rscript -e "rmarkdown::render('systemPipemiRNAseq.Rmd', c('BiocStyle::html_document'), clean=F); knitr::knit('systemPipemiRNAseq.Rmd', tangle=TRUE)"; Rscript -e "rmarkdown::render('systemPipemiRNAseq.Rmd', c('BiocStyle::pdf_document'))"
+-->
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown()
+options(width=60, max.print=1000)
+knitr::opts_chunk$set(
+    eval=as.logical(Sys.getenv("KNITR_EVAL", "TRUE")),
+    cache=as.logical(Sys.getenv("KNITR_CACHE", "TRUE")), 
+    tidy.opts=list(width.cutoff=60), tidy=TRUE)
+```
+
+```{r setup, echo=FALSE, message=FALSE, wwarning=FALSE, eval=FALSE}
+suppressPackageStartupMessages({
+      library(systemPipeR)
+    library(BiocParallel)
+    library(Biostrings)
+    library(Rsamtools)
+    library(GenomicRanges)
+    library(ggplot2)
+    library(GenomicAlignments)
+    library(ShortRead)
+    library(ape)
+    library(batchtools)
+
+})
+```
+# Introduction 
+
+Users want to provide here background information about the design of their RNA-Seq project.
+
+# Samples and environment settings
+
+## Define environment settings and samples
+
+A typical workflow starts with generating the expected working environment
+containing the proper directory structure, input files, and parameter settings.
+To simplify this task, one can load one of the existing NGS workflows templates
+provided by _`systemPipeRdata`_ into the current working directory. The
+following does this for the _`rnaseq`_ template. The name of the resulting
+workflow directory can be specified under the _`mydirname`_ argument. The
+default _`NULL`_ uses the name of the chosen workflow. An error is issued if a
+directory of the same name and path exists already. On Linux and OS X systems
+one can also create new workflow instances from the command-line of a terminal as shown
+[here](http://bioconductor.org/packages/devel/data/experiment/vignettes/systemPipeRdata/inst/doc/systemPipeRdata.html#generate-workflow-template).
+To apply workflows to custom data, the user needs to modify the _`targets`_ file and if
+necessary update the corresponding _`.cwl`_ and _`.yml`_ files. A collection of pre-generated _`.cwl`_ and _`.yml`_ files are provided in the _`param/cwl`_ subdirectory of each workflow template. They
+are also viewable in the GitHub repository of _`systemPipeRdata`_ ([see
+here](https://github.com/tgirke/systemPipeRdata/tree/master/inst/extdata/param)).
+
+```{r load_package, eval=FALSE}
+library(systemPipeR)
+library(systemPipeRdata)
+genWorkenvir(workflow="rnaseq", mydirname=NULL)
+setwd("rnaseq")
+```
+
+## Read Preprocessing
+
+### Preprocessing with _`preprocessReads`_ function
+
+The function _`preprocessReads`_ allows to apply predefined or custom
+read preprocessing functions to all FASTQ files referenced in a
+_`SYSargs2`_ container, such as quality filtering or adaptor trimming
+routines. The paths to the resulting output FASTQ files are stored in the
+_`output`_ slot of the _`SYSargs2`_ object. Internally,
+_`preprocessReads`_ uses the _`FastqStreamer`_ function from
+the _`ShortRead`_ package to stream through large FASTQ files in a
+memory-efficient manner. The following example performs adaptor trimming with
+the _`trimLRPatterns`_ function from the _`Biostrings`_ package.
+After the trimming step a new targets file is generated (here
+_`targets_trimPE.txt`_) containing the paths to the trimmed FASTQ files.
+The new targets file can be used for the next workflow step with an updated
+_`SYSargs2`_ instance, _e.g._ running the NGS alignments with the
+trimmed FASTQ files.
+
+Construct _`SYSargs2`_ object from _`cwl`_ and _`yml`_ param and _`targets`_ files.
+
+```{r construct_SYSargs2_trim-se, echo = FALSE, eval=FALSE}
+targets <- system.file("extdata", "targets.txt", package="systemPipeR")
+dir_path <- system.file("extdata/cwl/preprocessReads/trim-se", package="systemPipeR")
+trim <- loadWorkflow(targets=targets, wf_file="trim-se.cwl", input_file="trim-se.yml", dir_path=dir_path)
+trim <- renderWF(trim, inputvars=c(FileName="_FASTQ_PATH1_", SampleName="_SampleName_"))
+trim
+```
+
+```{r construct_SYSargs2_trim-pe, eval=FALSE}
+targetsPE <- system.file("extdata", "targetsPE.txt", package="systemPipeR")
+dir_path <- system.file("extdata/cwl/preprocessReads/trim-pe", package="systemPipeR")
+trim <- loadWorkflow(targets=targetsPE, wf_file="trim-pe.cwl", input_file="trim-pe.yml", dir_path=dir_path)
+trim <- renderWF(trim, inputvars=c(FileName1="_FASTQ_PATH1_", FileName2="_FASTQ_PATH2_", SampleName="_SampleName_"))
+trim
+output(trim)[1:2]
+```
+
+```{r preprocessing, eval=FALSE}
+preprocessReads(args=trim, Fct="trimLRPatterns(Rpattern='GCCCGGGTAA', 
+                subject=fq)", batchsize=100000, overwrite=TRUE, compress=TRUE)
+```
+
+The following example shows how one can design a custom read preprocessing function 
+using utilities provided by the _`ShortRead`_ package, and then run it
+in batch mode with the _'preprocessReads'_ function (here on paired-end reads).
+
+```{r custom_preprocessing, eval=FALSE}
+filterFct <- function(fq, cutoff=20, Nexceptions=0) {
+    qcount <- rowSums(as(quality(fq), "matrix") <= cutoff, na.rm=TRUE)
+    # Retains reads where Phred scores are >= cutoff with N exceptions
+    fq[qcount <= Nexceptions] 
+}
+preprocessReads(args=trim, Fct="filterFct(fq, cutoff=20, Nexceptions=0)", 
+                batchsize=100000)
+```
+
+### Preprocessing with TrimGalore!
+
+[TrimGalore!](http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/) is 
+a wrapper tool to consistently apply quality and adapter trimming to fastq files, 
+with some extra functionality for removing Reduced Representation Bisulfite-Seq 
+(RRBS) libraries. 
+
+```{r trimGalore, eval=FALSE}
+targets <- system.file("extdata", "targets.txt", package="systemPipeR")
+dir_path <- system.file("extdata/cwl/trim_galore/trim_galore-se", package="systemPipeR")
+trimG <- loadWorkflow(targets=targets, wf_file="trim_galore-se.cwl", input_file="trim_galore-se.yml", dir_path=dir_path)
+trimG <- renderWF(trimG, inputvars=c(FileName="_FASTQ_PATH1_", SampleName="_SampleName_"))
+trimG
+cmdlist(trimG)[1:2]
+output(trimG)[1:2]
+## Run Single Machine Option
+trimG <- runCommandline(trimG[1], make_bam = FALSE)
+```
+
+### Preprocessing with Trimmomatic
+
+```{r trimmomatic, eval=FALSE}
+targetsPE <- system.file("extdata", "targetsPE.txt", package="systemPipeR")
+dir_path <- system.file("extdata/cwl/trimmomatic/trimmomatic-pe", package="systemPipeR")
+trimM <- loadWorkflow(targets=targetsPE, wf_file="trimmomatic-pe.cwl", input_file="trimmomatic-pe.yml", dir_path=dir_path)
+trimM <- renderWF(trimM, inputvars=c(FileName1="_FASTQ_PATH1_", FileName2="_FASTQ_PATH2_", SampleName="_SampleName_"))
+trimM
+cmdlist(trimM)[1:2]
+output(trimM)[1:2]
+## Run Single Machine Option
+trimM <- runCommandline(trimM[1], make_bam = FALSE)
+```
+
+## FASTQ quality report
+
+The following _`seeFastq`_ and _`seeFastqPlot`_ functions generate and plot a series of
+useful quality statistics for a set of FASTQ files including per cycle quality
+box plots, base proportions, base-level quality trends, relative k-mer
+diversity, length and occurrence distribution of reads, number of reads above
+quality cutoffs and mean quality distribution.  
+The function _`seeFastq`_ computes the quality statistics and stores the results in a
+relatively small list object that can be saved to disk with _`save()`_ and
+reloaded with _`load()`_ for later plotting. The argument _`klength`_ specifies the
+k-mer length and _`batchsize`_ the number of reads to a random sample from each
+FASTQ file.
+
+```{r fastq_quality, eval=FALSE}
+fqlist <- seeFastq(fastq=infile1(trim), batchsize=10000, klength=8)
+pdf("./results/fastqReport.pdf", height=18, width=4*length(fqlist))
+seeFastqPlot(fqlist)
+dev.off()
+```
+
+<center><img src="fastqReport.png"></center>
+<div align="center">**Figure 5:** FASTQ quality report </div></br>
+
+# Alignment with _`Bowtie2`_ (_e.g._ for miRNA profiling)
+
+The following example runs _`Bowtie2`_ as a single process without submitting it to a cluster.
+
+Building the index:
+```{r bowtie2_index, eval=FALSE}
+dir_path <- system.file("extdata/cwl/bowtie2/bowtie2-idx", package="systemPipeR")
+idx <- loadWorkflow(targets=NULL, wf_file="bowtie2-index.cwl", input_file="bowtie2-index.yml", dir_path=dir_path)
+idx <- renderWF(idx)
+idx
+cmdlist(idx)
+
+## Run in single machine
+runCommandline(idx, make_bam = FALSE)
+```
+
+Building all the command-line:
+
+```{r bowtie2_SYSargs2, eval=FALSE}
+targetsPE <- system.file("extdata", "targetsPE.txt", package = "systemPipeR")
+dir_path <- system.file("extdata/cwl/bowtie2/bowtie2-pe", package="systemPipeR")
+bowtiePE <- loadWorkflow(targets = targetsPE, wf_file = "bowtie2-mapping-pe.cwl", 
+    input_file = "bowtie2-mapping-pe.yml", dir_path = dir_path)
+bowtiePE <- renderWF(bowtiePE, inputvars = c(FileName1 = "_FASTQ_PATH1_", FileName2 = "_FASTQ_PATH2_", 
+    SampleName = "_SampleName_"))
+bowtiePE
+cmdlist(bowtiePE)[1:2]
+output(bowtiePE)[1:2]
+```
+
+Running all the jobs to computing nodes.
+
+```{r bowtie2_cluster, eval=FALSE}
+resources <- list(walltime=120, ntasks=1, ncpus=4, memory=1024) 
+reg <- clusterRun(bowtiePE, FUN = runCommandline, more.args = list(args=bowtiePE, dir = FALSE), 
+    conffile = ".batchtools.conf.R", template = "batchtools.slurm.tmpl", 
+    Njobs = 18, runid = "01", resourceList = resources)
+getStatus(reg = reg)
+```
+
+Alternatively, it possible to run all the jobs in a single machine.
+
+```{r bowtie2_sm, eval=FALSE}
+bowtiePE <- runCommandline(bowtiePE)
+```
+
+Create new targets file.
+
+```{r writeTargetsout_bowtiePE, eval=FALSE}
+names(clt(bowtiePE))
+writeTargetsout(x=bowtiePE, file="default", step = 1, 
+                new_col = "bowtiePE", new_col_output_index = 1, overwrite = TRUE)
+```
+
+## Read counting for miRNA profiling experiments
+
+Download miRNA genes from miRBase.
+
+```{r read_counting_mirna, eval=FALSE}
+system("wget ftp://mirbase.org/pub/mirbase/19/genomes/My_species.gff3 -P ./data/")
+gff <- import.gff("./data/My_species.gff3")
+gff <- split(gff, elementMetadata(gff)$ID)
+bams <- names(bampaths); names(bams) <- targets$SampleName
+bfl <- BamFileList(bams, yieldSize=50000, index=character())
+countDFmiR <- summarizeOverlaps(gff, bfl, mode="Union", ignore.strand=FALSE, inter.feature=FALSE) # Note: inter.feature=FALSE important since pre and mature miRNA ranges overlap
+rpkmDFmiR <- apply(countDFmiR, 2, 
+                   function(x) returnRPKM(counts=x, gffsub=gff))
+write.table(assays(countDFmiR)$counts, "results/countDFmiR.xls", col.names=NA, quote=FALSE, sep="\t")
+write.table(rpkmDFmiR, "results/rpkmDFmiR.xls", col.names=NA, quote=FALSE, sep="\t")
+```
+
+
+# Version Information
+
+```{r sessionInfo}
+sessionInfo()
+```
+
+# Funding
+
+This project was supported by funds from the National Institutes of
+Health (NIH) and the National Science Foundation (NSF).
+
+# References
+
