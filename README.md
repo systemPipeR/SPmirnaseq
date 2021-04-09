@@ -17,19 +17,14 @@ BiocManager::install('systemPipeR/SPmirnaseq')
 
 ### Pipeline summary
 
-- Raw read QC (FastQC)
-- Adapter trimming (Trim Galore!)
-  - Insert Size calculation
-  - Collapse reads (seqcsluter)
-- Alignment against miRBase mature miRNA (Bowtie2)
+- Read Preprocessing
+  - Preprocessing with _`preprocessReads`_ function
+  - Preprocessing with TrimGalore!
+  - Preprocessing with Trimmomatic
+- FASTQ quality report
+-  Alignment against reference genome 
+- Alignment against miRBase mature miRNA
 - Alignment against miRBase hairpin
-  - Post-alignment processing of miRBase hairpin
-  -  Basic statistics from Alignment steps (SAMtools)
-  -  Analysis on miRBase hairpin counts (edgeR)
-  -  miRNA annotation (mirtop)
-- Alignment against host reference genome (Bowtie2)
-  - Post-alignment processing of alignment against host reference genome (SAMtools)
-- Novel miRNA Discovery
-  - Predict novel miRNAs (miRDeep2, miRPara, miRAnalyzer)
-  - miRNA counts generation
-  - Statistical analysis
+- miRNA/isomiR annotation 
+- Prediction of novel microRNAs (miRDeep2, miRPara, sRNAbench)
+
