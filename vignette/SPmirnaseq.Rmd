@@ -1,5 +1,5 @@
 ---
-title: "systemPipemiRNAseq" 
+title: "SPmirnaseq" 
 author: "Author: Daniela Cassol (danielac@ucr.edu) and Thomas Girke (thomas.girke@ucr.edu)"
 date: "Last update: `r format(Sys.time(), '%d %B, %Y')`" 
 output:
@@ -26,7 +26,7 @@ word-wrap: initial !important;
 
 <!--
 - Compile from command-line
-Rscript -e "rmarkdown::render('systemPipemiRNAseq.Rmd', c('BiocStyle::html_document'), clean=F); knitr::knit('systemPipemiRNAseq.Rmd', tangle=TRUE)"; Rscript -e "rmarkdown::render('systemPipemiRNAseq.Rmd', c('BiocStyle::pdf_document'))"
+Rscript -e "rmarkdown::render('SPmirnaseq.Rmd', c('BiocStyle::html_document'), clean=F); knitr::knit('SPmirnaseq.Rmd', tangle=TRUE)"; Rscript -e "rmarkdown::render('SPmirnaseq.Rmd', c('BiocStyle::pdf_document'))"
 -->
 
 ```{r style, echo = FALSE, results = 'asis'}
@@ -40,7 +40,7 @@ knitr::opts_chunk$set(
 
 ```{r setup, echo=FALSE, message=FALSE, wwarning=FALSE, eval=FALSE}
 suppressPackageStartupMessages({
-      library(systemPipeR)
+    library(systemPipeR)
     library(BiocParallel)
     library(Biostrings)
     library(Rsamtools)
@@ -82,6 +82,18 @@ library(systemPipeRdata)
 genWorkenvir(workflow="rnaseq", mydirname=NULL)
 setwd("rnaseq")
 ```
+
+## Experiment definition provided by `targets` file
+
+The `targets` file defines all FASTQ files and sample
+comparisons of the analysis workflow.
+
+```{r load_targets, eval=TRUE}
+targetspath <- system.file("extdata", "targets.txt", package="systemPipeR")
+targets <- read.delim(targetspath, comment.char = "#")[,1:4]
+targets
+```
+
 
 ## Read Preprocessing
 
@@ -196,11 +208,12 @@ dev.off()
 <center><img src="fastqReport.png"></center>
 <div align="center">**Figure 5:** FASTQ quality report </div></br>
 
-# Alignment with _`Bowtie2`_ (_e.g._ for miRNA profiling)
+# Alignment with _`Bowtie2`_ 
 
 The following example runs _`Bowtie2`_ as a single process without submitting it to a cluster.
 
 Building the index:
+
 ```{r bowtie2_index, eval=FALSE}
 dir_path <- system.file("extdata/cwl/bowtie2/bowtie2-idx", package="systemPipeR")
 idx <- loadWorkflow(targets=NULL, wf_file="bowtie2-index.cwl", input_file="bowtie2-index.yml", dir_path=dir_path)
@@ -234,6 +247,7 @@ reg <- clusterRun(bowtiePE, FUN = runCommandline, more.args = list(args=bowtiePE
     conffile = ".batchtools.conf.R", template = "batchtools.slurm.tmpl", 
     Njobs = 18, runid = "01", resourceList = resources)
 getStatus(reg = reg)
+bowtiePE <- output_update(bowtiePE, dir = FALSE, replace = TRUE, extension = c(".sam", ".bam"))
 ```
 
 Alternatively, it possible to run all the jobs in a single machine.
@@ -255,18 +269,26 @@ writeTargetsout(x=bowtiePE, file="default", step = 1,
 Download miRNA genes from miRBase.
 
 ```{r read_counting_mirna, eval=FALSE}
-system("wget ftp://mirbase.org/pub/mirbase/19/genomes/My_species.gff3 -P ./data/")
-gff <- import.gff("./data/My_species.gff3")
+library(rtracklayer)
+system("wget ftp://mirbase.org/pub/mirbase/CURRENT/genomes/ath.gff3 -P ./data/")
+gff <- import.gff("./data/ath.gff3")
 gff <- split(gff, elementMetadata(gff)$ID)
-bams <- names(bampaths); names(bams) <- targets$SampleName
+bams <- subsetWF(bowtiePE, slot = "output", subset = 1, index = 1)
 bfl <- BamFileList(bams, yieldSize=50000, index=character())
 countDFmiR <- summarizeOverlaps(gff, bfl, mode="Union", ignore.strand=FALSE, inter.feature=FALSE) # Note: inter.feature=FALSE important since pre and mature miRNA ranges overlap
-rpkmDFmiR <- apply(countDFmiR, 2, 
-                   function(x) returnRPKM(counts=x, gffsub=gff))
+rpkmDFmiR <- apply(countDFmiR, 2, function(x) returnRPKM(counts=x, gffsub=gff))
 write.table(assays(countDFmiR)$counts, "results/countDFmiR.xls", col.names=NA, quote=FALSE, sep="\t")
 write.table(rpkmDFmiR, "results/rpkmDFmiR.xls", col.names=NA, quote=FALSE, sep="\t")
 ```
 
+
+# Alignment against miRBase mature miRNA
+
+# Alignment against miRBase hairpin
+
+# miRNA/isomiR annotation 
+
+# Prediction of novel microRNAs
 
 # Version Information
 

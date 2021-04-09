@@ -1,7 +1,7 @@
-# systemPipemiRNAseq
+# SPmirnaseq
 
 <!-- badges: start -->
-![R-CMD-check](https://github.com/systemPipeR/systemPipemiRNAseq/workflows/R-CMD-check/badge.svg)
+![R-CMD-check](https://github.com/systemPipeR/SPmirnaseq/workflows/R-CMD-check/badge.svg)
 <!-- badges: end -->
 
 ### Introduction
@@ -10,7 +10,7 @@
 ```r
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
   install.packages("BiocManager") }
-BiocManager::install('systemPipeR/systemPipemiRNAseq')
+BiocManager::install('systemPipeR/SPmirnaseq')
 ```
 
 ### Usage
