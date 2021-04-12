@@ -1,3 +1,4 @@
 name: SPmirnaseq
-description: SPmirnaseq
-create_dir: yes
+description: >
+   SPmirnaseq
+create_dir: true

@@ -79,7 +79,7 @@ here](https://github.com/tgirke/systemPipeRdata/tree/master/inst/extdata/param))
 ```{r load_package, eval=FALSE}
 library(systemPipeR)
 library(systemPipeRdata)
-genWorkenvir(workflow="rnaseq", mydirname=NULL)
+genWorkenvir(workflow="systemPipeR/SPmirnaseq", mydirname=NULL)
 setwd("rnaseq")
 ```
 

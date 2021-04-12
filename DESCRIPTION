@@ -13,6 +13,7 @@ Imports:
 Suggests: 
     BiocStyle,
     knitr,
+    testthat (>= 3.0.0),
     rmarkdown
 VignetteBuilder: 
     knitr
@@ -24,3 +25,4 @@ RoxygenNote: 7.1.1
 SystemRequirements: SPmirnaseq can be used to run
     external command-line software, but the corresponding tool needs to be
     installed on a system.
+Config/testthat/edition: 3
