@@ -1,0 +1,18 @@
+title: SPmirnaseq
+url: https://www.systemPipeR.org/SPmirnaseq/
+authors:
+   Daniela Cassol:
+     href: https://www.dcassol.com/
+home:
+  links:
+  - text: Download from Github
+    href: https://github.com/systemPipeR/SPmirnaseq/
+  - text: Report a bug
+    href: https://github.com/systemPipeR/SPmirnaseq/issues
+template:
+  params:
+    ganalytics: G-CCMXLYXWYV
+    bootswatch: flatly
+#    docsearch:
+#      api_key: API_KEY
+#      index_name: INDEX_NAME
