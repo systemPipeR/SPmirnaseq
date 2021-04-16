@@ -9,7 +9,7 @@ output:
 package: systemPipeR
 vignette: |
   %\VignetteEncoding{UTF-8}
-  %\VignetteIndexEntry{WF: Workflow Template}
+  %\VignetteIndexEntry{miRNAseq Workflow Template}
   %\VignetteEngine{knitr::rmarkdown}
 fontsize: 14pt
 bibliography: bibtex.bib
@@ -55,7 +55,8 @@ suppressPackageStartupMessages({
 ```
 # Introduction 
 
-Users want to provide here background information about the design of their RNA-Seq project.
+Users want to provide here background information about the design of their miRNA-Seq 
+project.
 
 # Samples and environment settings
 
@@ -65,7 +66,7 @@ A typical workflow starts with generating the expected working environment
 containing the proper directory structure, input files, and parameter settings.
 To simplify this task, one can load one of the existing NGS workflows templates
 provided by _`systemPipeRdata`_ into the current working directory. The
-following does this for the _`rnaseq`_ template. The name of the resulting
+following does this for the _`mirnaseq`_ template. The name of the resulting
 workflow directory can be specified under the _`mydirname`_ argument. The
 default _`NULL`_ uses the name of the chosen workflow. An error is issued if a
 directory of the same name and path exists already. On Linux and OS X systems
@@ -79,8 +80,8 @@ here](https://github.com/tgirke/systemPipeRdata/tree/master/inst/extdata/param))
 ```{r load_package, eval=FALSE}
 library(systemPipeR)
 library(systemPipeRdata)
-genWorkenvir(workflow="systemPipeR/SPmirnaseq", mydirname=NULL)
-setwd("rnaseq")
+genWorkenvir(workflow="systemPipeR/SPmirnaseq", mydirname="mirmaseq")
+setwd("mirnaseq")
 ```
 
 ## Experiment definition provided by `targets` file
@@ -89,13 +90,24 @@ The `targets` file defines all FASTQ files and sample
 comparisons of the analysis workflow.
 
 ```{r load_targets, eval=TRUE}
-targetspath <- system.file("extdata", "targets.txt", package="systemPipeR")
-targets <- read.delim(targetspath, comment.char = "#")[,1:4]
+targetspath <- "targets_mirnaseq.txt"
+targets <- read.delim(targetspath, comment.char = "#")
 targets
 ```
 
 
 ## Read Preprocessing
+
+```{r, eval=FALSE}
+dir_path <- "param/cwl/cutadapt/"
+WF <- loadWF(targets = targetspath, wf_file = "cutadapt.cwl", input_file = "cutadapt.yml", dir_path = dir_path)
+WF <- renderWF(WF, inputvars=c(FileName="_FASTQ_PATH1_", SampleName="_SampleName_"))
+cmdlist(WF)
+output(WF)
+
+WF <- runCommandline(WF, make_bam = FALSE)
+systemPipeR:::check.output(WF)
+```
 
 ### Preprocessing with _`preprocessReads`_ function
 
@@ -117,20 +129,10 @@ trimmed FASTQ files.
 Construct _`SYSargs2`_ object from _`cwl`_ and _`yml`_ param and _`targets`_ files.
 
 ```{r construct_SYSargs2_trim-se, echo = FALSE, eval=FALSE}
-targets <- system.file("extdata", "targets.txt", package="systemPipeR")
 dir_path <- system.file("extdata/cwl/preprocessReads/trim-se", package="systemPipeR")
-trim <- loadWorkflow(targets=targets, wf_file="trim-se.cwl", input_file="trim-se.yml", dir_path=dir_path)
+trim <- loadWorkflow(targets=targetspath, wf_file="trim-se.cwl", input_file="trim-se.yml", dir_path=dir_path)
 trim <- renderWF(trim, inputvars=c(FileName="_FASTQ_PATH1_", SampleName="_SampleName_"))
 trim
-```
-
-```{r construct_SYSargs2_trim-pe, eval=FALSE}
-targetsPE <- system.file("extdata", "targetsPE.txt", package="systemPipeR")
-dir_path <- system.file("extdata/cwl/preprocessReads/trim-pe", package="systemPipeR")
-trim <- loadWorkflow(targets=targetsPE, wf_file="trim-pe.cwl", input_file="trim-pe.yml", dir_path=dir_path)
-trim <- renderWF(trim, inputvars=c(FileName1="_FASTQ_PATH1_", FileName2="_FASTQ_PATH2_", SampleName="_SampleName_"))
-trim
-output(trim)[1:2]
 ```
 
 ```{r preprocessing, eval=FALSE}
@@ -199,11 +201,26 @@ k-mer length and _`batchsize`_ the number of reads to a random sample from each
 FASTQ file.
 
 ```{r fastq_quality, eval=FALSE}
-fqlist <- seeFastq(fastq=infile1(trim), batchsize=10000, klength=8)
-pdf("./results/fastqReport.pdf", height=18, width=4*length(fqlist))
+## Before
+fqlist <- seeFastq(fastq=infile1(WF), batchsize=10000, klength=8)
+pdf("./results/fastqReport_before.pdf", height=18, width=4*length(fqlist))
 seeFastqPlot(fqlist)
 dev.off()
+
+## After
+output <- subsetWF(WF, slot="output", subset=1, index=1)
+fqlist <- seeFastq(fastq=output, batchsize=10000, klength=8) 
+pdf("./results/fastqReport_after.pdf", height=18, width=4*length(fqlist)) 
+seeFastqPlot(fqlist) 
+dev.off()
 ```
+
+## FASTQC
+
+```{r}
+
+```
+
 
 <center><img src="fastqReport.png"></center>
 <div align="center">**Figure 5:** FASTQ quality report </div></br>
