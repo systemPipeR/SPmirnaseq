@@ -218,10 +218,18 @@ dev.off()
 ## FASTQC
 
 ```{r}
-
+writeTargetsout(x = WF, file = "default", step = 1, new_col = "FileTrim", new_col_output_index = 1, 
+    overwrite = TRUE)
+dir_path <- "param/cwl/fastqc/" 
+WF <- loadWorkflow(targets = "targets_cutadapt.txt", wf_file = "fastqc.cwl", input_file = "fastqc.yml", dir_path = dir_path)
+WF <- renderWF(WF, inputvars = c(FileTrim= "_FASTQ_PATH1_", SampleName = "_SampleName_"))
+WF
+output(WF)
+cmdlist(WF)
+runCommandline(WF, make_bam=FALSE)
 ```
 
-
+## TODO
 <center><img src="fastqReport.png"></center>
 <div align="center">**Figure 5:** FASTQ quality report </div></br>
 
@@ -245,40 +253,41 @@ runCommandline(idx, make_bam = FALSE)
 Building all the command-line:
 
 ```{r bowtie2_SYSargs2, eval=FALSE}
-targetsPE <- system.file("extdata", "targetsPE.txt", package = "systemPipeR")
-dir_path <- system.file("extdata/cwl/bowtie2/bowtie2-pe", package="systemPipeR")
-bowtiePE <- loadWorkflow(targets = targetsPE, wf_file = "bowtie2-mapping-pe.cwl", 
-    input_file = "bowtie2-mapping-pe.yml", dir_path = dir_path)
-bowtiePE <- renderWF(bowtiePE, inputvars = c(FileName1 = "_FASTQ_PATH1_", FileName2 = "_FASTQ_PATH2_", 
-    SampleName = "_SampleName_"))
-bowtiePE
-cmdlist(bowtiePE)[1:2]
-output(bowtiePE)[1:2]
+targets <- "targets_cutadapt.txt"
+dir_path <- "param/cwl/bowtie2/bowtie2-se"
+bowtie <- loadWorkflow(targets = targets, wf_file = "bowtie2-mapping-se.cwl", 
+    input_file = "bowtie2-mapping-se.yml", dir_path = dir_path)
+bowtie <- renderWF(bowtie, inputvars = c(FileTrim = "_FASTQ_PATH1_", SampleName = "_SampleName_"))
+bowtie
+cmdlist(bowtie)[1:2]
+output(bowtie)[1:2]
 ```
 
 Running all the jobs to computing nodes.
 
 ```{r bowtie2_cluster, eval=FALSE}
-resources <- list(walltime=120, ntasks=1, ncpus=4, memory=1024) 
-reg <- clusterRun(bowtiePE, FUN = runCommandline, more.args = list(args=bowtiePE, dir = FALSE), 
+resources <- list(walltime=120, ntasks=1, ncpus=4, memory=10240) 
+reg <- clusterRun(bowtie, FUN = runCommandline, more.args = list(args=bowtie, dir = FALSE), 
     conffile = ".batchtools.conf.R", template = "batchtools.slurm.tmpl", 
-    Njobs = 18, runid = "01", resourceList = resources)
-getStatus(reg = reg)
-bowtiePE <- output_update(bowtiePE, dir = FALSE, replace = TRUE, extension = c(".sam", ".bam"))
+    Njobs = 6, runid = "01", resourceList = resources)
+getStatus(reg = reg) 
+waitForJobs(reg = reg)
+bowtie <- output_update(bowtie, dir = FALSE, replace = TRUE, extension = c(".sam", ".bam"))
+systemPipeR:::check.output(bowtie)
 ```
 
 Alternatively, it possible to run all the jobs in a single machine.
 
 ```{r bowtie2_sm, eval=FALSE}
-bowtiePE <- runCommandline(bowtiePE)
+bowtie <- runCommandline(bowtie)
 ```
 
 Create new targets file.
 
-```{r writeTargetsout_bowtiePE, eval=FALSE}
-names(clt(bowtiePE))
-writeTargetsout(x=bowtiePE, file="default", step = 1, 
-                new_col = "bowtiePE", new_col_output_index = 1, overwrite = TRUE)
+```{r writeTargetsout_bowtie, eval=FALSE}
+names(clt(bowtie))
+writeTargetsout(x=bowtie, file="default", step = 1, 
+                new_col = "bowtie", new_col_output_index = 1, overwrite = TRUE)
 ```
 
 ## Read counting for miRNA profiling experiments
@@ -288,7 +297,7 @@ Download miRNA genes from miRBase.
 ```{r read_counting_mirna, eval=FALSE}
 library(rtracklayer)
 system("wget ftp://mirbase.org/pub/mirbase/CURRENT/genomes/ath.gff3 -P ./data/")
-gff <- import.gff("./data/ath.gff3")
+gff <- import.gff3("./data/ath.gff3")
 gff <- split(gff, elementMetadata(gff)$ID)
 bams <- subsetWF(bowtiePE, slot = "output", subset = 1, index = 1)
 bfl <- BamFileList(bams, yieldSize=50000, index=character())

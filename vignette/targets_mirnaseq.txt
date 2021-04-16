@@ -1,0 +1,7 @@
+FileName	SampleName	Factor	SampleLong	Organism	LibraryLayout	Date
+./data/SRR5068868_1.fastq.gz	wildtype_A	wildtype	wildtype_A_GSM2412286	Arabidopsis thaliana	SINGLE	2017-04-18T00:00:00Z
+./data/SRR5068869_1.fastq.gz	wildtype_B	wildtype	wildtype_B_GSM2412287	Arabidopsis thaliana	SINGLE	2017-04-18T00:00:00Z
+./data/SRR5068870_1.fastq.gz	wildtype_C	wildtype	wildtype_C_GSM2412288	Arabidopsis thaliana	SINGLE	2017-04-18T00:00:00Z
+./data/SRR5068871_1.fastq.gz	DCL1_knockdown_A	DCL1_knockdown	DCL1_knockdown_A_GSM2412289	Arabidopsis thaliana	SINGLE	2017-04-18T00:00:00Z
+./data/SRR5068872_1.fastq.gz	DCL1_knockdown_B	DCL1_knockdown	DCL1_knockdown_B_GSM2412290	Arabidopsis thaliana	SINGLE	2017-04-18T00:00:00Z
+./data/SRR5068873_1.fastq.gz	DCL1_knockdown_C	DCL1_knockdown	DCL1_knockdown_C_GSM2412291	Arabidopsis thaliana	SINGLE	2017-04-18T00:00:00Z
