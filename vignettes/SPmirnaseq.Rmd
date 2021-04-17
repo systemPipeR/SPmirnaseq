@@ -100,7 +100,7 @@ for installing the software on your system and the [user guide](https://cutadapt
 The parameter settings of the _Cutadapt_ are defined in the `cutadapt.cwl` and 
 `cutadapt.yml` files. The following shows how to construct the corresponding `SYSargs2` object:
 
-```{r cutadapt_prep, eval=TRUE}
+```{r cutadapt_prep, eval=TRUE, warning=FALSE}
 dir_path <- system.file("extdata/cwl/cutadapt/", package = "SPmirnaseq")
 WF <- loadWF(targets = targetspath, wf_file = "cutadapt.cwl", input_file = "cutadapt.yml", dir_path = dir_path)
 WF <- renderWF(WF, inputvars=c(FileName="_FASTQ_PATH1_", SampleName="_SampleName_"))
@@ -216,8 +216,8 @@ seeFastqPlot(fqlist)
 dev.off()
 ```
 
-<center><img src="fastqReport_before.pdf"></center>
-<div align="center">**Figure 1:** FASTQ quality report </div></br>
+<!-- <center><img src="fastqReport_before.pdf"></center> -->
+<!-- <div align="center">**Figure 1:** FASTQ quality report </div></br> -->
 
 It is highly recommended to check the quality of the read trimmed.
 
@@ -230,8 +230,8 @@ seeFastqPlot(fqlist)
 dev.off()
 ```
 
-<center><img src="fastqReport_after.pdf"></center>
-<div align="center">**Figure 2:** FASTQ quality report </div></br>
+<!-- <center><img src="fastqReport_after.pdf"></center> -->
+<!-- <div align="center">**Figure 2:** FASTQ quality report </div></br> -->
 
 ### FASTQ quality report with _FASTQC_
 
@@ -276,7 +276,7 @@ Building all the command-line:
 ```{r bowtie2_SYSargs2, eval=TRUE}
 targetspath <- system.file("extdata", "targets_cutadapt.txt", package = "SPmirnaseq")
 dir_path <- system.file("extdata/cwl/bowtie2/bowtie2-mi", package = "SPmirnaseq")
-bowtie <- loadWorkflow(targets = targets, wf_file = "bowtie2-mapping-mi.cwl", 
+bowtie <- loadWorkflow(targets = targetspath, wf_file = "bowtie2-mapping-mi.cwl", 
     input_file = "bowtie2-mapping-mi.yml", dir_path = dir_path)
 bowtie <- renderWF(bowtie, inputvars = c(FileTrim = "_FASTQ_PATH1_", SampleName = "_SampleName_"))
 bowtie
@@ -327,9 +327,9 @@ write.table(read_statsDF, "results/alignStats_bowtie.xls", row.names = FALSE, qu
 ```
 
 The following shows the first four lines of the sample alignment stats file provided by the systemPipeR package. 
-```{r read_stats, eval=TRUE}
+```{r read_stats_show, eval=TRUE}
 table <- system.file("extdata", "alignStats_bowtie.xls", package = "SPmirnaseq")
-showDT(read.table("table", header = TRUE))## system
+showDT(read.table(table, header = TRUE))## system
 ```
 
 ## Alignment with _`BWA`_ 
@@ -407,7 +407,7 @@ write.table(assays(countDFmiR)$counts, "results/countDFmiR.xls", col.names=NA, q
 write.table(rpkmDFmiR, "results/rpkmDFmiR.xls", col.names=NA, quote=FALSE, sep="\t")
 ```
 
-```{r read_counting_show, eval=TRUE}
+```{r read_counting_show, eval=FALSE}
 countDFmiR <- read.table(system.file("extdata", "countDFmiR.xls", package = "systemPipeR"), header = TRUE)
 showDT(countDFmiR)
 ```
@@ -430,16 +430,17 @@ are strongly encouraged to consult the
 for more detailed information on this topic and how to properly run *`DESeq2`*
 on data sets with more complex experimental designs.
 
-```{r run_DESeq2, eval=TRUE}
+```{r run_DESeq2, eval=FALSE}
 targets <- read.delim(targetspath, comment = "#")
-cmp <- readComp(file = targetspath, format = "matrix", delim = "-")
+cmp <- readComp(file = targets, format = "matrix", delim = "-")
 cmp[[1]]
+countDFmiR <- read.table(system.file("extdata", "countDFmiR.xls", package = "systemPipeR"), header = TRUE)
 degseqDF <- run_DESeq2(countDF = countDFmiR, targets = targets, cmp = cmp[[1]], independent = FALSE)
 ```
 
 Filter and plot DEG results for up and down-regulated genes.
 
-```{r run_DESeq2_filter, eval=TRUE}
+```{r run_DESeq2_filter, eval=FALSE}
 DEG_list <- filterDEGs(degDF = degseqDF, filter = c(Fold = 0.5, FDR = 20), plot = FALSE)
 ```
 
@@ -449,7 +450,7 @@ We can visualize the transformation effect, here `log(x+1)`, variance stabilizin
 transformation (`vst`) [@Anders2010-tp], and regularized-logarithm transformation
 or `rlog` [@Love2014-sh], comparing a grid of all samples, as follows:
 
-```{r exploreDDSplot, eval=TRUE, warning=FALSE, message=FALSE}
+```{r exploreDDSplot, eval=FALSE, warning=FALSE, message=FALSE}
 exploreDDSplot(countDFmiR, targets, cmp = cmp[[1]], preFilter = NULL, samples = c(1:6), scattermatrix = TRUE)
 ```
 
@@ -462,14 +463,14 @@ function from the transformed expression values. After transformation to a dista
 hierarchical clustering is performed with the `stats::hclust` function and the 
 result is plotted as a dendrogram, as follows:
 
-```{r hclustplot, eval=TRUE, warning=FALSE}
+```{r hclustplot, eval=FALSE, warning=FALSE}
 exploredds <- exploreDDS(countDFmiR, targets, cmp=cmp[[1]], preFilter=NULL, transformationMethod="rlog")
 hclustplot(exploredds, method = "spearman")
 ```
 
 ### Hierarchical Clustering HeatMap 
 
-```{r heatMaplot_samples, eval=TRUE, warning=FALSE}
+```{r heatMaplot_samples, eval=FALSE, warning=FALSE}
 ## Samples plot
 heatMaplot(exploredds, clust = "samples")
 ```
@@ -480,7 +481,7 @@ This function plots a Principal Component Analysis (PCA) from transformed expres
 matrix. This plot shows samples variation based on the expression values and identifies
 batch effects.
 
-```{r PCAplot, eval=TRUE, warning=FALSE}
+```{r PCAplot, eval=FALSE, warning=FALSE}
 PCAplot(exploredds, plotly = TRUE)
 ```
 
@@ -491,7 +492,7 @@ PCAplot(exploredds, plotly = TRUE)
 This function plots log2 fold changes (y-axis) versus the mean of normalized counts 
 (on the x-axis). Statistically significant features are colored.
 
-```{r MAplot, eval=TRUE, warning=FALSE}
+```{r MAplot, eval=FALSE, warning=FALSE}
 DEG_list <- filterDEGs(degDF = degseqDF, filter = c(Fold = 2, FDR = 10), plot = TRUE)
 MAplot(degseqDF, FDR.cutoff = 0.05, comparison = "DCL1_knockdown-wildtype", 
        filter = c(Fold = 2, FDR = 10), genes="MI0000208")
@@ -502,7 +503,7 @@ MAplot(degseqDF, FDR.cutoff = 0.05, comparison = "DCL1_knockdown-wildtype",
 If `ind` selected in the `clust` argument, it is necessary to provide the list of
 differentially expressed genes for the `exploredds` subset.
 
-```{r heatMaplot_DEG, eval=TRUE, warning=FALSE}
+```{r heatMaplot_DEG, eval=FALSE, warning=FALSE}
 heatMaplot(exploredds, clust = "ind", DEGlist = unique(as.character(unlist(DEG_list[[1]]))))
 ```
 
@@ -511,7 +512,7 @@ heatMaplot(exploredds, clust = "ind", DEGlist = unique(as.character(unlist(DEG_l
 A simple function that shows statistical significance (`p-value`) versus magnitude
 of change (`log2 fold change`).
 
-```{r volcanoplot, eval=TRUE, warning=FALSE}
+```{r volcanoplot, eval=FALSE, warning=FALSE}
 volcanoplot(degseqDF, comparison = "DCL1_knockdown-wildtype", 
        filter = c(Fold = 2, FDR = 10), genes="MI0000208")
 ```
