@@ -1,15 +1,15 @@
 ---
-title: "SPRthis" 
-author: "Author: Daniela Cassol (danicassol@gmail.com)"
+title: "SPmirnaseq" 
+author: "Author: Daniela Cassol (danielac@ucr.edu) and Thomas Girke (thomas.girke@ucr.edu)"
 date: "Last update: `r format(Sys.time(), '%d %B, %Y')`" 
 output:
   BiocStyle::html_document:
     toc_float: true
     code_folding: show
-package: SPRthis
+package: systemPipeR
 vignette: |
   %\VignetteEncoding{UTF-8}
-  %\VignetteIndexEntry{WF: Workflow Template}
+  %\VignetteIndexEntry{miRNAseq Workflow Template}
   %\VignetteEngine{knitr::rmarkdown}
 fontsize: 14pt
 bibliography: bibtex.bib
@@ -26,7 +26,7 @@ word-wrap: initial !important;
 
 <!--
 - Compile from command-line
-Rscript -e "rmarkdown::render('SPRthis.Rmd', c('BiocStyle::html_document'), clean=F); knitr::knit('SPRthis.Rmd', tangle=TRUE)"; Rscript -e "rmarkdown::render('SPRthis.Rmd', c('BiocStyle::pdf_document'))"
+Rscript -e "rmarkdown::render('SPmirnaseq.Rmd', c('BiocStyle::html_document'), clean=F); knitr::knit('SPmirnaseq.Rmd', tangle=TRUE)"; Rscript -e "rmarkdown::render('SPmirnaseq.Rmd', c('BiocStyle::pdf_document'))"
 -->
 
 ```{r style, echo = FALSE, results = 'asis'}
@@ -40,9 +40,420 @@ knitr::opts_chunk$set(
 
 ```{r setup, echo=FALSE, message=FALSE, wwarning=FALSE, eval=FALSE}
 suppressPackageStartupMessages({
+    library(systemPipeR)
+    library(BiocParallel)
+    library(Biostrings)
+    library(Rsamtools)
+    library(GenomicRanges)
+    library(ggplot2)
+    library(GenomicAlignments)
+    library(ShortRead)
+    library(ape)
+    library(batchtools)
 
 })
 ```
+# Introduction 
+
+Users want to provide here background information about the design of their miRNA-Seq 
+project.
+
+# Samples and environment settings
+
+## Define environment settings and samples
+
+A typical workflow starts with generating the expected working environment
+containing the proper directory structure, input files, and parameter settings.
+To simplify this task, one can load one of the existing NGS workflows templates
+provided by _`systemPipeRdata`_ into the current working directory. The
+following does this for the _`mirnaseq`_ template. The name of the resulting
+workflow directory can be specified under the _`mydirname`_ argument. The
+default _`NULL`_ uses the name of the chosen workflow. An error is issued if a
+directory of the same name and path exists already. On Linux and OS X systems
+one can also create new workflow instances from the command-line of a terminal as shown
+[here](http://bioconductor.org/packages/devel/data/experiment/vignettes/systemPipeRdata/inst/doc/systemPipeRdata.html#generate-workflow-template).
+To apply workflows to custom data, the user needs to modify the _`targets`_ file and if
+necessary update the corresponding _`.cwl`_ and _`.yml`_ files. A collection of pre-generated _`.cwl`_ and _`.yml`_ files are provided in the _`param/cwl`_ subdirectory of each workflow template. They
+are also viewable in the GitHub repository of _`systemPipeRdata`_ ([see
+here](https://github.com/tgirke/systemPipeRdata/tree/master/inst/extdata/param)).
+
+```{r load_package, eval=FALSE}
+library(systemPipeR)
+library(systemPipeRdata)
+genWorkenvir(workflow="systemPipeR/SPmirnaseq", mydirname="mirmaseq")
+setwd("mirnaseq")
+```
+
+## Experiment definition provided by `targets` file
+
+The `targets` file defines all FASTQ files and sample
+comparisons of the analysis workflow.
+
+```{r load_targets, eval=TRUE}
+targetspath <- "targets_mirnaseq.txt" ##system
+targets <- read.delim(targetspath, comment.char = "#")
+targets
+```
+
+# FASTQ quality report
+
+The following _`seeFastq`_ and _`seeFastqPlot`_ functions generate and plot a series of
+useful quality statistics for a set of FASTQ files including per cycle quality
+box plots, base proportions, base-level quality trends, relative k-mer
+diversity, length and occurrence distribution of reads, number of reads above
+quality cutoffs and mean quality distribution.  
+The function _`seeFastq`_ computes the quality statistics and stores the results in a
+relatively small list object that can be saved to disk with _`save()`_ and
+reloaded with _`load()`_ for later plotting. The argument _`klength`_ specifies the
+k-mer length and _`batchsize`_ the number of reads to a random sample from each
+FASTQ file.
+
+```{r fastq_quality_before, eval=FALSE}
+## Before
+fqlist <- seeFastq(fastq=infile1(WF), batchsize=10000, klength=8)
+pdf("./results/fastqReport_before.pdf", height=18, width=4*length(fqlist))
+seeFastqPlot(fqlist)
+dev.off()
+```
+
+# Read Preprocessing
+
+## Read Preprocessing with _`Cutadapt`_
+
+[Cutadapt](https://cutadapt.readthedocs.io/en/stable/) [@Martin2011-bh] finds and removes adapter 
+sequences, primers, poly-A tails and other types of unwanted sequence
+from your high-throughput sequencing reads. Reads from miRNA sequencing contain 
+the 3’ sequencing adapter because the read is longer than the molecule that is sequenced.
+Please find full [documentation](https://cutadapt.readthedocs.io/en/stable/installation.html) 
+for installing the software on your system and the [user guide](https://cutadapt.readthedocs.io/en/stable/guide.html). 
+
+The parameter settings of the _Cutadapt_ are defined in the `cutadapt.cwl` and 
+`cutadapt.yml` files. The following shows how to construct the corresponding `SYSargs2` object:
+
+```{r cutadapt_prep, eval=FALSE}
+dir_path <- "param/cwl/cutadapt/" ##system
+WF <- loadWF(targets = targetspath, wf_file = "cutadapt.cwl", input_file = "cutadapt.yml", dir_path = dir_path)
+WF <- renderWF(WF, inputvars=c(FileName="_FASTQ_PATH1_", SampleName="_SampleName_"))
+cmdlist(WF)
+output(WF)
+```
+
+Interactive job submissions in a single machine:
+
+```{r cutadapt_run, eval=FALSE}
+WF <- runCommandline(WF, make_bam = FALSE)
+systemPipeR:::check.output(WF)
+writeTargetsout(x = WF, file = "default", step = 1, new_col = "FileTrim", new_col_output_index = 1, 
+    overwrite = TRUE)
+```
+
+## Read Preprocessing with _`preprocessReads`_ function
+
+The function _`preprocessReads`_ allows to apply predefined or custom
+read preprocessing functions to all FASTQ files referenced in a
+_`SYSargs2`_ container, such as quality filtering or adaptor trimming
+routines. The paths to the resulting output FASTQ files are stored in the
+_`output`_ slot of the _`SYSargs2`_ object. Internally,
+_`preprocessReads`_ uses the _`FastqStreamer`_ function from
+the _`ShortRead`_ package to stream through large FASTQ files in a
+memory-efficient manner. The following example performs adapter trimming with
+the _`trimLRPatterns`_ function from the _`Biostrings`_ package.
+After the trimming step a new targets file is generated (here
+_`targets_trim-se.txt`_) containing the paths to the trimmed FASTQ files.
+The new targets file can be used for the next workflow step with an updated
+_`SYSargs2`_ instance, _e.g._ running the NGS alignments with the
+trimmed FASTQ files.
+
+Construct _`SYSargs2`_ object from _`cwl`_ and _`yml`_ param and _`targets`_ files.
+
+```{r construct_SYSargs2_trim-se, echo = FALSE, eval=FALSE}
+dir_path<- system.file("extdata/cwl/preprocessReads/trim-se", package="systemPipeR")
+trim <- loadWorkflow(targets=targetspath, wf_file="trim-se.cwl", input_file="trim-se.yml", dir_path=dir_path)
+trim <- renderWF(trim, inputvars=c(FileName="_FASTQ_PATH1_", SampleName="_SampleName_"))
+output(trim)
+```
+
+```{r preprocessing, eval=FALSE}
+preprocessReads(args=trim, Fct="trimLRPatterns(Lpattern='TGGAATTCTCGGGTGCCAAGG', 
+                subject=fq)", batchsize=100000, overwrite=TRUE, compress=TRUE)
+```
+
+The following example shows how one can design a custom read preprocessing function 
+using utilities provided by the _`ShortRead`_ package, and then run it
+in batch mode with the _'preprocessReads'_ function (here on paired-end reads).
+
+```{r custom_preprocessing, eval=FALSE}
+filterFct <- function(fq, cutoff=20, Nexceptions=0) {
+    qcount <- rowSums(as(quality(fq), "matrix") <= cutoff, na.rm=TRUE)
+    # Retains reads where Phred scores are >= cutoff with N exceptions
+    fq[qcount <= Nexceptions] 
+}
+preprocessReads(args=trim, Fct="filterFct(fq, cutoff=20, Nexceptions=0)", 
+                batchsize=100000)
+```
+
+## Preprocessing with _`TrimGalore!`_
+
+[TrimGalore!](http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/) is 
+a wrapper tool to consistently apply quality and adapter trimming to fastq files, 
+with some extra functionality for removing Reduced Representation Bisulfite-Seq 
+(RRBS) libraries. 
+
+```{r trimGalore, eval=FALSE}
+targets <- system.file("extdata", "targets.txt", package="systemPipeR")
+dir_path <- system.file("extdata/cwl/trim_galore/trim_galore-se", package="systemPipeR")
+trimG <- loadWorkflow(targets=targets, wf_file="trim_galore-se.cwl", input_file="trim_galore-se.yml", dir_path=dir_path)
+trimG <- renderWF(trimG, inputvars=c(FileName="_FASTQ_PATH1_", SampleName="_SampleName_"))
+trimG
+cmdlist(trimG)[1:2]
+output(trimG)[1:2]
+## Run Single Machine Option
+trimG <- runCommandline(trimG[1], make_bam = FALSE)
+```
+
+## Preprocessing with _`Trimmomatic`_
+
+Trimmomatic [@Bolger2014-yr] is aflexible read trimming tool for Illumina NGS data. Please find full documentation [here](http://www.usadellab.org/cms/?page=trimmomatic).
+
+```{r trimmomatic, eval=FALSE}
+targetsPE <- system.file("extdata", "targetsPE.txt", package="systemPipeR")
+dir_path <- system.file("extdata/cwl/trimmomatic/trimmomatic-pe", package="systemPipeR")
+trimM <- loadWorkflow(targets=targetsPE, wf_file="trimmomatic-pe.cwl", input_file="trimmomatic-pe.yml", dir_path=dir_path)
+trimM <- renderWF(trimM, inputvars=c(FileName1="_FASTQ_PATH1_", FileName2="_FASTQ_PATH2_", SampleName="_SampleName_"))
+trimM
+cmdlist(trimM)[1:2]
+output(trimM)[1:2]
+## Run Single Machine Option
+trimM <- runCommandline(trimM[1], make_bam = FALSE)
+```
+
+## FASTQ quality report
+
+It is highly recommended to check the quality of the read trimmed.
+
+```{r fastq_quality_after, eval=FALSE}
+## after trimming
+output <- subsetWF(WF, slot="output", subset=1, index=1)
+fqlist <- seeFastq(fastq=output, batchsize=10000, klength=8) 
+pdf("./results/fastqReport_after.pdf", height=18, width=4*length(fqlist)) 
+seeFastqPlot(fqlist) 
+dev.off()
+```
+
+### FASTQ quality report with _FASTQC_
+
+FastQC is a java application that provide quality control checks on raw sequence data.
+
+```{r}
+dir_path <- "param/cwl/fastqc/" ##system
+fastqcWF <- loadWorkflow(targets=targetspath, wf_file="fastqc.cwl", input_file="fastqc.yml", dir_path=dir_path)
+fastqcWF <- renderWF(fastqcWF, inputvars=c(FileName="_FASTQ_PATH1_", SampleName="_SampleName_"))
+fastqcWF
+cmdlist(fastqcWF)[1:2]
+output(fastqcWF)[1:2]
+## Run Single Machine Option
+fastqcWF <- runCommandline(fastqcWF[1], make_bam = FALSE)
+```
+
+<center><img src="results/fastqReport_after.pdf"></center>
+<div align="center">**Figure 1:** FASTQ quality report </div></br>
+
+# Read Alignment
+
+After quality control, the sequence reads can be aligned to a reference genome or miRNA database. The following sessions present some NGS sequence alignment software. Select the most accurate aligner and determining the optimal parameter for your custom data set project.
+
+For all the following examples, it is necessary to install the respective software and export the PATH accordingly. If it is available Environment Module in the system, you can load all the request software with moduleload(modules(idx)) function.
+
+## Alignment with _`Bowtie2`_ 
+
+The following example runs _`Bowtie2`_ as a single process without submitting it to a cluster.
+
+Building the index:
+
+```{r bowtie2_index, eval=FALSE}
+dir_path <- system.file("extdata/cwl/bowtie2/bowtie2-idx", package="systemPipeR")
+idx <- loadWorkflow(targets=NULL, wf_file="bowtie2-index.cwl", input_file="bowtie2-index.yml", dir_path=dir_path)
+idx <- renderWF(idx)
+idx
+cmdlist(idx)
+
+## Run in single machine
+runCommandline(idx, make_bam = FALSE)
+```
+
+Building all the command-line:
+
+```{r bowtie2_SYSargs2, eval=FALSE}
+targets <- "targets_cutadapt.txt" ##system
+dir_path <- "param/cwl/bowtie2/bowtie2-mi" #system
+bowtie <- loadWorkflow(targets = targets, wf_file = "bowtie2-mapping-mi.cwl", 
+    input_file = "bowtie2-mapping-mi.yml", dir_path = dir_path)
+bowtie <- renderWF(bowtie, inputvars = c(FileTrim = "_FASTQ_PATH1_", SampleName = "_SampleName_"))
+bowtie
+cmdlist(bowtie)[1:2]
+output(bowtie)[1:2]
+```
+
+Please note that each experiment and/or each species may require an optimization 
+of the parameters used. Here is an example where no mismatches are allowed, 
+and `-k` mode is used. There is indicative that `Bowtie2` with very sensitive 
+local (`--very-sensitive-local`) argument provides better accuracy and generates 
+smaller `P-values` for true positives [@Ziemann2016-mp].
+
+Running all the jobs to computing nodes.
+
+```{r bowtie2_cluster, eval=FALSE}
+resources <- list(walltime=120, ntasks=1, ncpus=4, memory=1024) 
+reg <- clusterRun(bowtie, FUN = runCommandline, more.args = list(args=bowtiePE, dir = FALSE), 
+    conffile = ".batchtools.conf.R", template = "batchtools.slurm.tmpl", 
+    Njobs = 6, runid = "01", resourceList = resources)
+getStatus(reg = reg)
+bowtie <- output_update(bowtie, dir = FALSE, replace = TRUE, extension = c(".sam", ".bam"))
+```
+
+Alternatively, it possible to run all the jobs in a single machine.
+
+```{r bowtie2_sm, eval=FALSE}
+bowtie <- runCommandline(bowtie, make_bam=TRUE)
+systemPipeR:::check.output(bowtie)
+```
+
+Create new targets file.
+
+```{r writeTargetsout_bowtie, eval=FALSE}
+names(clt(bowtie))
+writeTargetsout(x=bowtie, file="default", step = 1, 
+                new_col = "bowtie", new_col_output_index = 1, overwrite = TRUE)
+```
+
+### Read and alignment count stats
+
+Generate a table of read and alignment counts for all samples.
+
+```{r read_stats, eval=FALSE}
+read_statsDF <- alignStats(bowtie, subset = "FileTrim")
+write.table(read_statsDF, "results/alignStats_bowtie.xls", row.names = FALSE, quote = FALSE, 
+    sep = "\t")
+```
+
+
+The following shows the first four lines of the sample alignment stats file provided by the systemPipeR package. 
+
+```{r read_stats, eval=FALSE}
+showDT(read.table("results/alignStats_bowtie.xls", header = TRUE))## system
+```
+
+## Alignment with _`BWA`_ 
+
+The following example runs `bwa-aln` [@Li2009-ys] as a single process without submitting it to a cluster. Please check the full documentation [here](http://bio-bwa.sourceforge.net/bwa.shtml).
+
+Build the index:
+
+```{r bwa_index, eval=FALSE}
+dir_path <- system.file("extdata/cwl/bwa/bwa-idx", package="systemPipeR")
+idx <- loadWorkflow(targets=NULL, wf_file="bwa-index.cwl", input_file="bwa-index.yml", dir_path=dir_path)
+idx <- renderWF(idx)
+idx
+cmdlist(idx) # Indexes reference genome
+
+## Run 
+runCommandline(idx, make_bam = FALSE)
+```
+
+Please note that each experiment may require an optimization of the aligners 
+parameters used. Here is an example allowing one mismatch across the entire read 
+including the seed region. BWA was recommended for small RNA-seq data to recover miRNA abundance profiles [@Tam2015-gb].
+
+Running the alignment:
+
+```{r bwa_alignment, eval=FALSE}
+targetspath <- "targets_cutadapt.txt" ##system
+dir_path <- "param/cwl/workflow-bwa-aln/" ##system
+bwa <- loadWorkflow(targets = targetspath, wf_file = "workflow_bwa-aln-se.cwl", 
+    input_file = "workflow_bwa-aln-se.yml", dir_path = dir_path)
+bwa <- renderWF(bwa, inputvars = c(FileTrim = "_FASTQ_PATH1_", SampleName = "_SampleName_"))
+bwa
+cmdlist(bwa)[1:2]
+output(bwa)[1:2]
+
+## Single Machine
+bwa <- runCommandline(args= bwa, make_bam=TRUE) 
+
+## Cluster
+library(batchtools)
+resources <- list(walltime = 120, ntasks = 1, ncpus = 4, memory = 1024)
+reg <- clusterRun(bwa, FUN = runCommandline, more.args = list(args=bwa, dir = FALSE), 
+    conffile = ".batchtools.conf.R", template = "batchtools.slurm.tmpl", 
+    Njobs = 6, runid = "01", resourceList = resources)
+getStatus(reg = reg)
+```
+
+Create new targets file.
+
+```{r writeTargetsout_bwa, eval=FALSE}
+names(clt(bwa))
+writeTargetsout(x=bwa, file="default", step = 1, 
+                new_col = "bwa", new_col_output_index = 1, overwrite = TRUE)
+```
+
+<!-- ## Read counting for miRNA profiling experiments -->
+
+Download miRNA genes from miRBase.
+
+```{r read_counting_mirna, eval=FALSE}
+library(rtracklayer)
+system("wget ftp://mirbase.org/pub/mirbase/CURRENT/genomes/ath.gff3 -P ./data/")
+gff <- import.gff("./data/ath.gff3")
+seqlevels(gff)
+system("grep '>' data/tair10.fasta")
+seqlevels(gff) <- c("Chr1", "Chr2", "Chr3", "Chr4", "Chr5")
+seqlevels(gff)
+gff <- split(gff, elementMetadata(gff)$ID)
+# bams <- subsetWF(bowtie, slot = "output", subset = 1, index = 1)
+bams <- subsetWF(bwa, slot = "output", subset = 2, index = 1)
+bfl <- BamFileList(bams, yieldSize=50000, index=character())
+countDFmiR <- summarizeOverlaps(gff, bfl, mode="Union", ignore.strand=FALSE, inter.feature=FALSE) # Note: inter.feature=FALSE important since pre and mature miRNA ranges overlap
+rpkmDFmiR <- apply(assays(countDFmiR)$counts, 2, function(x) returnRPKM(counts=x, ranges=gff))
+write.table(assays(countDFmiR)$counts, "results/countDFmiR.xls", col.names=NA, quote=FALSE, sep="\t")
+write.table(rpkmDFmiR, "results/rpkmDFmiR.xls", col.names=NA, quote=FALSE, sep="\t")
+
+showDT(assays(countDFmiR)$counts)
+```
+
+
+
+# Alignment against miRBase mature miRNA
+
+# Alignment against miRBase hairpin
+
+# miRNA/isomiR annotation 
+
+# Prediction of novel microRNAs
+
+# DEG analysis with *`DESeq2`* 
+
+The following *`run_DESeq2`* function is a convenience wrapper for
+identifying DEGs in batch mode with *`DESeq2`* (Love, Huber, and Anders 2014) for any number of
+pairwise sample comparisons specified under the *`cmp`* argument. Users
+are strongly encouraged to consult the
+[*`DESeq2`*](http://www.bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.pdf) vignette
+for more detailed information on this topic and how to properly run *`DESeq2`*
+on data sets with more complex experimental designs.
+
+```{r}
+targets <- read.delim(targetspath, comment = "#")
+cmp <- readComp(file = targetspath, format = "matrix", delim = "-")
+cmp[[1]]
+degseqDF <- run_DESeq2(countDF = assays(countDFmiR)$counts, targets = targets, cmp = cmp[[1]], 
+    independent = FALSE)
+```
+
+Filter and plot DEG results for up and down-regulated genes.
+
+```{r}
+DEG_list2 <- filterDEGs(degDF = degseqDF, filter = c(Fold = 0.5, FDR = 20))
+```
+
 
 # Version Information
 

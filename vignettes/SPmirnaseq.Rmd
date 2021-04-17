@@ -315,7 +315,7 @@ Alternatively, it possible to run all the jobs in a single machine.
 
 ```{r bowtie2_sm, eval=FALSE}
 bowtie <- runCommandline(bowtie, make_bam=TRUE)
-systemPipeR:::check.output(WF)
+systemPipeR:::check.output(bowtie)
 ```
 
 Create new targets file.
@@ -430,7 +430,7 @@ showDT(assays(countDFmiR)$counts)
 
 # Prediction of novel microRNAs
 
-# DEG analysis with *`DESeq2`* ## REPETIR BOWTIE!!!
+# DEG analysis with *`DESeq2`* 
 
 The following *`run_DESeq2`* function is a convenience wrapper for
 identifying DEGs in batch mode with *`DESeq2`* (Love, Huber, and Anders 2014) for any number of
