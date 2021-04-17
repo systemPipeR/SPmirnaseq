@@ -1,2 +1,8 @@
 .Rproj.user
 logs.sh
+vignettes/data
+vignettes/param
+vignettes/results
+vignettes/SPmirnaseq_cache
+vignettes/*.html
+vignettes/targets*
