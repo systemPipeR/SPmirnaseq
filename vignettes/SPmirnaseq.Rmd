@@ -31,7 +31,7 @@ Rscript -e "rmarkdown::render('SPmirnaseq.Rmd', c('BiocStyle::html_document'), c
 
 ```{r style, echo = FALSE, results = 'asis'}
 BiocStyle::markdown()
-options(width=60, max.print=1000)
+options(width=80, max.print=1000)
 knitr::opts_chunk$set(
     eval=as.logical(Sys.getenv("KNITR_EVAL", "TRUE")),
     cache=as.logical(Sys.getenv("KNITR_CACHE", "TRUE")), 
@@ -83,7 +83,7 @@ comparisons of the analysis workflow.
 ```{r load_targets, eval=TRUE}
 targetspath <- system.file("extdata", "targets_mirnaseq.txt", package = "SPmirnaseq")
 targets <- read.delim(targetspath, comment.char = "#")
-targets
+showDT(targets)
 ```
 
 # Read Preprocessing
@@ -100,12 +100,12 @@ for installing the software on your system and the [user guide](https://cutadapt
 The parameter settings of the _Cutadapt_ are defined in the `cutadapt.cwl` and 
 `cutadapt.yml` files. The following shows how to construct the corresponding `SYSargs2` object:
 
-```{r cutadapt_prep, eval=TRUE, warning=FALSE}
+```{r cutadapt_prep, eval=TRUE}
 dir_path <- system.file("extdata/cwl/cutadapt/", package = "SPmirnaseq")
 WF <- loadWF(targets = targetspath, wf_file = "cutadapt.cwl", input_file = "cutadapt.yml", dir_path = dir_path)
 WF <- renderWF(WF, inputvars=c(FileName="_FASTQ_PATH1_", SampleName="_SampleName_"))
-cmdlist(WF)
-output(WF)
+cmdlist(WF)[1:2]
+output(WF)[1:2]
 ```
 
 Interactive job submissions in a single machine:
@@ -187,7 +187,7 @@ Trimmomatic [@Bolger2014-yr] is aflexible read trimming tool for Illumina NGS da
 ```{r trimmomatic, eval=FALSE}
 dir_path <- system.file("extdata/cwl/trimmomatic/trimmomatic-pe", package="systemPipeR")
 trimM <- loadWorkflow(targets=targetspath, wf_file="trimmomatic-pe.cwl", input_file="trimmomatic-pe.yml", dir_path=dir_path)
-trimM <- renderWF(trimM, inputvars=c(FileName1="_FASTQ_PATH1_", FileName2="_FASTQ_PATH2_", SampleName="_SampleName_"))
+trimM <- renderWF(trimM, inputvars=c(FileName="_FASTQ_PATH1_", SampleName="_SampleName_"))
 trimM
 cmdlist(trimM)[1:2]
 output(trimM)[1:2]
@@ -216,8 +216,8 @@ seeFastqPlot(fqlist)
 dev.off()
 ```
 
-<!-- <center><img src="fastqReport_before.pdf"></center> -->
-<!-- <div align="center">**Figure 1:** FASTQ quality report </div></br> -->
+<center><img src="fastqReport_before.png"></center>
+<div align="left">**Figure 1:** FASTQ quality report before trimming. </div></br>
 
 It is highly recommended to check the quality of the read trimmed.
 
@@ -230,8 +230,8 @@ seeFastqPlot(fqlist)
 dev.off()
 ```
 
-<!-- <center><img src="fastqReport_after.pdf"></center> -->
-<!-- <div align="center">**Figure 2:** FASTQ quality report </div></br> -->
+<center><img src="fastqReport_after.png"></center>
+<div align="left">**Figure 2:** FASTQ quality report after trimming. </div></br>
 
 ### FASTQ quality report with _FASTQC_
 
@@ -407,14 +407,46 @@ write.table(assays(countDFmiR)$counts, "results/countDFmiR.xls", col.names=NA, q
 write.table(rpkmDFmiR, "results/rpkmDFmiR.xls", col.names=NA, quote=FALSE, sep="\t")
 ```
 
-```{r read_counting_show, eval=FALSE}
-countDFmiR <- read.table(system.file("extdata", "countDFmiR.xls", package = "systemPipeR"), header = TRUE)
+```{r read_counting_show, eval=TRUE}
+countDFmiR <- read.table(system.file("extdata", "countDFmiR.xls", package = "SPmirnaseq"), header = TRUE)
 showDT(countDFmiR)
 ```
 
-# Alignment against miRBase mature miRNA
+# Alignment against miRBase mature miRNA and hairpin
 
-# Alignment against miRBase hairpin
+```{bash sRNAbench_bs, eval=FALSE}
+bowtie-build data/tair10.fasta data/tair10
+cp data/*ebwt ~/sRNAtoolboxDB/index/
+chmod 777 index/*ebwt
+java -jar makeSeqObj.jar data/tair10.fasta
+cp data/tair10.zip ~/sRNAtoolboxDB/seqOBJ/
+```
+
+```{r sRNAbench, eval=FALSE}
+## 1 Preprocessing 
+targetspath <- system.file("extdata", "targets_cutadapt.txt", package = "SPmirnaseq")
+pre <- loadWorkflow(targets = targetspath, wf_file = "sRNAbench_pre.cwl", 
+    input_file = "sRNAbench.yml", dir_path = "param/cwl/sRNAbench/")
+pre <- renderWF(pre, inputvars = c(FileTrim = "_FASTQ_PATH1_", SampleName = "_SampleName_"))
+pre
+cmdlist(pre)[1:2]
+output(pre)[1:2]
+# microRNA profiling (Library mapping mode)
+pro <- loadWorkflow(targets = targetspath, wf_file = "sRNAbench_profiling.cwl", 
+    input_file = "sRNAbench.yml", dir_path = "param/cwl/sRNAbench/")
+pro <- renderWF(pro, inputvars = c(FileTrim = "_FASTQ_PATH1_", SampleName = "_SampleName_"))
+pro
+cmdlist(pro)[1:2]
+output(pro)[1:2]
+
+## Genome mapping mode 
+map <- loadWorkflow(targets = targetspath, wf_file = "sRNAbench_mapping.cwl", 
+    input_file = "sRNAbench.yml", dir_path = "param/cwl/sRNAbench/")
+map <- renderWF(map, inputvars = c(FileTrim = "_FASTQ_PATH1_", SampleName = "_SampleName_"))
+map
+cmdlist(map)[1:2]
+output(map)[1:2]
+```
 
 # miRNA/isomiR annotation 
 
@@ -430,17 +462,16 @@ are strongly encouraged to consult the
 for more detailed information on this topic and how to properly run *`DESeq2`*
 on data sets with more complex experimental designs.
 
-```{r run_DESeq2, eval=FALSE}
+```{r run_DESeq2, eval=TRUE, warning=FALSE, message=FALSE}
 targets <- read.delim(targetspath, comment = "#")
-cmp <- readComp(file = targets, format = "matrix", delim = "-")
+cmp <- readComp(file = targetspath, format = "matrix", delim = "-")
 cmp[[1]]
-countDFmiR <- read.table(system.file("extdata", "countDFmiR.xls", package = "systemPipeR"), header = TRUE)
 degseqDF <- run_DESeq2(countDF = countDFmiR, targets = targets, cmp = cmp[[1]], independent = FALSE)
 ```
 
 Filter and plot DEG results for up and down-regulated genes.
 
-```{r run_DESeq2_filter, eval=FALSE}
+```{r run_DESeq2_filter, eval=TRUE}
 DEG_list <- filterDEGs(degDF = degseqDF, filter = c(Fold = 0.5, FDR = 20), plot = FALSE)
 ```
 
@@ -450,7 +481,7 @@ We can visualize the transformation effect, here `log(x+1)`, variance stabilizin
 transformation (`vst`) [@Anders2010-tp], and regularized-logarithm transformation
 or `rlog` [@Love2014-sh], comparing a grid of all samples, as follows:
 
-```{r exploreDDSplot, eval=FALSE, warning=FALSE, message=FALSE}
+```{r exploreDDSplot, eval=TRUE, warning=FALSE, message=FALSE}
 exploreDDSplot(countDFmiR, targets, cmp = cmp[[1]], preFilter = NULL, samples = c(1:6), scattermatrix = TRUE)
 ```
 
@@ -463,25 +494,23 @@ function from the transformed expression values. After transformation to a dista
 hierarchical clustering is performed with the `stats::hclust` function and the 
 result is plotted as a dendrogram, as follows:
 
-```{r hclustplot, eval=FALSE, warning=FALSE}
+```{r hclustplot, eval=TRUE, warning=FALSE, message=FALSE}
 exploredds <- exploreDDS(countDFmiR, targets, cmp=cmp[[1]], preFilter=NULL, transformationMethod="rlog")
 hclustplot(exploredds, method = "spearman")
 ```
 
 ### Hierarchical Clustering HeatMap 
 
-```{r heatMaplot_samples, eval=FALSE, warning=FALSE}
+```{r heatMaplot_samples, eval=TRUE, warning=FALSE}
 ## Samples plot
 heatMaplot(exploredds, clust = "samples")
 ```
 
 ### Principal Component Analysis
 
-This function plots a Principal Component Analysis (PCA) from transformed expression 
-matrix. This plot shows samples variation based on the expression values and identifies
-batch effects.
+This function plots a Principal Component Analysis (PCA) from transformed expression matrix. This plot shows samples variation based on the expression values and identifies batch effects.
 
-```{r PCAplot, eval=FALSE, warning=FALSE}
+```{r PCAplot, eval=TRUE, warning=FALSE}
 PCAplot(exploredds, plotly = TRUE)
 ```
 
@@ -492,7 +521,7 @@ PCAplot(exploredds, plotly = TRUE)
 This function plots log2 fold changes (y-axis) versus the mean of normalized counts 
 (on the x-axis). Statistically significant features are colored.
 
-```{r MAplot, eval=FALSE, warning=FALSE}
+```{r MAplot, eval=TRUE, warning=FALSE}
 DEG_list <- filterDEGs(degDF = degseqDF, filter = c(Fold = 2, FDR = 10), plot = TRUE)
 MAplot(degseqDF, FDR.cutoff = 0.05, comparison = "DCL1_knockdown-wildtype", 
        filter = c(Fold = 2, FDR = 10), genes="MI0000208")
@@ -503,7 +532,7 @@ MAplot(degseqDF, FDR.cutoff = 0.05, comparison = "DCL1_knockdown-wildtype",
 If `ind` selected in the `clust` argument, it is necessary to provide the list of
 differentially expressed genes for the `exploredds` subset.
 
-```{r heatMaplot_DEG, eval=FALSE, warning=FALSE}
+```{r heatMaplot_DEG, eval=TRUE, warning=FALSE}
 heatMaplot(exploredds, clust = "ind", DEGlist = unique(as.character(unlist(DEG_list[[1]]))))
 ```
 
@@ -512,7 +541,7 @@ heatMaplot(exploredds, clust = "ind", DEGlist = unique(as.character(unlist(DEG_l
 A simple function that shows statistical significance (`p-value`) versus magnitude
 of change (`log2 fold change`).
 
-```{r volcanoplot, eval=FALSE, warning=FALSE}
+```{r volcanoplot, eval=TRUE, warning=FALSE}
 volcanoplot(degseqDF, comparison = "DCL1_knockdown-wildtype", 
        filter = c(Fold = 2, FDR = 10), genes="MI0000208")
 ```

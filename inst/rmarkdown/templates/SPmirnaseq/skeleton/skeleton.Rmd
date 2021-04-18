@@ -31,26 +31,17 @@ Rscript -e "rmarkdown::render('SPmirnaseq.Rmd', c('BiocStyle::html_document'), c
 
 ```{r style, echo = FALSE, results = 'asis'}
 BiocStyle::markdown()
-options(width=60, max.print=1000)
+options(width=80, max.print=1000)
 knitr::opts_chunk$set(
     eval=as.logical(Sys.getenv("KNITR_EVAL", "TRUE")),
     cache=as.logical(Sys.getenv("KNITR_CACHE", "TRUE")), 
     tidy.opts=list(width.cutoff=60), tidy=TRUE)
 ```
 
-```{r setup, echo=FALSE, message=FALSE, wwarning=FALSE, eval=FALSE}
+```{r setup, echo=FALSE, message=FALSE, wwarning=FALSE, eval=TRUE}
 suppressPackageStartupMessages({
     library(systemPipeR)
-    library(BiocParallel)
-    library(Biostrings)
-    library(Rsamtools)
-    library(GenomicRanges)
-    library(ggplot2)
-    library(GenomicAlignments)
-    library(ShortRead)
-    library(ape)
     library(batchtools)
-
 })
 ```
 # Introduction 
@@ -90,30 +81,9 @@ The `targets` file defines all FASTQ files and sample
 comparisons of the analysis workflow.
 
 ```{r load_targets, eval=TRUE}
-targetspath <- "targets_mirnaseq.txt" ##system
+targetspath <- system.file("extdata", "targets_mirnaseq.txt", package = "SPmirnaseq")
 targets <- read.delim(targetspath, comment.char = "#")
-targets
-```
-
-# FASTQ quality report
-
-The following _`seeFastq`_ and _`seeFastqPlot`_ functions generate and plot a series of
-useful quality statistics for a set of FASTQ files including per cycle quality
-box plots, base proportions, base-level quality trends, relative k-mer
-diversity, length and occurrence distribution of reads, number of reads above
-quality cutoffs and mean quality distribution.  
-The function _`seeFastq`_ computes the quality statistics and stores the results in a
-relatively small list object that can be saved to disk with _`save()`_ and
-reloaded with _`load()`_ for later plotting. The argument _`klength`_ specifies the
-k-mer length and _`batchsize`_ the number of reads to a random sample from each
-FASTQ file.
-
-```{r fastq_quality_before, eval=FALSE}
-## Before
-fqlist <- seeFastq(fastq=infile1(WF), batchsize=10000, klength=8)
-pdf("./results/fastqReport_before.pdf", height=18, width=4*length(fqlist))
-seeFastqPlot(fqlist)
-dev.off()
+showDT(targets)
 ```
 
 # Read Preprocessing
@@ -130,12 +100,12 @@ for installing the software on your system and the [user guide](https://cutadapt
 The parameter settings of the _Cutadapt_ are defined in the `cutadapt.cwl` and 
 `cutadapt.yml` files. The following shows how to construct the corresponding `SYSargs2` object:
 
-```{r cutadapt_prep, eval=FALSE}
-dir_path <- "param/cwl/cutadapt/" ##system
+```{r cutadapt_prep, eval=TRUE}
+dir_path <- system.file("extdata/cwl/cutadapt/", package = "SPmirnaseq")
 WF <- loadWF(targets = targetspath, wf_file = "cutadapt.cwl", input_file = "cutadapt.yml", dir_path = dir_path)
 WF <- renderWF(WF, inputvars=c(FileName="_FASTQ_PATH1_", SampleName="_SampleName_"))
-cmdlist(WF)
-output(WF)
+cmdlist(WF)[1:2]
+output(WF)[1:2]
 ```
 
 Interactive job submissions in a single machine:
@@ -200,9 +170,8 @@ with some extra functionality for removing Reduced Representation Bisulfite-Seq
 (RRBS) libraries. 
 
 ```{r trimGalore, eval=FALSE}
-targets <- system.file("extdata", "targets.txt", package="systemPipeR")
 dir_path <- system.file("extdata/cwl/trim_galore/trim_galore-se", package="systemPipeR")
-trimG <- loadWorkflow(targets=targets, wf_file="trim_galore-se.cwl", input_file="trim_galore-se.yml", dir_path=dir_path)
+trimG <- loadWorkflow(targets=targetspath, wf_file="trim_galore-se.cwl", input_file="trim_galore-se.yml", dir_path=dir_path)
 trimG <- renderWF(trimG, inputvars=c(FileName="_FASTQ_PATH1_", SampleName="_SampleName_"))
 trimG
 cmdlist(trimG)[1:2]
@@ -216,10 +185,9 @@ trimG <- runCommandline(trimG[1], make_bam = FALSE)
 Trimmomatic [@Bolger2014-yr] is aflexible read trimming tool for Illumina NGS data. Please find full documentation [here](http://www.usadellab.org/cms/?page=trimmomatic).
 
 ```{r trimmomatic, eval=FALSE}
-targetsPE <- system.file("extdata", "targetsPE.txt", package="systemPipeR")
 dir_path <- system.file("extdata/cwl/trimmomatic/trimmomatic-pe", package="systemPipeR")
-trimM <- loadWorkflow(targets=targetsPE, wf_file="trimmomatic-pe.cwl", input_file="trimmomatic-pe.yml", dir_path=dir_path)
-trimM <- renderWF(trimM, inputvars=c(FileName1="_FASTQ_PATH1_", FileName2="_FASTQ_PATH2_", SampleName="_SampleName_"))
+trimM <- loadWorkflow(targets=targetspath, wf_file="trimmomatic-pe.cwl", input_file="trimmomatic-pe.yml", dir_path=dir_path)
+trimM <- renderWF(trimM, inputvars=c(FileName="_FASTQ_PATH1_", SampleName="_SampleName_"))
 trimM
 cmdlist(trimM)[1:2]
 output(trimM)[1:2]
@@ -227,7 +195,29 @@ output(trimM)[1:2]
 trimM <- runCommandline(trimM[1], make_bam = FALSE)
 ```
 
-## FASTQ quality report
+# FASTQ quality report
+
+The following _`seeFastq`_ and _`seeFastqPlot`_ functions generate and plot a series of
+useful quality statistics for a set of FASTQ files including per cycle quality
+box plots, base proportions, base-level quality trends, relative k-mer
+diversity, length and occurrence distribution of reads, number of reads above
+quality cutoffs and mean quality distribution.  
+The function _`seeFastq`_ computes the quality statistics and stores the results in a
+relatively small list object that can be saved to disk with _`save()`_ and
+reloaded with _`load()`_ for later plotting. The argument _`klength`_ specifies the
+k-mer length and _`batchsize`_ the number of reads to a random sample from each
+FASTQ file.
+
+```{r fastq_quality_before, eval=FALSE}
+## Before
+fqlist <- seeFastq(fastq=infile1(WF), batchsize=10000, klength=8)
+pdf("./results/fastqReport_before.pdf", height=18, width=4*length(fqlist))
+seeFastqPlot(fqlist)
+dev.off()
+```
+
+<center><img src="fastqReport_before.png"></center>
+<div align="left">**Figure 1:** FASTQ quality report before trimming. </div></br>
 
 It is highly recommended to check the quality of the read trimmed.
 
@@ -240,12 +230,15 @@ seeFastqPlot(fqlist)
 dev.off()
 ```
 
+<center><img src="fastqReport_after.png"></center>
+<div align="left">**Figure 2:** FASTQ quality report after trimming. </div></br>
+
 ### FASTQ quality report with _FASTQC_
 
 FastQC is a java application that provide quality control checks on raw sequence data.
 
-```{r}
-dir_path <- "param/cwl/fastqc/" ##system
+```{r fastq_report_FASTQC, eval=FALSE}
+dir_path <- system.file("extdata/cwl/fastqc/", package="systemPipeR")
 fastqcWF <- loadWorkflow(targets=targetspath, wf_file="fastqc.cwl", input_file="fastqc.yml", dir_path=dir_path)
 fastqcWF <- renderWF(fastqcWF, inputvars=c(FileName="_FASTQ_PATH1_", SampleName="_SampleName_"))
 fastqcWF
@@ -255,14 +248,11 @@ output(fastqcWF)[1:2]
 fastqcWF <- runCommandline(fastqcWF[1], make_bam = FALSE)
 ```
 
-<center><img src="results/fastqReport_after.pdf"></center>
-<div align="center">**Figure 1:** FASTQ quality report </div></br>
-
 # Read Alignment
 
 After quality control, the sequence reads can be aligned to a reference genome or miRNA database. The following sessions present some NGS sequence alignment software. Select the most accurate aligner and determining the optimal parameter for your custom data set project.
 
-For all the following examples, it is necessary to install the respective software and export the PATH accordingly. If it is available Environment Module in the system, you can load all the request software with moduleload(modules(idx)) function.
+For all the following examples, it is necessary to install the respective software and export the PATH accordingly. If it is available Environment Module in the system, you can load all the request software with `moduleload(modules(idx))` function.
 
 ## Alignment with _`Bowtie2`_ 
 
@@ -271,7 +261,7 @@ The following example runs _`Bowtie2`_ as a single process without submitting it
 Building the index:
 
 ```{r bowtie2_index, eval=FALSE}
-dir_path <- system.file("extdata/cwl/bowtie2/bowtie2-idx", package="systemPipeR")
+dir_path <- system.file("extdata/cwl/bowtie2/bowtie2-idx", package="SPmirnaseq")
 idx <- loadWorkflow(targets=NULL, wf_file="bowtie2-index.cwl", input_file="bowtie2-index.yml", dir_path=dir_path)
 idx <- renderWF(idx)
 idx
@@ -283,10 +273,10 @@ runCommandline(idx, make_bam = FALSE)
 
 Building all the command-line:
 
-```{r bowtie2_SYSargs2, eval=FALSE}
-targets <- "targets_cutadapt.txt" ##system
-dir_path <- "param/cwl/bowtie2/bowtie2-mi" #system
-bowtie <- loadWorkflow(targets = targets, wf_file = "bowtie2-mapping-mi.cwl", 
+```{r bowtie2_SYSargs2, eval=TRUE}
+targetspath <- system.file("extdata", "targets_cutadapt.txt", package = "SPmirnaseq")
+dir_path <- system.file("extdata/cwl/bowtie2/bowtie2-mi", package = "SPmirnaseq")
+bowtie <- loadWorkflow(targets = targetspath, wf_file = "bowtie2-mapping-mi.cwl", 
     input_file = "bowtie2-mapping-mi.yml", dir_path = dir_path)
 bowtie <- renderWF(bowtie, inputvars = c(FileTrim = "_FASTQ_PATH1_", SampleName = "_SampleName_"))
 bowtie
@@ -336,11 +326,10 @@ write.table(read_statsDF, "results/alignStats_bowtie.xls", row.names = FALSE, qu
     sep = "\t")
 ```
 
-
 The following shows the first four lines of the sample alignment stats file provided by the systemPipeR package. 
-
-```{r read_stats, eval=FALSE}
-showDT(read.table("results/alignStats_bowtie.xls", header = TRUE))## system
+```{r read_stats_show, eval=TRUE}
+table <- system.file("extdata", "alignStats_bowtie.xls", package = "SPmirnaseq")
+showDT(read.table(table, header = TRUE))## system
 ```
 
 ## Alignment with _`BWA`_ 
@@ -367,8 +356,8 @@ including the seed region. BWA was recommended for small RNA-seq data to recover
 Running the alignment:
 
 ```{r bwa_alignment, eval=FALSE}
-targetspath <- "targets_cutadapt.txt" ##system
-dir_path <- "param/cwl/workflow-bwa-aln/" ##system
+targetspath <- system.file("extdata", "targets_cutadapt.txt", package = "SPmirnaseq")
+dir_path <- system.file("extdata/cwl/workflow-bwa-aln", package = "SPmirnaseq")
 bwa <- loadWorkflow(targets = targetspath, wf_file = "workflow_bwa-aln-se.cwl", 
     input_file = "workflow_bwa-aln-se.yml", dir_path = dir_path)
 bwa <- renderWF(bwa, inputvars = c(FileTrim = "_FASTQ_PATH1_", SampleName = "_SampleName_"))
@@ -396,7 +385,7 @@ writeTargetsout(x=bwa, file="default", step = 1,
                 new_col = "bwa", new_col_output_index = 1, overwrite = TRUE)
 ```
 
-<!-- ## Read counting for miRNA profiling experiments -->
+## Read counting for miRNA profiling experiments
 
 Download miRNA genes from miRBase.
 
@@ -405,26 +394,30 @@ library(rtracklayer)
 system("wget ftp://mirbase.org/pub/mirbase/CURRENT/genomes/ath.gff3 -P ./data/")
 gff <- import.gff("./data/ath.gff3")
 seqlevels(gff)
-system("grep '>' data/tair10.fasta")
-seqlevels(gff) <- c("Chr1", "Chr2", "Chr3", "Chr4", "Chr5")
-seqlevels(gff)
+#system("grep '>' data/tair10.fasta")
+#seqlevels(gff) <- c("Chr1", "Chr2", "Chr3", "Chr4", "Chr5")
+#seqlevels(gff)
 gff <- split(gff, elementMetadata(gff)$ID)
-# bams <- subsetWF(bowtie, slot = "output", subset = 1, index = 1)
-bams <- subsetWF(bwa, slot = "output", subset = 2, index = 1)
+bams <- subsetWF(bowtie, slot = "output", subset = 1, index = 1)
+#bams <- subsetWF(bwa, slot = "output", subset = 2, index = 1)
 bfl <- BamFileList(bams, yieldSize=50000, index=character())
 countDFmiR <- summarizeOverlaps(gff, bfl, mode="Union", ignore.strand=FALSE, inter.feature=FALSE) # Note: inter.feature=FALSE important since pre and mature miRNA ranges overlap
 rpkmDFmiR <- apply(assays(countDFmiR)$counts, 2, function(x) returnRPKM(counts=x, ranges=gff))
 write.table(assays(countDFmiR)$counts, "results/countDFmiR.xls", col.names=NA, quote=FALSE, sep="\t")
 write.table(rpkmDFmiR, "results/rpkmDFmiR.xls", col.names=NA, quote=FALSE, sep="\t")
-
-showDT(assays(countDFmiR)$counts)
 ```
 
+```{r read_counting_show, eval=TRUE}
+countDFmiR <- read.table(system.file("extdata", "countDFmiR.xls", package = "SPmirnaseq"), header = TRUE)
+showDT(countDFmiR)
+```
 
+# Alignment against miRBase mature miRNA and hairpin
 
-# Alignment against miRBase mature miRNA
+```{r}
 
-# Alignment against miRBase hairpin
+```
+
 
 # miRNA/isomiR annotation 
 
@@ -440,20 +433,89 @@ are strongly encouraged to consult the
 for more detailed information on this topic and how to properly run *`DESeq2`*
 on data sets with more complex experimental designs.
 
-```{r}
+```{r run_DESeq2, eval=TRUE, warning=FALSE, message=FALSE}
 targets <- read.delim(targetspath, comment = "#")
 cmp <- readComp(file = targetspath, format = "matrix", delim = "-")
 cmp[[1]]
-degseqDF <- run_DESeq2(countDF = assays(countDFmiR)$counts, targets = targets, cmp = cmp[[1]], 
-    independent = FALSE)
+degseqDF <- run_DESeq2(countDF = countDFmiR, targets = targets, cmp = cmp[[1]], independent = FALSE)
 ```
 
 Filter and plot DEG results for up and down-regulated genes.
 
-```{r}
-DEG_list2 <- filterDEGs(degDF = degseqDF, filter = c(Fold = 0.5, FDR = 20))
+```{r run_DESeq2_filter, eval=TRUE}
+DEG_list <- filterDEGs(degDF = degseqDF, filter = c(Fold = 0.5, FDR = 20), plot = FALSE)
 ```
 
+# Visualization 
+
+We can visualize the transformation effect, here `log(x+1)`, variance stabilizing
+transformation (`vst`) [@Anders2010-tp], and regularized-logarithm transformation
+or `rlog` [@Love2014-sh], comparing a grid of all samples, as follows:
+
+```{r exploreDDSplot, eval=TRUE, warning=FALSE, message=FALSE}
+exploreDDSplot(countDFmiR, targets, cmp = cmp[[1]], preFilter = NULL, samples = c(1:6), scattermatrix = TRUE)
+```
+
+## Samples analysis
+
+### Hierarchical Clustering Dendrogram 
+
+The following computes the sample-wise correlation coefficients using the `stats::cor()`
+function from the transformed expression values. After transformation to a distance matrix,
+hierarchical clustering is performed with the `stats::hclust` function and the 
+result is plotted as a dendrogram, as follows:
+
+```{r hclustplot, eval=TRUE, warning=FALSE, message=FALSE}
+exploredds <- exploreDDS(countDFmiR, targets, cmp=cmp[[1]], preFilter=NULL, transformationMethod="rlog")
+hclustplot(exploredds, method = "spearman")
+```
+
+### Hierarchical Clustering HeatMap 
+
+```{r heatMaplot_samples, eval=TRUE, warning=FALSE}
+## Samples plot
+heatMaplot(exploredds, clust = "samples")
+```
+
+### Principal Component Analysis
+
+This function plots a Principal Component Analysis (PCA) from transformed expression matrix. This plot shows samples variation based on the expression values and identifies batch effects.
+
+```{r PCAplot, eval=TRUE, warning=FALSE}
+PCAplot(exploredds, plotly = TRUE)
+```
+
+## DEG Analysis Visualization 
+
+### MA plot
+
+This function plots log2 fold changes (y-axis) versus the mean of normalized counts 
+(on the x-axis). Statistically significant features are colored.
+
+```{r MAplot, eval=TRUE, warning=FALSE}
+DEG_list <- filterDEGs(degDF = degseqDF, filter = c(Fold = 2, FDR = 10), plot = TRUE)
+MAplot(degseqDF, FDR.cutoff = 0.05, comparison = "DCL1_knockdown-wildtype", 
+       filter = c(Fold = 2, FDR = 10), genes="MI0000208")
+```
+
+### Hierarchical Clustering HeatMap 
+
+If `ind` selected in the `clust` argument, it is necessary to provide the list of
+differentially expressed genes for the `exploredds` subset.
+
+```{r heatMaplot_DEG, eval=TRUE, warning=FALSE}
+heatMaplot(exploredds, clust = "ind", DEGlist = unique(as.character(unlist(DEG_list[[1]]))))
+```
+
+## Volcano plot 
+
+A simple function that shows statistical significance (`p-value`) versus magnitude
+of change (`log2 fold change`).
+
+```{r volcanoplot, eval=TRUE, warning=FALSE}
+volcanoplot(degseqDF, comparison = "DCL1_knockdown-wildtype", 
+       filter = c(Fold = 2, FDR = 10), genes="MI0000208")
+```
 
 # Version Information
 
