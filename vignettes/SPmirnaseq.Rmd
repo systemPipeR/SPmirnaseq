@@ -414,6 +414,9 @@ showDT(countDFmiR)
 
 # Alignment against miRBase mature miRNA and hairpin
 
+`sRNAbench` [@Aparicio-Puerta2019-fa] allows the expression profiling and prediction of novel microRNAs in deep 
+sequencing experiments. Please find more details about this software [here](https://arn.ugr.es/srnatoolbox/static/sRNAtoolbox_manual.pdf).
+
 ```{bash sRNAbench_bs, eval=FALSE}
 bowtie-build data/tair10.fasta data/tair10
 cp data/*ebwt ~/sRNAtoolboxDB/index/
@@ -425,12 +428,13 @@ cp data/tair10.zip ~/sRNAtoolboxDB/seqOBJ/
 ```{r sRNAbench, eval=FALSE}
 ## 1 Preprocessing 
 targetspath <- system.file("extdata", "targets_cutadapt.txt", package = "SPmirnaseq")
-pre <- loadWorkflow(targets = targetspath, wf_file = "sRNAbench_pre.cwl", 
+  pre <- loadWorkflow(targets = targetspath, wf_file = "sRNAbench_pre.cwl", 
     input_file = "sRNAbench.yml", dir_path = "param/cwl/sRNAbench/")
 pre <- renderWF(pre, inputvars = c(FileTrim = "_FASTQ_PATH1_", SampleName = "_SampleName_"))
 pre
 cmdlist(pre)[1:2]
 output(pre)[1:2]
+
 # microRNA profiling (Library mapping mode)
 pro <- loadWorkflow(targets = targetspath, wf_file = "sRNAbench_profiling.cwl", 
     input_file = "sRNAbench.yml", dir_path = "param/cwl/sRNAbench/")
@@ -446,11 +450,23 @@ map <- renderWF(map, inputvars = c(FileTrim = "_FASTQ_PATH1_", SampleName = "_Sa
 map
 cmdlist(map)[1:2]
 output(map)[1:2]
+runCommandline(args= map, make_bam=TRUE) 
 ```
 
-# miRNA/isomiR annotation 
-
 # Prediction of novel microRNAs
+
+## Prediction `sRNAbench`
+
+```{r sRNAbench_predic, eval=FALSE}
+## Genome mapping mode 
+map <- loadWorkflow(targets = targetspath, wf_file = "sRNAbench_predic.cwl", 
+    input_file = "sRNAbench.yml", dir_path = "param/cwl/sRNAbench/")
+map <- renderWF(map, inputvars = c(FileTrim = "_FASTQ_PATH1_", SampleName = "_SampleName_"))
+map
+cmdlist(map)[1:2]
+output(map)[1:2]
+runCommandline(args= map, make_bam=TRUE)
+```
 
 # DEG analysis with *`DESeq2`* 
 
@@ -474,6 +490,23 @@ Filter and plot DEG results for up and down-regulated genes.
 ```{r run_DESeq2_filter, eval=TRUE}
 DEG_list <- filterDEGs(degDF = degseqDF, filter = c(Fold = 0.5, FDR = 20), plot = FALSE)
 ```
+
+# isomiR mapping and annotation 
+
+isomiRs are miRNA sequences that have variations with respect to the reference sequence.
+
+```{r sRNAbench_isomiR, eval=FALSE}
+## Genome mapping mode 
+map <- loadWorkflow(targets = targetspath, wf_file = "sRNAbench_isomiR.cwl", 
+    input_file = "sRNAbench.yml", dir_path = "param/cwl/sRNAbench/")
+map <- renderWF(map, inputvars = c(FileTrim = "_FASTQ_PATH1_", SampleName = "_SampleName_"))
+map
+cmdlist(map)[1:2]
+output(map)[1:2]
+runCommandline(args= map, make_bam=TRUE) 
+```
+
+## TODO: isomiRs package is designed to analyze the output of SeqBuster tool or any other tool after converting to the desire format.
 
 # Visualization 
 

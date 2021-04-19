@@ -3,8 +3,8 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   SPmirnaseq: SPmirnaseq.html
-last_built: 2021-04-17T18:53Z
+last_built: 2021-04-19T05:16Z
 urls:
-  reference: https://www.systemPipeR.org/SPmirnaseq//reference
-  article: https://www.systemPipeR.org/SPmirnaseq//articles
+  reference: https://systempipe.org/SPmirnaseq//reference
+  article: https://systempipe.org/SPmirnaseq//articles
 
