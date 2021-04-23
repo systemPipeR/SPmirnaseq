@@ -6,3 +6,8 @@ vignettes/results
 vignettes/SPmirnaseq_cache
 vignettes/*.html
 vignettes/targets*
+.Rhistory
+.Rdata
+.httr-oauth
+.DS_Store
+vignettes/*_cache/*
