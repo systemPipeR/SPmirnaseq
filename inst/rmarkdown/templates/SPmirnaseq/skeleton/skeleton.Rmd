@@ -83,7 +83,7 @@ comparisons of the analysis workflow.
 ```{r load_targets, eval=TRUE}
 targetspath <- system.file("extdata", "targets_mirnaseq.txt", package = "SPmirnaseq")
 targets <- read.delim(targetspath, comment.char = "#")
-showDT(targets)
+targets
 ```
 
 # Read Preprocessing
@@ -329,7 +329,7 @@ write.table(read_statsDF, "results/alignStats_bowtie.xls", row.names = FALSE, qu
 The following shows the first four lines of the sample alignment stats file provided by the systemPipeR package. 
 ```{r read_stats_show, eval=TRUE}
 table <- system.file("extdata", "alignStats_bowtie.xls", package = "SPmirnaseq")
-showDT(read.table(table, header = TRUE))## system
+read.table(table, header = TRUE)## system
 ```
 
 ## Alignment with _`BWA`_ 
@@ -409,7 +409,7 @@ write.table(rpkmDFmiR, "results/rpkmDFmiR.xls", col.names=NA, quote=FALSE, sep="
 
 ```{r read_counting_show, eval=TRUE}
 countDFmiR <- read.table(system.file("extdata", "countDFmiR.xls", package = "SPmirnaseq"), header = TRUE)
-showDT(countDFmiR)
+countDFmiR[1:4,1:4]
 ```
 
 # Alignment against miRBase mature miRNA and hairpin
@@ -514,7 +514,8 @@ We can visualize the transformation effect, here `log(x+1)`, variance stabilizin
 transformation (`vst`) [@Anders2010-tp], and regularized-logarithm transformation
 or `rlog` [@Love2014-sh], comparing a grid of all samples, as follows:
 
-```{r exploreDDSplot, eval=TRUE, warning=FALSE, message=FALSE}
+```{r exploreDDSplot, eval=FALSE, warning=FALSE, message=FALSE}
+library(systemPipeTools)
 exploreDDSplot(countDFmiR, targets, cmp = cmp[[1]], preFilter = NULL, samples = c(1:6), scattermatrix = TRUE)
 ```
 
@@ -527,14 +528,14 @@ function from the transformed expression values. After transformation to a dista
 hierarchical clustering is performed with the `stats::hclust` function and the 
 result is plotted as a dendrogram, as follows:
 
-```{r hclustplot, eval=TRUE, warning=FALSE, message=FALSE}
+```{r hclustplot,eval=FALSE, warning=FALSE, message=FALSE}
 exploredds <- exploreDDS(countDFmiR, targets, cmp=cmp[[1]], preFilter=NULL, transformationMethod="rlog")
 hclustplot(exploredds, method = "spearman")
 ```
 
 ### Hierarchical Clustering HeatMap 
 
-```{r heatMaplot_samples, eval=TRUE, warning=FALSE}
+```{r heatMaplot_samples,eval=FALSE, warning=FALSE}
 ## Samples plot
 heatMaplot(exploredds, clust = "samples")
 ```
@@ -543,7 +544,7 @@ heatMaplot(exploredds, clust = "samples")
 
 This function plots a Principal Component Analysis (PCA) from transformed expression matrix. This plot shows samples variation based on the expression values and identifies batch effects.
 
-```{r PCAplot, eval=TRUE, warning=FALSE}
+```{r PCAplot,eval=FALSE, warning=FALSE}
 PCAplot(exploredds, plotly = TRUE)
 ```
 
@@ -554,7 +555,7 @@ PCAplot(exploredds, plotly = TRUE)
 This function plots log2 fold changes (y-axis) versus the mean of normalized counts 
 (on the x-axis). Statistically significant features are colored.
 
-```{r MAplot, eval=TRUE, warning=FALSE}
+```{r MAplot,eval=FALSE, warning=FALSE}
 DEG_list <- filterDEGs(degDF = degseqDF, filter = c(Fold = 2, FDR = 10), plot = TRUE)
 MAplot(degseqDF, FDR.cutoff = 0.05, comparison = "DCL1_knockdown-wildtype", 
        filter = c(Fold = 2, FDR = 10), genes="MI0000208")
@@ -565,7 +566,7 @@ MAplot(degseqDF, FDR.cutoff = 0.05, comparison = "DCL1_knockdown-wildtype",
 If `ind` selected in the `clust` argument, it is necessary to provide the list of
 differentially expressed genes for the `exploredds` subset.
 
-```{r heatMaplot_DEG, eval=TRUE, warning=FALSE}
+```{r heatMaplot_DEG,eval=FALSE, warning=FALSE}
 heatMaplot(exploredds, clust = "ind", DEGlist = unique(as.character(unlist(DEG_list[[1]]))))
 ```
 
@@ -574,7 +575,7 @@ heatMaplot(exploredds, clust = "ind", DEGlist = unique(as.character(unlist(DEG_l
 A simple function that shows statistical significance (`p-value`) versus magnitude
 of change (`log2 fold change`).
 
-```{r volcanoplot, eval=TRUE, warning=FALSE}
+```{r volcanoplot,eval=FALSE, warning=FALSE}
 volcanoplot(degseqDF, comparison = "DCL1_knockdown-wildtype", 
        filter = c(Fold = 2, FDR = 10), genes="MI0000208")
 ```
