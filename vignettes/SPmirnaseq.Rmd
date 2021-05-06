@@ -83,7 +83,7 @@ comparisons of the analysis workflow.
 ```{r load_targets, eval=TRUE}
 targetspath <- system.file("extdata", "targets_mirnaseq.txt", package = "SPmirnaseq")
 targets <- read.delim(targetspath, comment.char = "#")
-showDT(targets)
+targets
 ```
 
 # Read Preprocessing
@@ -329,7 +329,7 @@ write.table(read_statsDF, "results/alignStats_bowtie.xls", row.names = FALSE, qu
 The following shows the first four lines of the sample alignment stats file provided by the systemPipeR package. 
 ```{r read_stats_show, eval=TRUE}
 table <- system.file("extdata", "alignStats_bowtie.xls", package = "SPmirnaseq")
-showDT(read.table(table, header = TRUE))## system
+read.table(table, header = TRUE)## system
 ```
 
 ## Alignment with _`BWA`_ 
@@ -409,7 +409,7 @@ write.table(rpkmDFmiR, "results/rpkmDFmiR.xls", col.names=NA, quote=FALSE, sep="
 
 ```{r read_counting_show, eval=TRUE}
 countDFmiR <- read.table(system.file("extdata", "countDFmiR.xls", package = "SPmirnaseq"), header = TRUE)
-showDT(countDFmiR)
+countDFmiR[1:4,1:4]
 ```
 
 # Alignment against miRBase mature miRNA and hairpin

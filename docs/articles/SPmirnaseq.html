@@ -66,19 +66,13 @@
 
       
 
-      </header><script src="SPmirnaseq_files/header-attrs-2.7/header-attrs.js"></script><script src="SPmirnaseq_files/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="SPmirnaseq_files/jquery-3.5.1/jquery.min.js"></script><link href="SPmirnaseq_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
-<script src="SPmirnaseq_files/datatables-binding-0.18/datatables.js"></script><link href="SPmirnaseq_files/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
-<link href="SPmirnaseq_files/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
-<script src="SPmirnaseq_files/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><link href="SPmirnaseq_files/dt-ext-fixedcolumns-1.10.20/css/fixedColumns.dataTables.min.css" rel="stylesheet">
-<script src="SPmirnaseq_files/dt-ext-fixedcolumns-1.10.20/js/dataTables.fixedColumns.min.js"></script><link href="SPmirnaseq_files/dt-ext-scroller-1.10.20/css/scroller.dataTables.min.css" rel="stylesheet">
-<script src="SPmirnaseq_files/dt-ext-scroller-1.10.20/js/dataTables.scroller.min.js"></script><link href="SPmirnaseq_files/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
-<script src="SPmirnaseq_files/crosstalk-1.1.1/js/crosstalk.min.js"></script><div class="row">
+      </header><script src="SPmirnaseq_files/header-attrs-2.7.12/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>SPmirnaseq</h1>
                         <h4 class="author">Author: Daniela Cassol (<a href="mailto:danielac@ucr.edu" class="email">danielac@ucr.edu</a>) and Thomas Girke (<a href="mailto:thomas.girke@ucr.edu" class="email">thomas.girke@ucr.edu</a>)</h4>
             
-            <h4 class="date">Last update: 23 April, 2021</h4>
+            <h4 class="date">Last update: 05 May, 2021</h4>
       
       
       <div class="hidden name"><code>SPmirnaseq.Rmd</code></div>
@@ -135,9 +129,28 @@ document.addEventListener("DOMContentLoaded", function() {
 <code class="sourceCode R"><span class="va">targetspath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"targets_mirnaseq.txt"</span>, 
     package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
 <span class="va">targets</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.delim</a></span><span class="op">(</span><span class="va">targetspath</span>, comment.char <span class="op">=</span> <span class="st">"#"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/showDT.html">showDT</a></span><span class="op">(</span><span class="va">targets</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-75fe93b5cfbfc91e1356" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-75fe93b5cfbfc91e1356">{"x":{"filter":"none","extensions":["FixedColumns","Scroller"],"data":[["1","2","3","4","5","6"],["./data/SRR5068868_1.fastq.gz","./data/SRR5068869_1.fastq.gz","./data/SRR5068870_1.fastq.gz","./data/SRR5068871_1.fastq.gz","./data/SRR5068872_1.fastq.gz","./data/SRR5068873_1.fastq.gz"],["wildtype_A","wildtype_B","wildtype_C","DCL1_knockdown_A","DCL1_knockdown_B","DCL1_knockdown_C"],["wildtype","wildtype","wildtype","DCL1_knockdown","DCL1_knockdown","DCL1_knockdown"],["wildtype_A_GSM2412286","wildtype_B_GSM2412287","wildtype_C_GSM2412288","DCL1_knockdown_A_GSM2412289","DCL1_knockdown_B_GSM2412290","DCL1_knockdown_C_GSM2412291"],["Arabidopsis thaliana","Arabidopsis thaliana","Arabidopsis thaliana","Arabidopsis thaliana","Arabidopsis thaliana","Arabidopsis thaliana"],["SINGLE","SINGLE","SINGLE","SINGLE","SINGLE","SINGLE"],["2017-04-18T00:00:00Z","2017-04-18T00:00:00Z","2017-04-18T00:00:00Z","2017-04-18T00:00:00Z","2017-04-18T00:00:00Z","2017-04-18T00:00:00Z"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>FileName<\/th>\n      <th>SampleName<\/th>\n      <th>Factor<\/th>\n      <th>SampleLong<\/th>\n      <th>Organism<\/th>\n      <th>LibraryLayout<\/th>\n      <th>Date<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"fixedColumns":true,"deferRender":true,"scrollY":200,"scroller":true,"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":[],"jsHooks":[]}</script>
+<span class="va">targets</span></code></pre></div>
+<pre><code>##                       FileName       SampleName         Factor
+## 1 ./data/SRR5068868_1.fastq.gz       wildtype_A       wildtype
+## 2 ./data/SRR5068869_1.fastq.gz       wildtype_B       wildtype
+## 3 ./data/SRR5068870_1.fastq.gz       wildtype_C       wildtype
+## 4 ./data/SRR5068871_1.fastq.gz DCL1_knockdown_A DCL1_knockdown
+## 5 ./data/SRR5068872_1.fastq.gz DCL1_knockdown_B DCL1_knockdown
+## 6 ./data/SRR5068873_1.fastq.gz DCL1_knockdown_C DCL1_knockdown
+##                    SampleLong             Organism LibraryLayout
+## 1       wildtype_A_GSM2412286 Arabidopsis thaliana        SINGLE
+## 2       wildtype_B_GSM2412287 Arabidopsis thaliana        SINGLE
+## 3       wildtype_C_GSM2412288 Arabidopsis thaliana        SINGLE
+## 4 DCL1_knockdown_A_GSM2412289 Arabidopsis thaliana        SINGLE
+## 5 DCL1_knockdown_B_GSM2412290 Arabidopsis thaliana        SINGLE
+## 6 DCL1_knockdown_C_GSM2412291 Arabidopsis thaliana        SINGLE
+##                   Date
+## 1 2017-04-18T00:00:00Z
+## 2 2017-04-18T00:00:00Z
+## 3 2017-04-18T00:00:00Z
+## 4 2017-04-18T00:00:00Z
+## 5 2017-04-18T00:00:00Z
+## 6 2017-04-18T00:00:00Z</code></pre>
 </div>
 </div>
 <div id="read-preprocessing" class="section level1">
@@ -149,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </h2>
 <p><a href="https://cutadapt.readthedocs.io/en/stable/">Cutadapt</a> <span class="citation">(Martin 2011)</span> finds and removes adapter sequences, primers, poly-A tails and other types of unwanted sequence from your high-throughput sequencing reads. Reads from miRNA sequencing contain the 3’ sequencing adapter because the read is longer than the molecule that is sequenced. Please find full <a href="https://cutadapt.readthedocs.io/en/stable/installation.html">documentation</a> for installing the software on your system and the <a href="https://cutadapt.readthedocs.io/en/stable/guide.html">user guide</a>.</p>
 <p>The parameter settings of the <em>Cutadapt</em> are defined in the <code>cutadapt.cwl</code> and <code>cutadapt.yml</code> files. The following shows how to construct the corresponding <code>SYSargs2</code> object:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/cutadapt/"</span>, package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
 <span class="va">WF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWF</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"cutadapt.cwl"</span>, 
     input_file <span class="op">=</span> <span class="st">"cutadapt.yml"</span>, dir_path <span class="op">=</span> <span class="va">dir_path</span><span class="op">)</span>
@@ -164,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## $wildtype_B
 ## $wildtype_B$cutadapt
 ## [1] "cutadapt --trimmed-only  -a TGGAATTCTCGGGTGCCAAGG -o ./results/cutadapt/wildtype_B.fastq.gz -m 18 -M 30 ./data/SRR5068869_1.fastq.gz"</code></pre>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">output</a></span><span class="op">(</span><span class="va">WF</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></code></pre></div>
 <pre><code>## $wildtype_A
 ## $wildtype_A$cutadapt
@@ -175,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## $wildtype_B$cutadapt
 ## [1] "./results//cutadapt/wildtype_B.fastq.gz"</code></pre>
 <p>Interactive job submissions in a single machine:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">WF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html">runCommandline</a></span><span class="op">(</span><span class="va">WF</span>, make_bam <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="fu">systemPipeR</span><span class="fu">:::</span><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/check.output.html">check.output</a></span><span class="op">(</span><span class="va">WF</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/writeTargetsout.html">writeTargetsout</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">WF</span>, file <span class="op">=</span> <span class="st">"default"</span>, step <span class="op">=</span> <span class="fl">1</span>, new_col <span class="op">=</span> <span class="st">"FileTrim"</span>, 
@@ -186,12 +199,12 @@ document.addEventListener("DOMContentLoaded", function() {
 <a href="#read-preprocessing-with-preprocessreads-function" class="anchor"></a>Read Preprocessing with <em><code>preprocessReads</code></em> function</h2>
 <p>The function <em><code>preprocessReads</code></em> allows to apply predefined or custom read preprocessing functions to all FASTQ files referenced in a <em><code>SYSargs2</code></em> container, such as quality filtering or adaptor trimming routines. The paths to the resulting output FASTQ files are stored in the <em><code>output</code></em> slot of the <em><code>SYSargs2</code></em> object. Internally, <em><code>preprocessReads</code></em> uses the <em><code>FastqStreamer</code></em> function from the <em><code>ShortRead</code></em> package to stream through large FASTQ files in a memory-efficient manner. The following example performs adapter trimming with the <em><code>trimLRPatterns</code></em> function from the <em><code>Biostrings</code></em> package. After the trimming step a new targets file is generated (here <em><code>targets_trim-se.txt</code></em>) containing the paths to the trimmed FASTQ files. The new targets file can be used for the next workflow step with an updated <em><code>SYSargs2</code></em> instance, <em>e.g.</em> running the NGS alignments with the trimmed FASTQ files.</p>
 <p>Construct <em><code>SYSargs2</code></em> object from <em><code>cwl</code></em> and <em><code>yml</code></em> param and <em><code>targets</code></em> files.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/preprocessReads.html">preprocessReads</a></span><span class="op">(</span>args <span class="op">=</span> <span class="va">trim</span>, Fct <span class="op">=</span> <span class="st">"trimLRPatterns(Lpattern='TGGAATTCTCGGGTGCCAAGG', 
                 subject=fq)"</span>, 
     batchsize <span class="op">=</span> <span class="fl">1e+05</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, compress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>The following example shows how one can design a custom read preprocessing function using utilities provided by the <em><code>ShortRead</code></em> package, and then run it in batch mode with the <em>‘preprocessReads’</em> function (here on paired-end reads).</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">filterFct</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">fq</span>, <span class="va">cutoff</span> <span class="op">=</span> <span class="fl">20</span>, <span class="va">Nexceptions</span> <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span>
     <span class="va">qcount</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu">as</span><span class="op">(</span><span class="fu">quality</span><span class="op">(</span><span class="va">fq</span><span class="op">)</span>, <span class="st">"matrix"</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="va">cutoff</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
     <span class="co"># Retains reads where Phred scores are &gt;= cutoff with N</span>
@@ -206,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <a href="#preprocessing-with-trimgalore" class="anchor"></a>Preprocessing with <em><code>TrimGalore!</code></em>
 </h2>
 <p><a href="http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/">TrimGalore!</a> is a wrapper tool to consistently apply quality and adapter trimming to fastq files, with some extra functionality for removing Reduced Representation Bisulfite-Seq (RRBS) libraries.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/trim_galore/trim_galore-se"</span>, 
     package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>
 <span class="va">trimG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"trim_galore-se.cwl"</span>, 
@@ -224,7 +237,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <a href="#preprocessing-with-trimmomatic" class="anchor"></a>Preprocessing with <em><code>Trimmomatic</code></em>
 </h2>
 <p>Trimmomatic <span class="citation">(Bolger, Lohse, and Usadel 2014)</span> is aflexible read trimming tool for Illumina NGS data. Please find full documentation <a href="http://www.usadellab.org/cms/?page=trimmomatic">here</a>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/trimmomatic/trimmomatic-pe"</span>, 
     package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>
 <span class="va">trimM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"trimmomatic-pe.cwl"</span>, 
@@ -243,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <a href="#fastq-quality-report" class="anchor"></a>FASTQ quality report</h1>
 <p>The following <em><code>seeFastq</code></em> and <em><code>seeFastqPlot</code></em> functions generate and plot a series of useful quality statistics for a set of FASTQ files including per cycle quality box plots, base proportions, base-level quality trends, relative k-mer diversity, length and occurrence distribution of reads, number of reads above quality cutoffs and mean quality distribution.<br>
 The function <em><code>seeFastq</code></em> computes the quality statistics and stores the results in a relatively small list object that can be saved to disk with <em><code><a href="https://rdrr.io/r/base/save.html">save()</a></code></em> and reloaded with <em><code><a href="https://rdrr.io/r/base/load.html">load()</a></code></em> for later plotting. The argument <em><code>klength</code></em> specifies the k-mer length and <em><code>batchsize</code></em> the number of reads to a random sample from each FASTQ file.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Before</span>
 <span class="va">fqlist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/seeFastq.html">seeFastq</a></span><span class="op">(</span>fastq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs.html">infile1</a></span><span class="op">(</span><span class="va">WF</span><span class="op">)</span>, batchsize <span class="op">=</span> <span class="fl">10000</span>, klength <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/grDevices/pdf.html">pdf</a></span><span class="op">(</span><span class="st">"./results/fastqReport_before.pdf"</span>, height <span class="op">=</span> <span class="fl">18</span>, width <span class="op">=</span> <span class="fl">4</span> <span class="op">*</span> 
@@ -258,7 +271,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 </div>
 <p></p>
 <p>It is highly recommended to check the quality of the read trimmed.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## after trimming</span>
 <span class="va">output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/subsetWF.html">subsetWF</a></span><span class="op">(</span><span class="va">WF</span>, slot <span class="op">=</span> <span class="st">"output"</span>, subset <span class="op">=</span> <span class="fl">1</span>, index <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="va">fqlist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/seeFastq.html">seeFastq</a></span><span class="op">(</span>fastq <span class="op">=</span> <span class="va">output</span>, batchsize <span class="op">=</span> <span class="fl">10000</span>, klength <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>
@@ -278,7 +291,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <a href="#fastq-quality-report-with-fastqc" class="anchor"></a>FASTQ quality report with <em>FASTQC</em>
 </h3>
 <p>FastQC is a java application that provide quality control checks on raw sequence data.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/fastqc/"</span>, package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>
 <span class="va">fastqcWF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"fastqc.cwl"</span>, 
     input_file <span class="op">=</span> <span class="st">"fastqc.yml"</span>, dir_path <span class="op">=</span> <span class="va">dir_path</span><span class="op">)</span>
@@ -302,7 +315,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 </h2>
 <p>The following example runs <em><code>Bowtie2</code></em> as a single process without submitting it to a cluster.</p>
 <p>Building the index:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/bowtie2/bowtie2-idx"</span>, package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
 <span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="cn">NULL</span>, wf_file <span class="op">=</span> <span class="st">"bowtie2-index.cwl"</span>, 
     input_file <span class="op">=</span> <span class="st">"bowtie2-index.yml"</span>, dir_path <span class="op">=</span> <span class="va">dir_path</span><span class="op">)</span>
@@ -313,7 +326,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <span class="co">## Run in single machine</span>
 <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html">runCommandline</a></span><span class="op">(</span><span class="va">idx</span>, make_bam <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>Building all the command-line:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">targetspath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"targets_cutadapt.txt"</span>, 
     package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
 <span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/bowtie2/bowtie2-mi"</span>, package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
@@ -331,7 +344,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 ##       cmdlist: 6
 ##    WF Steps:
 ##       1. bowtie2-mapping-mi (rendered: TRUE)</code></pre>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">cmdlist</a></span><span class="op">(</span><span class="va">bowtie</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></code></pre></div>
 <pre><code>## $wildtype_A
 ## $wildtype_A$`bowtie2-mapping-mi`
@@ -341,7 +354,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 ## $wildtype_B
 ## $wildtype_B$`bowtie2-mapping-mi`
 ## [1] "bowtie2 --very-sensitive-local  -N  0  -k 50  -S ./results/wildtype_B.sam  -x ./data/tair10.fasta  -U ./results/cutadapt/wildtype_B.fastq.gz -p 4"</code></pre>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">output</a></span><span class="op">(</span><span class="va">bowtie</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></code></pre></div>
 <pre><code>## $wildtype_A
 ## $wildtype_A$`bowtie2-mapping-mi`
@@ -353,7 +366,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 ## [1] "./results/wildtype_B.sam"</code></pre>
 <p>Please note that each experiment and/or each species may require an optimization of the parameters used. Here is an example where no mismatches are allowed, and <code>-k</code> mode is used. There is indicative that <code>Bowtie2</code> with very sensitive local (<code>--very-sensitive-local</code>) argument provides better accuracy and generates smaller <code>P-values</code> for true positives <span class="citation">(Ziemann, Kaspi, and El-Osta 2016)</span>.</p>
 <p>Running all the jobs to computing nodes.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">resources</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>walltime <span class="op">=</span> <span class="fl">120</span>, ntasks <span class="op">=</span> <span class="fl">1</span>, ncpus <span class="op">=</span> <span class="fl">4</span>, memory <span class="op">=</span> <span class="fl">1024</span><span class="op">)</span>
 <span class="va">reg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/clusterRun.html">clusterRun</a></span><span class="op">(</span><span class="va">bowtie</span>, FUN <span class="op">=</span> <span class="va">runCommandline</span>, more.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>args <span class="op">=</span> <span class="va">bowtiePE</span>, 
     dir <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, conffile <span class="op">=</span> <span class="st">".batchtools.conf.R"</span>, template <span class="op">=</span> <span class="st">"batchtools.slurm.tmpl"</span>, 
@@ -362,11 +375,11 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <span class="va">bowtie</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/output_update.html">output_update</a></span><span class="op">(</span><span class="va">bowtie</span>, dir <span class="op">=</span> <span class="cn">FALSE</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, 
     extension <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">".sam"</span>, <span class="st">".bam"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Alternatively, it possible to run all the jobs in a single machine.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bowtie</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html">runCommandline</a></span><span class="op">(</span><span class="va">bowtie</span>, make_bam <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu">systemPipeR</span><span class="fu">:::</span><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/check.output.html">check.output</a></span><span class="op">(</span><span class="va">bowtie</span><span class="op">)</span></code></pre></div>
 <p>Create new targets file.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">clt</a></span><span class="op">(</span><span class="va">bowtie</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/writeTargetsout.html">writeTargetsout</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">bowtie</span>, file <span class="op">=</span> <span class="st">"default"</span>, step <span class="op">=</span> <span class="fl">1</span>, new_col <span class="op">=</span> <span class="st">"bowtie"</span>, 
     new_col_output_index <span class="op">=</span> <span class="fl">1</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -374,16 +387,28 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <h3 class="hasAnchor">
 <a href="#read-and-alignment-count-stats" class="anchor"></a>Read and alignment count stats</h3>
 <p>Generate a table of read and alignment counts for all samples.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">read_statsDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/alignStats.html">alignStats</a></span><span class="op">(</span><span class="va">bowtie</span>, subset <span class="op">=</span> <span class="st">"FileTrim"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.table</a></span><span class="op">(</span><span class="va">read_statsDF</span>, <span class="st">"results/alignStats_bowtie.xls"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, 
     quote <span class="op">=</span> <span class="cn">FALSE</span>, sep <span class="op">=</span> <span class="st">"\t"</span><span class="op">)</span></code></pre></div>
 <p>The following shows the first four lines of the sample alignment stats file provided by the systemPipeR package.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"alignStats_bowtie.xls"</span>, package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/showDT.html">showDT</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span><span class="va">table</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>  <span class="co">## system</span></code></pre></div>
-<div id="htmlwidget-b1409fd1e6a61cb74c9b" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b1409fd1e6a61cb74c9b">{"x":{"filter":"none","extensions":["FixedColumns","Scroller"],"data":[["1","2","3","4","5","6"],["wildtype_A","wildtype_B","wildtype_C","DCL1_knockdown_A","DCL1_knockdown_B","DCL1_knockdown_C"],[6142346,3526512,5222902,12323640,9178448,11274540],[1681395,965633,1311727,2107219,2069296,2483568],[27.3738242684473,27.38209879904,25.114907382907,17.0989983478907,22.5451623193812,22.0281093508028],[954774,529667,709049,681740,640212,743771],[15.5441259740171,15.0195717468138,13.5757668820897,5.5319694505844,6.9751661718844,6.59690772306453]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>FileName<\/th>\n      <th>Nreads2x<\/th>\n      <th>Nalign<\/th>\n      <th>Perc_Aligned<\/th>\n      <th>Nalign_Primary<\/th>\n      <th>Perc_Aligned_Primary<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"fixedColumns":true,"deferRender":true,"scrollY":200,"scroller":true,"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span><span class="va">table</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co">## system</span></code></pre></div>
+<pre><code>##           FileName Nreads2x  Nalign Perc_Aligned Nalign_Primary
+## 1       wildtype_A  6142346 1681395     27.37382         954774
+## 2       wildtype_B  3526512  965633     27.38210         529667
+## 3       wildtype_C  5222902 1311727     25.11491         709049
+## 4 DCL1_knockdown_A 12323640 2107219     17.09900         681740
+## 5 DCL1_knockdown_B  9178448 2069296     22.54516         640212
+## 6 DCL1_knockdown_C 11274540 2483568     22.02811         743771
+##   Perc_Aligned_Primary
+## 1            15.544126
+## 2            15.019572
+## 3            13.575767
+## 4             5.531969
+## 5             6.975166
+## 6             6.596908</code></pre>
 </div>
 </div>
 <div id="alignment-with-bwa" class="section level2">
@@ -392,7 +417,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 </h2>
 <p>The following example runs <code>bwa-aln</code> <span class="citation">(Li and Durbin 2009)</span> as a single process without submitting it to a cluster. Please check the full documentation <a href="http://bio-bwa.sourceforge.net/bwa.shtml">here</a>.</p>
 <p>Build the index:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/bwa/bwa-idx"</span>, package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>
 <span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="cn">NULL</span>, wf_file <span class="op">=</span> <span class="st">"bwa-index.cwl"</span>, 
     input_file <span class="op">=</span> <span class="st">"bwa-index.yml"</span>, dir_path <span class="op">=</span> <span class="va">dir_path</span><span class="op">)</span>
@@ -404,7 +429,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html">runCommandline</a></span><span class="op">(</span><span class="va">idx</span>, make_bam <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>Please note that each experiment may require an optimization of the aligners parameters used. Here is an example allowing one mismatch across the entire read including the seed region. BWA was recommended for small RNA-seq data to recover miRNA abundance profiles <span class="citation">(Tam, Tsao, and McPherson 2015)</span>.</p>
 <p>Running the alignment:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">targetspath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"targets_cutadapt.txt"</span>, 
     package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
 <span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/workflow-bwa-aln"</span>, package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
@@ -427,7 +452,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
     Njobs <span class="op">=</span> <span class="fl">6</span>, runid <span class="op">=</span> <span class="st">"01"</span>, resourceList <span class="op">=</span> <span class="va">resources</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/batchtools/man/getStatus.html">getStatus</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="va">reg</span><span class="op">)</span></code></pre></div>
 <p>Create new targets file.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">clt</a></span><span class="op">(</span><span class="va">bwa</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/writeTargetsout.html">writeTargetsout</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">bwa</span>, file <span class="op">=</span> <span class="st">"default"</span>, step <span class="op">=</span> <span class="fl">1</span>, new_col <span class="op">=</span> <span class="st">"bwa"</span>, 
     new_col_output_index <span class="op">=</span> <span class="fl">1</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -436,7 +461,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <h2 class="hasAnchor">
 <a href="#read-counting-for-mirna-profiling-experiments" class="anchor"></a>Read counting for miRNA profiling experiments</h2>
 <p>Download miRNA genes from miRBase.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rtracklayer</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="st">"wget ftp://mirbase.org/pub/mirbase/CURRENT/genomes/ath.gff3 -P ./data/"</span><span class="op">)</span>
 <span class="va">gff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rtracklayer/man/GFFFile-class.html">import.gff</a></span><span class="op">(</span><span class="st">"./data/ath.gff3"</span><span class="op">)</span>
@@ -456,24 +481,27 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
     col.names <span class="op">=</span> <span class="cn">NA</span>, quote <span class="op">=</span> <span class="cn">FALSE</span>, sep <span class="op">=</span> <span class="st">"\t"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.table</a></span><span class="op">(</span><span class="va">rpkmDFmiR</span>, <span class="st">"results/rpkmDFmiR.xls"</span>, col.names <span class="op">=</span> <span class="cn">NA</span>, 
     quote <span class="op">=</span> <span class="cn">FALSE</span>, sep <span class="op">=</span> <span class="st">"\t"</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">countDFmiR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"countDFmiR.xls"</span>, 
     package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/showDT.html">showDT</a></span><span class="op">(</span><span class="va">countDFmiR</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-629404fc6035250e1cec" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-629404fc6035250e1cec">{"x":{"filter":"none","extensions":["FixedColumns","Scroller"],"data":[["MI0000178","MI0000179","MI0000180","MI0000181","MI0000182","MI0000183","MI0000184","MI0000185","MI0000186","MI0000187","MI0000188","MI0000189","MI0000190","MI0000191","MI0000192","MI0000193","MI0000194","MI0000195","MI0000196","MI0000197","MI0000198","MI0000199","MI0000200","MI0000201","MI0000202","MI0000203","MI0000204","MI0000205","MI0000206","MI0000207","MI0000208","MI0000209","MI0000210","MI0000211","MI0000212","MI0000213","MI0000214","MI0000215","MI0000216","MI0000217","MI0000218","MI0000544","MI0000545","MI0000975","MI0000976","MI0000977","MI0000978","MI0000979","MI0000980","MI0000981","MI0000982","MI0000983","MI0000984","MI0000985","MI0000986","MI0000987","MI0000988","MI0000989","MI0000990","MI0000991","MI0000992","MI0001000","MI0001001","MI0001002","MI0001003","MI0001004","MI0001005","MI0001006","MI0001007","MI0001008","MI0001009","MI0001010","MI0001011","MI0001012","MI0001013","MI0001014","MI0001015","MI0001016","MI0001017","MI0001018","MI0001019","MI0001020","MI0001021","MI0001022","MI0001023","MI0001024","MI0001025","MI0001069","MI0001070","MI0001071","MI0001072","MI0001073","MI0001074","MI0001075","MI0001077","MI0001078","MI0001079","MI0001080","MI0001082","MI0001083","MI0001084","MI0001085","MI0001086","MI0001087","MI0001088","MI0001089","MI0001424","MI0001425","MI0001426","MI0001427","MI0001428","MI0001429","MI0001430","MI0001431","MI0001441","MI0002407","MI0002408","MI0002409","MI0005101","MI0005102","MI0005103","MI0005104","MI0005105","MI0005106","MI0005107","MI0005108","MI0005109","MI0005110","MI0005111","MI0005112","MI0005379","MI0005380","MI0005381","MI0005382","MI0005383","MI0005384","MI0005385","MI0005386","MI0005387","MI0005388","MI0005389","MI0005390","MI0005391","MI0005392","MI0005393","MI0005394","MI0005395","MI0005396","MI0005397","MI0005398","MI0005399","MI0005400","MI0005401","MI0005402","MI0005403","MI0005404","MI0005405","MI0005406","MI0005407","MI0005408","MI0005409","MI0005410","MI0005411","MI0005412","MI0005413","MI0005414","MI0005415","MI0005433","MI0005434","MI0005435","MI0005436","MI0005437","MI0005438","MI0005439","MI0005440","MI0005441","MI0005442","MI0005443","MI0005444","MI0005445","MI0005446","MI0005447","MI0005448","MI0008303","MI0008304","MI0008305","MI0010630","MI0010631","MI0010632","MI0013362","MI0013363","MI0013364","MI0013366","MI0013367","MI0013368","MI0013369","MI0014666","MI0014667","MI0014668","MI0014669","MI0015815","MI0015816","MI0015817","MI0015818","MI0015819","MI0015820","MI0015821","MI0015956","MI0016587","MI0016588","MI0016589","MI0017880","MI0017881","MI0017882","MI0017883","MI0017884","MI0017885","MI0017886","MI0017887","MI0017888","MI0017889","MI0017891","MI0017892","MI0017893","MI0017894","MI0017895","MI0017896","MI0017897","MI0017898","MI0017899","MI0019199","MI0019200","MI0019201","MI0019202","MI0019203","MI0019204","MI0019205","MI0019206","MI0019207","MI0019208","MI0019209","MI0019210","MI0019211","MI0019212","MI0019213","MI0019214","MI0019215","MI0019216","MI0019217","MI0019218","MI0019219","MI0019220","MI0019221","MI0019222","MI0019223","MI0019224","MI0019225","MI0019226","MI0019227","MI0019228","MI0019229","MI0019230","MI0019231","MI0019232","MI0019233","MI0019234","MI0019235","MI0019236","MI0019237","MI0019238","MI0019239","MI0019240","MI0019241","MI0019242","MI0019243","MI0019244","MI0019245","MI0019246","MI0019247","MI0019248","MI0019249","MI0019250","MI0019251","MI0019252","MI0019253","MI0019254","MI0019255","MI0019256","MI0019257","MI0020188","MI0020189","MI0020190","MI0020191","MI0020192","MI0020193","MI0020194","MI0020195","MI0020196","MI0026055","MI0026793","MI0026794","MI0026795","MI0026796","MI0026797","MI0026798","MI0026799","MI0026800","MI0026801","MI0026802","MI0026803","MI0026804","MI0026805","MI0026806","MI0026807","MI0026808","MI0026809","MI0026810","MI0026811","MI0026812","MI0026813","MI0026814","MI0029231","MI0031739","MI0031740","MI0031741","MI0033661","MIMAT0000166","MIMAT0000167","MIMAT0000168","MIMAT0000169","MIMAT0000170","MIMAT0000171","MIMAT0000172","MIMAT0000173","MIMAT0000174","MIMAT0000175","MIMAT0000176","MIMAT0000177","MIMAT0000178","MIMAT0000179","MIMAT0000180","MIMAT0000181","MIMAT0000182","MIMAT0000183","MIMAT0000184","MIMAT0000185","MIMAT0000186","MIMAT0000187","MIMAT0000188","MIMAT0000189","MIMAT0000190","MIMAT0000191","MIMAT0000192","MIMAT0000193","MIMAT0000194","MIMAT0000195","MIMAT0000196","MIMAT0000197","MIMAT0000198","MIMAT0000199","MIMAT0000200","MIMAT0000201","MIMAT0000202","MIMAT0000203","MIMAT0000204","MIMAT0000205","MIMAT0000206","MIMAT0000207","MIMAT0000511","MIMAT0000512","MIMAT0000905","MIMAT0000906","MIMAT0000907","MIMAT0000908","MIMAT0000909","MIMAT0000910","MIMAT0000911","MIMAT0000912","MIMAT0000913","MIMAT0000914","MIMAT0000915","MIMAT0000916","MIMAT0000917","MIMAT0000918","MIMAT0000919","MIMAT0000920","MIMAT0000921","MIMAT0000922","MIMAT0000923","MIMAT0000931","MIMAT0000932","MIMAT0000933","MIMAT0000934","MIMAT0000935","MIMAT0000936","MIMAT0000937","MIMAT0000938","MIMAT0000939","MIMAT0000940","MIMAT0000941","MIMAT0000942","MIMAT0000943","MIMAT0000944","MIMAT0000945","MIMAT0000946","MIMAT0000947","MIMAT0000948","MIMAT0000949","MIMAT0000950","MIMAT0000951","MIMAT0000952","MIMAT0000953","MIMAT0000954","MIMAT0000955","MIMAT0000956","MIMAT0001001","MIMAT0001002","MIMAT0001003","MIMAT0001004","MIMAT0001005","MIMAT0001006","MIMAT0001007","MIMAT0001008","MIMAT0001009","MIMAT0001010","MIMAT0001011","MIMAT0001012","MIMAT0001013","MIMAT0001014","MIMAT0001015","MIMAT0001016","MIMAT0001017","MIMAT0001018","MIMAT0001019","MIMAT0001321","MIMAT0001322","MIMAT0001323","MIMAT0001324","MIMAT0001325","MIMAT0001326","MIMAT0001327","MIMAT0001328","MIMAT0001337","MIMAT0002113","MIMAT0002114","MIMAT0002115","MIMAT0003930","MIMAT0003931","MIMAT0003932","MIMAT0003933","MIMAT0003934","MIMAT0003935","MIMAT0003936","MIMAT0003937","MIMAT0003938","MIMAT0003939","MIMAT0003940","MIMAT0003941","MIMAT0004218","MIMAT0004239","MIMAT0004240","MIMAT0004241","MIMAT0004242","MIMAT0004243","MIMAT0004244","MIMAT0004245","MIMAT0004246","MIMAT0004247","MIMAT0004248","MIMAT0004249","MIMAT0004250","MIMAT0004251","MIMAT0004252","MIMAT0004253","MIMAT0004254","MIMAT0004255","MIMAT0004256","MIMAT0004257","MIMAT0004258","MIMAT0004259","MIMAT0004260","MIMAT0004261","MIMAT0004262","MIMAT0004263","MIMAT0004264","MIMAT0004265","MIMAT0004266","MIMAT0004267","MIMAT0004268","MIMAT0004269","MIMAT0004270","MIMAT0004271","MIMAT0004272","MIMAT0004273","MIMAT0004274","MIMAT0004275","MIMAT0004276","MIMAT0004277","MIMAT0004278","MIMAT0004279","MIMAT0004280","MIMAT0004281","MIMAT0004282","MIMAT0004283","MIMAT0004300","MIMAT0004301","MIMAT0004302","MIMAT0004303","MIMAT0004304","MIMAT0004305","MIMAT0004306","MIMAT0004307","MIMAT0004308","MIMAT0004309","MIMAT0004310","MIMAT0004311","MIMAT0004312","MIMAT0004313","MIMAT0004314","MIMAT0004315","MIMAT0004316","MIMAT0004317","MIMAT0004318","MIMAT0004319","MIMAT0004320","MIMAT0004321","MIMAT0004322","MIMAT0004329","MIMAT0006779","MIMAT0007853","MIMAT0007854","MIMAT0007855","MIMAT0011150","MIMAT0011151","MIMAT0011152","MIMAT0011153","MIMAT0011154","MIMAT0011155","MIMAT0012129","MIMAT0013773","MIMAT0014136","MIMAT0014137","MIMAT0014138","MIMAT0014140","MIMAT0014141","MIMAT0014142","MIMAT0014143","MIMAT0017735","MIMAT0017736","MIMAT0017737","MIMAT0017738","MIMAT0017739","MIMAT0017740","MIMAT0017741","MIMAT0017742","MIMAT0017942","MIMAT0017943","MIMAT0017944","MIMAT0017945","MIMAT0017946","MIMAT0017947","MIMAT0017948","MIMAT0017949","MIMAT0018346","MIMAT0018347","MIMAT0018348","MIMAT0018504","MIMAT0020345","MIMAT0020346","MIMAT0020355","MIMAT0020364","MIMAT0020516","MIMAT0020517","MIMAT0020518","MIMAT0020519","MIMAT0020520","MIMAT0020521","MIMAT0020522","MIMAT0020523","MIMAT0020524","MIMAT0020525","MIMAT0020527","MIMAT0020528","MIMAT0020529","MIMAT0020530","MIMAT0020531","MIMAT0020532","MIMAT0020533","MIMAT0020534","MIMAT0020535","MIMAT0021047","MIMAT0021048","MIMAT0022387","MIMAT0022388","MIMAT0022389","MIMAT0022390","MIMAT0022391","MIMAT0022392","MIMAT0022393","MIMAT0022394","MIMAT0022395","MIMAT0022396","MIMAT0022397","MIMAT0022398","MIMAT0022399","MIMAT0022400","MIMAT0022401","MIMAT0022402","MIMAT0022403","MIMAT0022404","MIMAT0022405","MIMAT0022406","MIMAT0022407","MIMAT0022408","MIMAT0022409","MIMAT0022410","MIMAT0022411","MIMAT0022412","MIMAT0022413","MIMAT0022414","MIMAT0022415","MIMAT0022416","MIMAT0022417","MIMAT0022418","MIMAT0022419","MIMAT0022420","MIMAT0022421","MIMAT0022422","MIMAT0022423","MIMAT0022424","MIMAT0022425","MIMAT0022426","MIMAT0022427","MIMAT0022428","MIMAT0022429","MIMAT0022430","MIMAT0022431","MIMAT0022432","MIMAT0022433","MIMAT0022434","MIMAT0022435","MIMAT0022436","MIMAT0022437","MIMAT0022438","MIMAT0022439","MIMAT0022440","MIMAT0022441","MIMAT0022442","MIMAT0022443","MIMAT0022444","MIMAT0022445","MIMAT0022446","MIMAT0022843","MIMAT0023005","MIMAT0023517","MIMAT0023518","MIMAT0023519","MIMAT0023520","MIMAT0023521","MIMAT0023522","MIMAT0023523","MIMAT0023524","MIMAT0023525","MIMAT0031865","MIMAT0031866","MIMAT0031867","MIMAT0031868","MIMAT0031869","MIMAT0031870","MIMAT0031871","MIMAT0031872","MIMAT0031873","MIMAT0031874","MIMAT0031875","MIMAT0031876","MIMAT0031877","MIMAT0031878","MIMAT0031879","MIMAT0031880","MIMAT0031881","MIMAT0031882","MIMAT0031883","MIMAT0031884","MIMAT0031885","MIMAT0031886","MIMAT0031887","MIMAT0031888","MIMAT0031889","MIMAT0031897","MIMAT0031898","MIMAT0031899","MIMAT0031900","MIMAT0031901","MIMAT0031902","MIMAT0031903","MIMAT0031904","MIMAT0031905","MIMAT0031906","MIMAT0031907","MIMAT0031908","MIMAT0031909","MIMAT0031910","MIMAT0031911","MIMAT0031912","MIMAT0031913","MIMAT0031914","MIMAT0031915","MIMAT0031916","MIMAT0031917","MIMAT0031918","MIMAT0032014","MIMAT0032018","MIMAT0032019","MIMAT0032020","MIMAT0032021","MIMAT0032022","MIMAT0032023","MIMAT0032024","MIMAT0032025","MIMAT0032109","MIMAT0032113","MIMAT0032120","MIMAT0032127","MIMAT0032128","MIMAT0032129","MIMAT0032262","MIMAT0032761","MIMAT0032762","MIMAT0032763","MIMAT0032764","MIMAT0032765","MIMAT0032766","MIMAT0032767","MIMAT0032768","MIMAT0032769","MIMAT0032770","MIMAT0032771","MIMAT0032772","MIMAT0032773","MIMAT0032774","MIMAT0032775","MIMAT0032776","MIMAT0032777","MIMAT0032778","MIMAT0032779","MIMAT0032780","MIMAT0032781","MIMAT0032782","MIMAT0032783","MIMAT0035543","MIMAT0037259","MIMAT0037260","MIMAT0037261","MIMAT0041984"],[140,308,226,541,148,130,1645,1645,3099,138,518,11575,202,243,306,6891,1866,1892,894,361,586,635,1440,2273,5506,4143,2868,5970,5398,3473,11293,3555,1956,1593,82,120,156,408,432,31,20708,115,59,8472,14,1,15,4,34,24,39,64,37,45,54,47,36,404,429,3,3,2179,1964,474,277,899,5,5,29,17,17,7,26,8,2108,7733,6,0,23,1005,1004,1,4,5,0,0,0,6,2,0,2511,5,7,3,3,0,6,159,35,3,22,275,28,174,4,89,0,0,0,0,0,0,0,0,0,50,44,0,0,376,409,1,21,0,3,0,12,0,5,0,191,109,50,0,9,0,0,0,2,0,11,1,12,4,0,4,10,23,243,2,4,29,1,11,1,0,98,0,11,7,131,75,7,0,0,0,0,0,0,43,1,1,4,2,34,1,1,0,0,0,2,3,1,8,0,5,0,0,3,3,2,0,0,0,0,0,1,1,0,240,0,0,8,1,0,0,0,0,12,44,2,9,0,6,0,1,0,0,0,0,0,0,0,49,1,0,76,3,0,0,2,24,0,0,0,0,1,2,30,1,16,0,0,0,5,0,71,1,13,3,0,13,10,0,0,2,2,0,0,53,12,1,0,0,0,0,22,22,38,1,6,9,3,0,0,6,0,69,0,0,0,5,3,3,1,3,0,1,3,0,0,9,0,0,1,5,30,0,7,4,8,25,25,25,0,2,0,4,18,3,0,7,1,1,1,2,6,0,0,0,0,0,25,25,25,0,138,104,138,396,148,130,1628,1628,2468,138,500,11537,201,238,219,6768,1805,1817,410,360,578,514,1438,2114,5347,4137,2867,5931,5398,3473,9700,3553,1729,1437,70,2,35,408,42,390,14,20640,115,49,8126,14,1,5,2,27,14,10,36,35,35,35,51,30,35,390,401,3,3,1964,1948,354,261,261,5,5,7,6,6,7,7,8,1572,6786,6,0,19,505,505,0,4,1,0,0,0,4,0,0,2449,0,0,0,0,0,1,116,35,3,22,275,27,171,1,74,0,0,0,0,0,0,0,0,0,14,14,0,0,311,409,1,21,0,3,0,0,0,1,0,0,36,109,27,0,9,0,0,0,0,0,2,0,0,11,0,0,2,2,0,0,0,4,3,12,28,1,4,4,25,0,9,0,0,75,0,0,11,4,93,18,4,0,0,0,0,0,0,43,1,0,3,1,1,1,12,12,0,1,1,0,0,0,0,0,0,0,0,0,1,6768,5,0,4,0,0,0,0,3,0,5,3,1,0,0,0,0,0,0,0,1,0,1,0,0,14,218,0,0,4,0,1,0,0,0,1,8,2,0,20,0,0,0,9,0,4,0,1,0,0,0,0,0,0,0,18,0,0,67,3,0,0,0,1,0,8,0,0,0,0,1,1,3,0,5,0,0,0,0,0,38,1,1,3,0,3,3,0,0,0,0,0,0,0,53,3,1,0,0,0,0,22,21,27,0,3,1,0,0,0,1,0,36,0,0,0,0,2,3,1,0,0,1,0,17,11,0,0,7,0,0,1,2,17,0,2,203,88,145,0,17,17,631,18,1,87,61,75,8,121,159,159,39,1593,227,156,12,118,121,29,0,7,14,28,0,215,16,120,16,638,0,536,947,4,500,499,4,62,43,3,3,15,60,138,0,0,11,214,2,38,1,4,27,0,0,0,1,7,4,8,23,23,23,0,2,0,0,3,1,3,0,7,1,1,1,2,4,0,0,0,0,0,23,23,23,0],[84,175,134,332,78,77,904,904,1766,90,277,6057,159,177,257,3506,1247,1253,539,246,325,301,700,1142,2687,2140,1507,3190,2868,1817,6628,2013,1213,904,44,67,91,257,292,16,11289,79,52,6494,9,2,9,5,14,15,20,44,21,27,38,37,27,267,289,5,2,1183,1073,273,266,716,8,8,13,10,10,5,19,1,1406,5825,2,1,7,562,559,0,5,5,0,0,1,12,1,1,1612,1,7,2,0,1,2,85,24,2,10,146,20,133,3,59,0,0,0,0,0,0,0,0,0,35,30,0,1,236,244,0,25,0,3,0,4,0,1,0,102,93,34,0,3,0,0,4,0,0,5,0,10,2,0,3,3,16,153,1,8,20,1,6,1,0,51,0,2,11,90,48,4,0,0,0,0,0,0,35,0,0,0,0,17,1,2,0,0,0,0,0,1,12,0,6,0,0,0,3,3,0,0,0,0,0,4,0,0,169,0,0,6,0,0,0,0,0,6,32,1,4,0,0,0,0,0,0,0,0,0,0,0,38,0,0,44,0,0,1,0,13,0,1,0,0,0,1,17,0,4,0,0,0,1,0,44,4,7,3,1,3,2,0,1,3,1,0,0,43,5,1,3,0,0,0,19,12,10,0,2,2,3,0,4,2,0,44,1,0,0,3,7,2,0,3,0,2,3,1,1,12,0,3,1,2,16,0,0,2,8,32,32,32,0,1,1,1,9,1,3,2,1,1,0,0,2,0,0,0,0,0,32,32,31,0,82,71,82,241,78,77,896,896,1411,90,258,6013,158,177,181,3427,1196,1198,222,244,319,244,699,1029,2574,2138,1507,3152,2868,1817,5720,2013,1044,835,30,3,24,257,41,251,9,11203,78,41,6249,9,2,5,3,14,11,4,20,25,20,18,37,20,25,257,267,5,2,1066,1059,185,241,241,8,8,5,1,1,5,6,1,1057,5016,2,1,7,266,266,0,5,2,0,0,0,8,0,0,1549,0,0,0,0,1,1,61,23,2,10,146,19,133,3,47,0,0,0,0,0,0,0,0,0,7,7,0,1,199,239,0,25,0,3,0,0,0,0,0,0,24,93,16,0,3,0,0,0,1,3,0,0,0,3,2,0,2,0,0,0,0,2,2,9,15,0,5,3,17,1,5,1,0,43,0,0,2,6,72,7,3,0,0,0,0,0,0,35,0,0,0,0,0,0,9,5,0,1,2,0,0,0,0,0,0,0,0,0,1,3427,8,0,6,0,0,0,0,0,0,8,4,0,0,0,0,0,0,0,1,1,0,0,0,0,23,135,0,0,3,0,0,0,0,0,1,4,1,0,20,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,18,0,0,37,0,0,1,0,0,0,3,0,0,0,0,0,1,0,0,3,0,0,0,1,0,28,3,1,3,1,2,2,0,0,0,1,0,0,0,43,1,1,3,0,0,0,19,10,7,0,1,1,0,0,4,1,0,28,1,0,0,1,7,2,0,0,0,2,2,7,3,0,0,9,0,3,1,0,11,0,2,104,52,91,0,8,8,355,19,1,76,51,55,6,57,113,113,38,908,169,69,13,64,67,37,0,0,10,22,0,117,14,88,25,475,0,349,809,0,296,293,3,63,24,0,0,12,32,71,0,0,7,134,0,18,1,2,21,0,0,0,0,0,2,8,29,29,29,0,1,1,0,1,0,1,3,2,0,1,0,0,1,0,0,0,0,0,29,29,28,0],[183,241,239,592,211,193,1449,1449,2616,118,368,8204,215,332,325,4727,1621,1637,777,329,521,473,1204,1897,4340,3345,2324,4753,4163,2658,8108,2627,1626,1302,47,101,149,314,307,26,14287,77,70,6447,9,0,9,4,31,14,24,53,22,40,37,51,22,343,362,5,10,1754,1581,422,268,686,12,7,25,16,13,7,23,9,1718,5083,2,0,14,1003,999,1,0,7,0,0,0,4,2,3,1986,0,11,2,8,0,3,164,57,2,18,173,15,169,2,72,0,0,0,1,0,0,0,0,0,33,29,2,1,324,247,0,27,0,1,0,6,0,4,0,139,97,34,0,3,0,0,4,0,0,5,0,7,0,0,4,6,12,93,4,14,23,0,14,2,2,49,0,7,11,88,74,5,0,0,0,0,0,0,41,0,0,2,0,16,0,3,0,0,0,0,2,0,9,0,6,0,0,1,4,3,0,0,0,0,0,1,1,0,111,2,0,2,0,0,0,0,0,8,30,0,3,0,2,0,0,0,0,0,1,0,0,1,45,3,0,58,1,0,0,0,10,0,0,1,1,0,1,12,0,13,0,0,0,0,2,53,0,3,3,0,3,3,1,1,5,1,1,0,43,1,2,0,0,0,0,13,22,18,1,2,5,3,0,3,9,0,47,3,1,0,3,7,4,2,3,0,1,4,1,1,9,0,1,4,5,29,0,0,3,7,26,26,26,0,0,1,2,11,2,1,8,0,2,0,0,12,0,0,2,0,0,26,26,26,0,183,106,183,492,211,193,1431,1431,2102,118,348,8169,214,328,239,4678,1562,1575,384,329,517,413,1203,1743,4186,3336,2323,4715,4163,2658,6705,2627,1334,1209,39,3,50,314,24,283,15,14205,77,60,6156,8,0,0,0,21,5,9,23,23,21,25,37,23,22,333,335,5,10,1589,1576,318,247,247,12,7,7,9,9,7,4,8,1257,4268,2,0,9,565,565,1,0,2,0,0,0,4,0,0,1939,0,4,0,4,0,0,129,57,2,18,173,15,166,2,58,0,0,0,0,0,0,0,0,0,11,11,0,1,281,247,0,27,0,1,0,2,0,1,0,0,39,97,24,0,3,0,0,0,0,4,0,0,0,4,0,0,0,1,0,0,0,4,4,4,12,2,14,5,18,0,11,1,2,44,0,0,7,8,65,16,3,0,0,0,0,0,0,41,0,0,2,0,0,0,4,10,0,0,3,0,0,0,0,0,0,2,2,0,1,4678,4,0,6,0,0,0,0,1,0,4,5,1,1,0,0,0,0,0,0,1,0,1,0,0,22,80,2,0,1,0,0,0,0,0,0,4,0,0,12,2,0,0,3,0,2,0,0,0,0,0,0,0,0,1,24,2,0,53,0,0,0,0,1,0,5,0,0,0,0,0,0,0,0,5,0,0,0,0,2,30,0,1,3,0,2,2,1,0,0,1,1,0,0,43,0,2,0,0,0,0,13,20,14,0,0,1,0,0,3,2,0,24,3,0,0,2,5,3,0,0,0,1,2,11,4,1,1,5,0,1,4,1,19,0,0,134,56,100,0,18,18,514,20,1,86,59,62,4,60,154,154,38,1403,292,93,8,98,99,37,1,10,10,27,0,165,5,104,21,439,0,461,815,5,438,434,5,47,35,3,0,14,42,90,0,0,8,79,2,23,0,0,18,0,1,0,2,0,3,7,25,25,25,0,0,1,0,1,0,1,1,8,0,2,0,0,8,0,0,2,0,0,25,25,25,0],[189,293,322,487,206,168,1127,1128,2324,106,14,6207,40,42,91,8890,234,248,84,114,190,817,1039,902,2117,1635,1042,1844,1643,1066,453,232,2481,2594,3,6,195,132,81,0,3385,8,58,169,0,0,2,0,6,3,0,0,0,0,0,0,0,386,490,2,1,2043,2026,414,298,107,13,10,1,10,10,0,2,9,3781,2593,5,0,20,11,9,15,5,4,0,0,1,77,4,0,202,2,16,9,16,7,8,626,19,6,2,74,0,152,4,15,0,0,0,3,0,0,0,0,0,14,12,1,0,72,52,0,3,0,4,0,3,0,45,0,896,2,42,0,8,0,1,0,0,0,17,0,35,0,1,0,18,327,156,68,9,10,1,80,1,0,198,0,2,5,9,13,1,1,0,1,0,0,1,254,1,0,2,0,120,1,44,0,0,0,0,1,16,14,0,13,0,0,2,1,1,0,1,0,0,0,1,2,0,142,0,0,4,2,0,0,0,0,12,14,1,30,0,7,0,0,0,0,0,0,0,0,1,1,1,0,658,1,0,0,1,27,0,0,0,1,0,0,36,0,22,2,0,0,2,1,86,4,28,8,1,23,15,1,3,1,7,1,0,239,26,3,9,0,0,1,0,45,24,4,16,3,4,0,5,9,0,83,5,0,0,2,2,20,1,3,0,3,18,0,2,20,1,7,7,4,34,0,7,6,8,46,46,45,0,2,0,7,29,9,10,6,4,2,2,0,10,0,0,488,0,0,46,46,45,0,176,134,176,427,206,168,1058,1058,2172,106,12,5991,39,42,56,8468,208,220,47,114,189,605,1038,812,2028,1634,1042,1815,1643,1066,416,232,2147,2506,1,1,18,129,4,77,0,2119,7,3,160,0,0,0,0,4,1,2,0,0,0,0,0,0,0,202,206,2,1,2024,2018,52,4,4,13,9,0,5,5,0,0,8,3509,2191,5,0,7,2,0,2,5,0,0,0,0,63,0,0,184,1,4,2,1,7,1,157,19,6,2,74,0,147,4,15,0,0,0,0,0,0,0,0,0,3,3,0,0,29,52,0,1,0,4,0,0,0,13,0,0,155,2,35,0,8,0,0,0,0,0,0,0,0,14,2,0,7,7,0,0,1,0,8,268,18,13,8,8,2,1,63,0,0,188,0,0,2,4,9,6,0,1,0,1,0,0,1,254,1,0,2,0,0,0,24,62,0,1,40,4,0,0,0,0,0,0,0,16,2,8468,12,0,13,0,0,0,0,1,1,12,2,1,1,0,0,0,0,0,0,1,2,0,0,0,9,125,0,0,1,1,1,0,0,0,1,3,1,0,5,1,0,0,18,0,4,0,0,0,0,0,0,0,0,0,1,0,0,644,1,0,0,2,0,0,9,0,0,0,1,0,0,2,0,16,0,0,0,0,0,36,4,3,8,0,10,8,1,0,0,1,2,0,0,239,8,2,8,0,0,1,0,39,23,1,11,0,1,0,4,1,0,33,3,0,0,1,2,13,1,0,0,3,7,0,1,0,1,11,0,6,6,0,16,0,13,158,146,60,0,69,70,152,2,0,35,26,28,1,212,89,89,29,37,334,88,2,5,177,5,0,2,184,284,0,19,8,362,294,103,1,272,402,13,9,9,4,18,469,5,0,0,38,666,1,0,59,129,7,0,0,3,10,0,0,0,0,6,6,6,44,44,43,0,2,0,0,4,5,7,10,6,0,1,0,0,6,0,0,487,0,0,44,44,43,0],[178,250,284,496,181,148,890,890,2104,102,10,6595,34,45,92,8414,252,253,73,102,186,789,920,959,1927,1599,1003,1567,1510,1029,427,272,2161,2249,1,2,203,141,120,0,3270,13,56,147,1,0,1,1,9,2,1,3,1,1,1,2,1,325,403,4,3,1844,1834,359,299,126,17,15,2,7,7,0,4,6,3533,2116,1,2,25,20,19,7,1,3,0,0,0,85,5,0,170,5,11,3,12,4,10,636,25,1,2,83,1,127,7,23,0,0,0,1,0,0,0,0,0,7,5,1,0,60,35,0,0,0,5,0,0,0,36,0,809,1,46,0,8,0,1,0,0,0,10,0,30,0,1,1,14,273,115,64,4,7,0,73,0,0,163,0,1,6,8,5,2,2,2,2,2,0,0,313,0,0,1,3,98,0,31,0,1,0,0,2,15,13,0,16,0,0,7,10,10,0,1,1,0,0,0,3,0,104,0,0,3,0,0,0,0,2,4,20,1,19,0,2,0,0,0,0,0,0,0,0,0,1,5,0,570,0,1,0,0,19,0,0,0,1,0,1,52,0,18,0,0,1,5,0,69,1,34,8,0,19,14,0,5,1,7,1,0,252,30,0,8,0,2,0,0,46,26,8,18,1,8,0,2,16,0,69,4,0,0,8,4,19,2,3,0,1,6,0,1,21,1,3,3,0,24,0,5,11,12,38,38,38,0,1,0,4,28,4,6,11,0,5,4,0,14,0,0,339,0,0,38,38,38,0,171,132,172,452,181,148,838,838,1977,102,9,6403,32,45,48,8024,241,241,38,102,183,608,919,878,1847,1598,1003,1534,1510,1029,384,272,1892,2191,1,0,13,140,3,117,0,2040,11,7,139,1,0,0,0,6,1,1,1,1,1,0,1,0,1,174,176,4,3,1828,1827,31,1,1,17,15,1,4,4,0,1,5,3316,1825,1,2,8,2,2,0,1,2,0,0,0,74,0,0,145,1,2,0,2,4,1,157,25,1,2,83,1,122,6,22,0,0,0,0,0,0,0,0,0,2,2,0,0,27,35,0,0,0,5,0,0,0,8,0,0,136,1,35,0,8,0,1,0,0,0,0,0,0,7,3,0,3,8,0,0,1,0,9,214,12,9,3,4,3,0,58,0,0,146,0,0,1,3,6,4,0,1,1,1,1,0,0,313,0,0,1,0,1,2,18,49,0,0,27,4,0,0,1,0,0,1,1,14,0,8024,12,0,15,0,0,0,0,2,5,12,1,5,5,0,0,0,0,0,0,0,0,1,0,0,7,93,0,0,1,0,0,0,0,0,0,1,1,1,4,0,0,0,9,0,1,0,0,0,0,0,0,0,0,0,1,0,0,558,0,1,0,1,5,0,6,0,0,0,0,0,1,1,0,8,0,0,0,2,0,34,1,4,8,0,4,4,0,1,0,1,2,1,0,252,11,0,5,0,1,0,0,37,25,3,12,0,2,0,1,2,0,34,0,0,0,3,4,8,1,0,0,1,2,0,1,0,1,10,1,2,2,0,11,0,7,116,112,44,0,52,52,127,1,2,44,11,12,3,181,80,80,33,42,269,58,0,2,190,4,0,2,151,227,0,15,5,328,298,125,0,217,290,17,16,16,1,25,479,5,1,1,31,586,0,0,58,97,2,2,1,1,14,0,1,0,0,4,10,12,34,34,34,0,1,0,0,3,4,4,6,11,0,5,0,0,5,0,0,338,0,0,34,34,34,0],[165,246,296,503,166,138,995,995,2131,93,16,6690,23,33,67,8536,235,243,53,104,175,786,958,921,1917,1549,1012,1536,1437,944,454,284,2265,2282,0,6,237,156,127,2,3264,5,62,170,0,0,0,0,9,0,1,3,1,1,1,2,1,315,400,4,1,1885,1877,290,274,96,12,13,6,19,19,0,3,13,3222,2146,1,1,26,16,16,16,2,8,0,0,2,106,6,0,177,6,21,6,13,0,6,594,17,3,1,81,0,133,9,25,0,0,0,2,0,0,0,0,0,7,6,0,0,58,46,0,3,0,4,0,2,0,41,0,991,1,41,0,2,1,0,0,0,0,14,0,31,0,1,1,9,299,143,60,5,10,0,86,2,0,216,0,1,10,6,6,3,0,0,0,0,0,1,219,1,1,1,1,112,1,36,0,0,0,1,2,8,11,0,13,0,0,5,6,5,0,4,0,0,0,4,1,0,119,0,0,3,1,0,0,0,0,5,16,1,21,0,7,0,0,0,0,0,0,0,0,1,0,5,0,622,0,0,1,1,30,0,1,0,2,2,0,43,0,21,1,0,1,3,0,75,2,28,7,0,23,20,0,2,0,6,0,0,162,14,3,5,0,1,1,0,58,24,5,15,3,9,0,3,12,0,73,4,0,0,8,5,19,2,5,0,2,12,0,0,20,1,5,5,1,32,0,3,7,8,29,29,29,1,5,0,5,28,3,5,13,0,2,4,0,18,0,0,391,0,0,29,29,29,0,154,121,154,450,166,138,931,931,2005,93,15,6482,23,33,32,8092,223,226,26,104,173,636,958,858,1855,1549,1012,1505,1437,944,398,284,2003,2229,0,0,24,153,4,123,0,1986,5,2,158,0,0,0,0,9,0,0,1,1,1,0,1,0,1,156,161,4,1,1873,1866,45,2,2,12,12,2,16,16,0,1,11,2944,1792,1,1,7,4,4,0,1,4,0,0,0,96,0,0,158,3,4,1,4,0,0,141,17,3,0,81,0,126,9,25,0,0,0,1,0,0,0,0,0,2,2,0,0,24,43,0,3,0,4,0,0,0,3,0,0,150,1,38,0,2,1,0,0,0,0,0,0,0,11,2,0,1,7,0,0,1,1,5,243,18,13,5,5,5,0,64,0,0,204,0,0,1,9,6,2,1,0,0,0,0,0,1,219,1,1,1,0,0,1,25,62,0,1,34,2,0,0,0,0,0,0,0,7,2,8092,6,0,10,0,0,0,0,5,0,6,5,3,2,0,0,0,0,0,2,2,0,0,0,0,5,107,0,0,0,0,1,0,0,0,1,1,0,0,4,0,0,0,11,0,2,0,0,0,0,0,0,0,0,1,0,2,0,608,0,0,0,4,2,0,4,0,0,0,0,0,0,4,0,18,0,0,0,1,0,31,2,5,6,0,8,8,0,0,0,0,3,0,0,162,6,2,4,0,1,1,0,45,23,4,8,0,1,0,2,8,0,30,4,0,0,3,3,10,1,0,0,2,6,2,1,0,0,12,0,3,3,0,15,0,11,125,142,53,0,64,64,126,1,0,35,12,17,2,150,62,62,31,56,262,53,0,6,213,2,0,0,159,239,0,12,8,245,272,94,1,278,354,19,12,12,4,19,453,7,0,0,31,748,0,0,56,110,1,0,1,1,13,0,1,0,2,3,6,8,26,26,26,1,5,0,0,3,4,2,4,13,0,2,0,0,11,0,0,391,0,0,26,26,26,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>wildtype_A<\/th>\n      <th>wildtype_B<\/th>\n      <th>wildtype_C<\/th>\n      <th>DCL1_knockdown_A<\/th>\n      <th>DCL1_knockdown_B<\/th>\n      <th>DCL1_knockdown_C<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"fixedColumns":true,"deferRender":true,"scrollY":200,"scroller":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<span class="va">countDFmiR</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></code></pre></div>
+<pre><code>##           wildtype_A wildtype_B wildtype_C DCL1_knockdown_A
+## MI0000178        140         84        183              189
+## MI0000179        308        175        241              293
+## MI0000180        226        134        239              322
+## MI0000181        541        332        592              487</code></pre>
 </div>
 </div>
 <div id="alignment-against-mirbase-mature-mirna-and-hairpin" class="section level1">
 <h1 class="hasAnchor">
 <a href="#alignment-against-mirbase-mature-mirna-and-hairpin" class="anchor"></a>Alignment against miRBase mature miRNA and hairpin</h1>
 <p><code>sRNAbench</code> <span class="citation">(Aparicio-Puerta et al. 2019)</span> allows the expression profiling and prediction of novel microRNAs in deep sequencing experiments. Please find more details about this software <a href="https://arn.ugr.es/srnatoolbox/static/sRNAtoolbox_manual.pdf">here</a>.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bowtie-build</span> data/tair10.fasta data/tair10</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> data/<span class="pp">*</span>ebwt ~/sRNAtoolboxDB/index/</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 777 index/<span class="pp">*</span>ebwt</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="ex">java</span> <span class="at">-jar</span> makeSeqObj.jar data/tair10.fasta</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> data/tair10.zip ~/sRNAtoolboxDB/seqOBJ/</span></code></pre></div>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bowtie-build</span> data/tair10.fasta data/tair10</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> data/<span class="pp">*</span>ebwt ~/sRNAtoolboxDB/index/</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 777 index/<span class="pp">*</span>ebwt</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="ex">java</span> <span class="at">-jar</span> makeSeqObj.jar data/tair10.fasta</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> data/tair10.zip ~/sRNAtoolboxDB/seqOBJ/</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## 1 Preprocessing</span>
 <span class="va">targetspath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"targets_cutadapt.txt"</span>, 
     package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
@@ -511,7 +539,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <h2 class="hasAnchor">
 <a href="#prediction-srnabench" class="anchor"></a>Prediction <code>sRNAbench</code>
 </h2>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Genome mapping mode</span>
 <span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"sRNAbench_predic.cwl"</span>, 
     input_file <span class="op">=</span> <span class="st">"sRNAbench.yml"</span>, dir_path <span class="op">=</span> <span class="st">"param/cwl/sRNAbench/"</span><span class="op">)</span>
@@ -528,17 +556,17 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <a href="#deg-analysis-with-deseq2" class="anchor"></a>DEG analysis with <em><code>DESeq2</code></em>
 </h1>
 <p>The following <em><code>run_DESeq2</code></em> function is a convenience wrapper for identifying DEGs in batch mode with <em><code>DESeq2</code></em> (Love, Huber, and Anders 2014) for any number of pairwise sample comparisons specified under the <em><code>cmp</code></em> argument. Users are strongly encouraged to consult the <a href="http://www.bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.pdf"><em><code>DESeq2</code></em></a> vignette for more detailed information on this topic and how to properly run <em><code>DESeq2</code></em> on data sets with more complex experimental designs.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">targets</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.delim</a></span><span class="op">(</span><span class="va">targetspath</span>, comment <span class="op">=</span> <span class="st">"#"</span><span class="op">)</span>
 <span class="va">cmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/readComp.html">readComp</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">targetspath</span>, format <span class="op">=</span> <span class="st">"matrix"</span>, delim <span class="op">=</span> <span class="st">"-"</span><span class="op">)</span>
 <span class="va">cmp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
 <pre><code>##      [,1]             [,2]      
 ## [1,] "DCL1_knockdown" "wildtype"</code></pre>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">degseqDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/run_DESeq2.html">run_DESeq2</a></span><span class="op">(</span>countDF <span class="op">=</span> <span class="va">countDFmiR</span>, targets <span class="op">=</span> <span class="va">targets</span>, 
     cmp <span class="op">=</span> <span class="va">cmp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, independent <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>Filter and plot DEG results for up and down-regulated genes.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">DEG_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/filterDEGs.html">filterDEGs</a></span><span class="op">(</span>degDF <span class="op">=</span> <span class="va">degseqDF</span>, filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Fold <span class="op">=</span> <span class="fl">0.5</span>, 
     FDR <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 </div>
@@ -546,7 +574,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <h1 class="hasAnchor">
 <a href="#isomir-mapping-and-annotation" class="anchor"></a>isomiR mapping and annotation</h1>
 <p>isomiRs are miRNA sequences that have variations with respect to the reference sequence.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Genome mapping mode</span>
 <span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"sRNAbench_isomiR.cwl"</span>, 
     input_file <span class="op">=</span> <span class="st">"sRNAbench.yml"</span>, dir_path <span class="op">=</span> <span class="st">"param/cwl/sRNAbench/"</span><span class="op">)</span>
@@ -565,7 +593,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <h1 class="hasAnchor">
 <a href="#visualization" class="anchor"></a>Visualization</h1>
 <p>We can visualize the transformation effect, here <code><a href="https://rdrr.io/r/base/Log.html">log(x+1)</a></code>, variance stabilizing transformation (<code>vst</code>) <span class="citation">(Anders and Huber 2010)</span>, and regularized-logarithm transformation or <code>rlog</code> <span class="citation">(Love, Huber, and Anders 2014)</span>, comparing a grid of all samples, as follows:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">systemPipeTools</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/exploreDDSplot.html">exploreDDSplot</a></span><span class="op">(</span><span class="va">countDFmiR</span>, <span class="va">targets</span>, cmp <span class="op">=</span> <span class="va">cmp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, preFilter <span class="op">=</span> <span class="cn">NULL</span>, 
     samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, scattermatrix <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -576,7 +604,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <h3 class="hasAnchor">
 <a href="#hierarchical-clustering-dendrogram" class="anchor"></a>Hierarchical Clustering Dendrogram</h3>
 <p>The following computes the sample-wise correlation coefficients using the <code><a href="https://rdrr.io/r/stats/cor.html">stats::cor()</a></code> function from the transformed expression values. After transformation to a distance matrix, hierarchical clustering is performed with the <code><a href="https://rdrr.io/r/stats/hclust.html">stats::hclust</a></code> function and the result is plotted as a dendrogram, as follows:</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">exploredds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/exploreDDS.html">exploreDDS</a></span><span class="op">(</span><span class="va">countDFmiR</span>, <span class="va">targets</span>, cmp <span class="op">=</span> <span class="va">cmp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, 
     preFilter <span class="op">=</span> <span class="cn">NULL</span>, transformationMethod <span class="op">=</span> <span class="st">"rlog"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/hclustplot.html">hclustplot</a></span><span class="op">(</span><span class="va">exploredds</span>, method <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span></code></pre></div>
@@ -584,7 +612,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <div id="hierarchical-clustering-heatmap" class="section level3">
 <h3 class="hasAnchor">
 <a href="#hierarchical-clustering-heatmap" class="anchor"></a>Hierarchical Clustering HeatMap</h3>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Samples plot</span>
 <span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/heatMaplot.html">heatMaplot</a></span><span class="op">(</span><span class="va">exploredds</span>, clust <span class="op">=</span> <span class="st">"samples"</span><span class="op">)</span></code></pre></div>
 </div>
@@ -592,7 +620,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <h3 class="hasAnchor">
 <a href="#principal-component-analysis" class="anchor"></a>Principal Component Analysis</h3>
 <p>This function plots a Principal Component Analysis (PCA) from transformed expression matrix. This plot shows samples variation based on the expression values and identifies batch effects.</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/PCAplot.html">PCAplot</a></span><span class="op">(</span><span class="va">exploredds</span>, plotly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
@@ -603,7 +631,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <h3 class="hasAnchor">
 <a href="#ma-plot" class="anchor"></a>MA plot</h3>
 <p>This function plots log2 fold changes (y-axis) versus the mean of normalized counts (on the x-axis). Statistically significant features are colored.</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">DEG_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/filterDEGs.html">filterDEGs</a></span><span class="op">(</span>degDF <span class="op">=</span> <span class="va">degseqDF</span>, filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Fold <span class="op">=</span> <span class="fl">2</span>, 
     FDR <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/MAplot.html">MAplot</a></span><span class="op">(</span><span class="va">degseqDF</span>, FDR.cutoff <span class="op">=</span> <span class="fl">0.05</span>, comparison <span class="op">=</span> <span class="st">"DCL1_knockdown-wildtype"</span>, 
@@ -613,7 +641,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <h3 class="hasAnchor">
 <a href="#hierarchical-clustering-heatmap-1" class="anchor"></a>Hierarchical Clustering HeatMap</h3>
 <p>If <code>ind</code> selected in the <code>clust</code> argument, it is necessary to provide the list of differentially expressed genes for the <code>exploredds</code> subset.</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/heatMaplot.html">heatMaplot</a></span><span class="op">(</span><span class="va">exploredds</span>, clust <span class="op">=</span> <span class="st">"ind"</span>, DEGlist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">DEG_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
@@ -621,7 +649,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <h2 class="hasAnchor">
 <a href="#volcano-plot" class="anchor"></a>Volcano plot</h2>
 <p>A simple function that shows statistical significance (<code>p-value</code>) versus magnitude of change (<code>log2 fold change</code>).</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/volcanoplot.html">volcanoplot</a></span><span class="op">(</span><span class="va">degseqDF</span>, comparison <span class="op">=</span> <span class="st">"DCL1_knockdown-wildtype"</span>, 
     filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Fold <span class="op">=</span> <span class="fl">2</span>, FDR <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, genes <span class="op">=</span> <span class="st">"MI0000208"</span><span class="op">)</span></code></pre></div>
 </div>
@@ -629,7 +657,7 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 <div id="version-information" class="section level1">
 <h1 class="hasAnchor">
 <a href="#version-information" class="anchor"></a>Version Information</h1>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## R Under development (unstable) (2021-02-04 r79940)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
@@ -652,57 +680,54 @@ The function <em><code>seeFastq</code></em> computes the quality statistics and 
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] batchtools_0.9.15           systemPipeR_1.25.11        
+##  [1] batchtools_0.9.15           systemPipeR_1.25.13        
 ##  [3] ShortRead_1.49.2            GenomicAlignments_1.27.2   
 ##  [5] SummarizedExperiment_1.21.3 Biobase_2.51.0             
 ##  [7] MatrixGenerics_1.3.1        matrixStats_0.58.0         
 ##  [9] BiocParallel_1.25.5         Rsamtools_2.7.2            
 ## [11] Biostrings_2.59.2           XVector_0.31.1             
 ## [13] GenomicRanges_1.43.4        GenomeInfoDb_1.27.11       
-## [15] IRanges_2.25.9              S4Vectors_0.29.15          
-## [17] BiocGenerics_0.37.2         BiocStyle_2.19.2           
+## [15] IRanges_2.25.10             S4Vectors_0.29.18          
+## [17] BiocGenerics_0.37.4         BiocStyle_2.19.2           
 ## 
 ## loaded via a namespace (and not attached):
-##   [1] backports_1.2.1          BiocFileCache_1.99.6     systemfonts_1.0.1       
-##   [4] splines_4.1.0            crosstalk_1.1.1          ggplot2_3.3.3           
-##   [7] digest_0.6.27            htmltools_0.5.1.1        fansi_0.4.2             
-##  [10] magrittr_2.0.1           checkmate_2.0.0          memoise_2.0.0           
-##  [13] BSgenome_1.59.2          base64url_1.4            limma_3.47.12           
-##  [16] annotate_1.69.2          pkgdown_1.6.1            prettyunits_1.1.1       
-##  [19] jpeg_0.1-8.1             colorspace_2.0-0         blob_1.2.1              
-##  [22] rappdirs_0.3.3           textshaping_0.3.3        xfun_0.22               
-##  [25] dplyr_1.0.5              crayon_1.4.1             RCurl_1.98-1.3          
-##  [28] jsonlite_1.7.2           genefilter_1.73.1        brew_1.0-6              
-##  [31] survival_3.2-10          VariantAnnotation_1.37.1 glue_1.4.2              
-##  [34] gtable_0.3.0             zlibbioc_1.37.0          DelayedArray_0.17.10    
-##  [37] V8_3.4.0                 scales_1.1.1             DBI_1.1.1               
-##  [40] edgeR_3.33.3             Rcpp_1.0.6               xtable_1.8-4            
-##  [43] progress_1.2.2           bit_4.0.4                rsvg_2.1.1              
-##  [46] DT_0.18                  htmlwidgets_1.5.3        httr_1.4.2              
-##  [49] RColorBrewer_1.1-2       ellipsis_0.3.1           pkgconfig_2.0.3         
-##  [52] XML_3.99-0.6             sass_0.3.1               dbplyr_2.1.1            
-##  [55] locfit_1.5-9.4           utf8_1.2.1               tidyselect_1.1.0        
-##  [58] rlang_0.4.10             later_1.1.0.1            AnnotationDbi_1.53.1    
-##  [61] munsell_0.5.0            tools_4.1.0              cachem_1.0.4            
-##  [64] generics_0.1.0           RSQLite_2.2.7            evaluate_0.14           
-##  [67] stringr_1.4.0            fastmap_1.1.0            yaml_2.2.1              
-##  [70] ragg_1.1.2               knitr_1.32               bit64_4.0.5             
-##  [73] fs_1.5.0                 purrr_0.3.4              KEGGREST_1.31.1         
-##  [76] mime_0.10                formatR_1.9              biomaRt_2.47.7          
-##  [79] compiler_4.1.0           filelock_1.0.2           curl_4.3                
-##  [82] png_0.1-7                tibble_3.1.1             geneplotter_1.69.0      
-##  [85] bslib_0.2.4              stringi_1.5.3            GenomicFeatures_1.43.8  
-##  [88] desc_1.3.0               lattice_0.20-41          Matrix_1.3-2            
-##  [91] vctrs_0.3.7              pillar_1.6.0             lifecycle_1.0.0         
-##  [94] BiocManager_1.30.12      jquerylib_0.1.3          data.table_1.14.0       
-##  [97] bitops_1.0-6             httpuv_1.5.5             rtracklayer_1.51.5      
-## [100] R6_2.5.0                 BiocIO_1.1.2             latticeExtra_0.6-29     
-## [103] hwriter_1.3.2            bookdown_0.22            promises_1.2.0.1        
-## [106] codetools_0.2-18         assertthat_0.2.1         DESeq2_1.31.18          
-## [109] rprojroot_2.0.2          rjson_0.2.20             withr_2.4.2             
-## [112] GenomeInfoDbData_1.2.4   hms_1.0.0                grid_4.1.0              
-## [115] DOT_0.1                  rmarkdown_2.7            shiny_1.6.0             
-## [118] restfulr_0.0.13</code></pre>
+##   [1] colorspace_2.0-1         rjson_0.2.20             hwriter_1.3.2           
+##   [4] ellipsis_0.3.2           rprojroot_2.0.2          fs_1.5.0                
+##   [7] bit64_4.0.5              AnnotationDbi_1.53.1     fansi_0.4.2             
+##  [10] splines_4.1.0            codetools_0.2-18         cachem_1.0.4            
+##  [13] geneplotter_1.69.0       knitr_1.33               jsonlite_1.7.2          
+##  [16] annotate_1.69.2          GO.db_3.12.1             dbplyr_2.1.1            
+##  [19] png_0.1-7                BiocManager_1.30.12      compiler_4.1.0          
+##  [22] httr_1.4.2               backports_1.2.1          assertthat_0.2.1        
+##  [25] Matrix_1.3-3             fastmap_1.1.0            limma_3.47.13           
+##  [28] formatR_1.9              htmltools_0.5.1.1        prettyunits_1.1.1       
+##  [31] tools_4.1.0              gtable_0.3.0             glue_1.4.2              
+##  [34] GenomeInfoDbData_1.2.4   dplyr_1.0.5              rsvg_2.1.2              
+##  [37] rappdirs_0.3.3           V8_3.4.2                 Rcpp_1.0.6              
+##  [40] jquerylib_0.1.4          pkgdown_1.6.1            vctrs_0.3.8             
+##  [43] rtracklayer_1.51.5       xfun_0.22                stringr_1.4.0           
+##  [46] lifecycle_1.0.0          restfulr_0.0.13          XML_3.99-0.6            
+##  [49] edgeR_3.33.3             scales_1.1.1             zlibbioc_1.37.0         
+##  [52] BSgenome_1.59.4          VariantAnnotation_1.37.1 ragg_1.1.2              
+##  [55] hms_1.0.0                RColorBrewer_1.1-2       yaml_2.2.1              
+##  [58] curl_4.3.1               memoise_2.0.0            ggplot2_3.3.3           
+##  [61] sass_0.3.1               biomaRt_2.47.9           latticeExtra_0.6-29     
+##  [64] stringi_1.5.3            RSQLite_2.2.7            genefilter_1.73.1       
+##  [67] BiocIO_1.1.2             desc_1.3.0               checkmate_2.0.0         
+##  [70] GenomicFeatures_1.43.8   filelock_1.0.2           DOT_0.1                 
+##  [73] rlang_0.4.11             pkgconfig_2.0.3          systemfonts_1.0.1       
+##  [76] bitops_1.0-7             evaluate_0.14            lattice_0.20-44         
+##  [79] purrr_0.3.4              bit_4.0.4                tidyselect_1.1.1        
+##  [82] DESeq2_1.31.21           magrittr_2.0.1           bookdown_0.22           
+##  [85] R6_2.5.0                 generics_0.1.0           base64url_1.4           
+##  [88] DelayedArray_0.17.13     DBI_1.1.1                pillar_1.6.0            
+##  [91] withr_2.4.2              survival_3.2-11          KEGGREST_1.31.1         
+##  [94] RCurl_1.98-1.3           tibble_3.1.1             crayon_1.4.1            
+##  [97] utf8_1.2.1               BiocFileCache_1.99.7     rmarkdown_2.7.12        
+## [100] jpeg_0.1-8.1             progress_1.2.2           locfit_1.5-9.4          
+## [103] grid_4.1.0               data.table_1.14.0        blob_1.2.1              
+## [106] digest_0.6.27            xtable_1.8-4             brew_1.0-6              
+## [109] textshaping_0.3.3        munsell_0.5.0            bslib_0.2.4</code></pre>
 </div>
 <div id="funding" class="section level1">
 <h1 class="hasAnchor">
