@@ -1,0 +1,8 @@
+targetsheader:
+- '# Project ID: Arabidopsis - Differential expression of microRNAs in wildtype versus
+  DCL1 mutants in Arabidopsis thaliana (SRA: SRP094441; PRJNA355875; GEO: GSE90771)'
+- '# The following line(s) allow to specify the contrasts needed for comparative analyses,
+  such as DEG identification. All possible comparisons can be specified with ''CMPset:
+  ALL''.'
+- '# <CMP> CMPset1: DCL1_knockdown-wildtype'
+- '# <CMP> CMPset2: ALL'

@@ -1,10 +1,10 @@
-pandoc: '2.13'
-pkgdown: 1.6.1
+pandoc: 2.14.0.3
+pkgdown: 2.0.1
 pkgdown_sha: ~
 articles:
   SPmirnaseq: SPmirnaseq.html
-last_built: 2021-05-06T00:39Z
+last_built: 2021-12-06T17:13Z
 urls:
-  reference: https://systempipe.org/SPmirnaseq//reference
-  article: https://systempipe.org/SPmirnaseq//articles
+  reference: https://systempipe.org/SPmirnaseq/reference
+  article: https://systempipe.org/SPmirnaseq/articles
 

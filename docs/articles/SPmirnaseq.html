@@ -25,6 +25,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -37,18 +39,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SPmirnaseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/SPmirnaseq.html">Get started</a>
 </li>
@@ -66,13 +62,13 @@
 
       
 
-      </header><script src="SPmirnaseq_files/header-attrs-2.7.12/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>SPmirnaseq</h1>
-                        <h4 class="author">Author: Daniela Cassol (<a href="mailto:danielac@ucr.edu" class="email">danielac@ucr.edu</a>) and Thomas Girke (<a href="mailto:thomas.girke@ucr.edu" class="email">thomas.girke@ucr.edu</a>)</h4>
+                        <h4 data-toc-skip class="author">Author: Daniela Cassol (<a href="mailto:danielac@ucr.edu" class="email">danielac@ucr.edu</a>) and Thomas Girke (<a href="mailto:thomas.girke@ucr.edu" class="email">thomas.girke@ucr.edu</a>)</h4>
             
-            <h4 class="date">Last update: 05 May, 2021</h4>
+            <h4 data-toc-skip class="date">Last update: 06 December, 2021</h4>
       
       
       <div class="hidden name"><code>SPmirnaseq.Rmd</code></div>
@@ -89,10 +85,7 @@ word-break: keep-all !important;
 word-wrap: initial !important;
 }
 </style>
-<!--
-- Compile from command-line
-Rscript -e "rmarkdown::render('SPmirnaseq.Rmd', c('BiocStyle::html_document'), clean=F); knitr::knit('SPmirnaseq.Rmd', tangle=TRUE)"; Rscript -e "rmarkdown::render('SPmirnaseq.Rmd', c('BiocStyle::pdf_document'))"
---><script type="text/javascript">
+<script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function() {
   document.querySelector("h1").className = "title";
 });
@@ -103,640 +96,547 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><div id="introduction" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
+</script><div class="section level1">
+<h1 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h1>
 <p>Users want to provide here background information about the design of their miRNA-Seq project.</p>
 </div>
-<div id="samples-and-environment-settings" class="section level1">
-<h1 class="hasAnchor">
-<a href="#samples-and-environment-settings" class="anchor"></a>Samples and environment settings</h1>
-<div id="define-environment-settings-and-samples" class="section level2">
-<h2 class="hasAnchor">
-<a href="#define-environment-settings-and-samples" class="anchor"></a>Define environment settings and samples</h2>
-<p>A typical workflow starts with generating the expected working environment containing the proper directory structure, input files, and parameter settings. To simplify this task, one can load one of the existing NGS workflows templates provided by <em><code>systemPipeRdata</code></em> into the current working directory. The following does this for the <em><code>mirnaseq</code></em> template. The name of the resulting workflow directory can be specified under the <em><code>mydirname</code></em> argument. The default <em><code>NULL</code></em> uses the name of the chosen workflow. An error is issued if a directory of the same name and path exists already. On Linux and OS X systems one can also create new workflow instances from the command-line of a terminal as shown <a href="http://bioconductor.org/packages/devel/data/experiment/vignettes/systemPipeRdata/inst/doc/systemPipeRdata.html#generate-workflow-template">here</a>. To apply workflows to custom data, the user needs to modify the <em><code>targets</code></em> file and if necessary update the corresponding <em><code>.cwl</code></em> and <em><code>.yml</code></em> files. A collection of pre-generated <em><code>.cwl</code></em> and <em><code>.yml</code></em> files are provided in the <em><code>param/cwl</code></em> subdirectory of each workflow template. They are also viewable in the GitHub repository of <em><code>systemPipeRdata</code></em> (<a href="https://github.com/tgirke/systemPipeRdata/tree/master/inst/extdata/param">see here</a>).</p>
+<div class="section level1">
+<h1 id="samples-and-environment-settings">Samples and environment settings<a class="anchor" aria-label="anchor" href="#samples-and-environment-settings"></a>
+</h1>
+<div class="section level2">
+<h2 id="define-environment-settings-and-samples">Define environment settings and samples<a class="anchor" aria-label="anchor" href="#define-environment-settings-and-samples"></a>
+</h2>
+<p>A typical workflow starts with generating the expected working environment containing the proper directory structure, input files, and parameter settings. To simplify this task, one can load one of the existing NGS workflows templates provided by <em><code>systemPipeRdata</code></em> into the current working directory. The following does this for the <em><code>mirnaseq</code></em> template. The name of the resulting workflow directory can be specified under the <em><code>mydirname</code></em> argument. The default <em><code>NULL</code></em> uses the name of the chosen workflow. An error is issued if a directory of the same name and path exists already. On Linux and OS X systems one can also create new workflow instances from the command-line of a terminal as shown <a href="http://bioconductor.org/packages/devel/data/experiment/vignettes/systemPipeRdata/inst/doc/systemPipeRdata.html#generate-workflow-template" class="external-link">here</a>. To apply workflows to custom data, the user needs to modify the <em><code>targets</code></em> file and if necessary update the corresponding <em><code>.cwl</code></em> and <em><code>.yml</code></em> files. A collection of pre-generated <em><code>.cwl</code></em> and <em><code>.yml</code></em> files are provided in the <em><code>param/cwl</code></em> subdirectory of each workflow template. They are also viewable in the GitHub repository of <em><code>systemPipeRdata</code></em> (<a href="https://github.com/tgirke/systemPipeRdata/tree/master/inst/extdata/param" class="external-link">see here</a>).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://systempipe.org/">systemPipeR</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tgirke/systemPipeRdata">systemPipeRdata</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeRdata/man/genWorkenvir.html">genWorkenvir</a></span><span class="op">(</span>workflow <span class="op">=</span> <span class="st">"systemPipeR/SPmirnaseq"</span>, mydirname <span class="op">=</span> <span class="st">"mirmaseq"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"mirnaseq"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://systempipe.org/" class="external-link">systemPipeR</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tgirke/systemPipeRdata" class="external-link">systemPipeRdata</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/systemPipeRdata/man/genWorkenvir.html" class="external-link">genWorkenvir</a></span><span class="op">(</span>workflow <span class="op">=</span> <span class="st">"systemPipeR/SPmirnaseq"</span>, mydirname <span class="op">=</span> <span class="st">"mirmaseq"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="st">"mirnaseq"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="experiment-definition-provided-by-targets-file" class="section level2">
-<h2 class="hasAnchor">
-<a href="#experiment-definition-provided-by-targets-file" class="anchor"></a>Experiment definition provided by <code>targets</code> file</h2>
+<div class="section level2">
+<h2 id="experiment-definition-provided-by-targets-file">Experiment definition provided by <code>targets</code> file<a class="anchor" aria-label="anchor" href="#experiment-definition-provided-by-targets-file"></a>
+</h2>
 <p>The <code>targets</code> file defines all FASTQ files and sample comparisons of the analysis workflow.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">targetspath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"targets_mirnaseq.txt"</span>, 
+<code class="sourceCode R"><span class="va">targetspath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"targets_mirnaseq.txt"</span>,
     package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
-<span class="va">targets</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.delim</a></span><span class="op">(</span><span class="va">targetspath</span>, comment.char <span class="op">=</span> <span class="st">"#"</span><span class="op">)</span>
+<span class="va">targets</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.delim</a></span><span class="op">(</span><span class="va">targetspath</span>, comment.char <span class="op">=</span> <span class="st">"#"</span><span class="op">)</span>
 <span class="va">targets</span></code></pre></div>
-<pre><code>##                       FileName       SampleName         Factor
-## 1 ./data/SRR5068868_1.fastq.gz       wildtype_A       wildtype
-## 2 ./data/SRR5068869_1.fastq.gz       wildtype_B       wildtype
-## 3 ./data/SRR5068870_1.fastq.gz       wildtype_C       wildtype
-## 4 ./data/SRR5068871_1.fastq.gz DCL1_knockdown_A DCL1_knockdown
-## 5 ./data/SRR5068872_1.fastq.gz DCL1_knockdown_B DCL1_knockdown
-## 6 ./data/SRR5068873_1.fastq.gz DCL1_knockdown_C DCL1_knockdown
-##                    SampleLong             Organism LibraryLayout
-## 1       wildtype_A_GSM2412286 Arabidopsis thaliana        SINGLE
-## 2       wildtype_B_GSM2412287 Arabidopsis thaliana        SINGLE
-## 3       wildtype_C_GSM2412288 Arabidopsis thaliana        SINGLE
-## 4 DCL1_knockdown_A_GSM2412289 Arabidopsis thaliana        SINGLE
-## 5 DCL1_knockdown_B_GSM2412290 Arabidopsis thaliana        SINGLE
-## 6 DCL1_knockdown_C_GSM2412291 Arabidopsis thaliana        SINGLE
-##                   Date
-## 1 2017-04-18T00:00:00Z
-## 2 2017-04-18T00:00:00Z
-## 3 2017-04-18T00:00:00Z
-## 4 2017-04-18T00:00:00Z
-## 5 2017-04-18T00:00:00Z
-## 6 2017-04-18T00:00:00Z</code></pre>
+<pre><code><span class="co">##                       FileName       SampleName         Factor</span>
+<span class="co">## 1 ./data/SRR5068868_1.fastq.gz       wildtype_A       wildtype</span>
+<span class="co">## 2 ./data/SRR5068869_1.fastq.gz       wildtype_B       wildtype</span>
+<span class="co">## 3 ./data/SRR5068870_1.fastq.gz       wildtype_C       wildtype</span>
+<span class="co">## 4 ./data/SRR5068871_1.fastq.gz DCL1_knockdown_A DCL1_knockdown</span>
+<span class="co">## 5 ./data/SRR5068872_1.fastq.gz DCL1_knockdown_B DCL1_knockdown</span>
+<span class="co">## 6 ./data/SRR5068873_1.fastq.gz DCL1_knockdown_C DCL1_knockdown</span>
+<span class="co">##                    SampleLong             Organism LibraryLayout</span>
+<span class="co">## 1       wildtype_A_GSM2412286 Arabidopsis thaliana        SINGLE</span>
+<span class="co">## 2       wildtype_B_GSM2412287 Arabidopsis thaliana        SINGLE</span>
+<span class="co">## 3       wildtype_C_GSM2412288 Arabidopsis thaliana        SINGLE</span>
+<span class="co">## 4 DCL1_knockdown_A_GSM2412289 Arabidopsis thaliana        SINGLE</span>
+<span class="co">## 5 DCL1_knockdown_B_GSM2412290 Arabidopsis thaliana        SINGLE</span>
+<span class="co">## 6 DCL1_knockdown_C_GSM2412291 Arabidopsis thaliana        SINGLE</span>
+<span class="co">##                   Date</span>
+<span class="co">## 1 2017-04-18T00:00:00Z</span>
+<span class="co">## 2 2017-04-18T00:00:00Z</span>
+<span class="co">## 3 2017-04-18T00:00:00Z</span>
+<span class="co">## 4 2017-04-18T00:00:00Z</span>
+<span class="co">## 5 2017-04-18T00:00:00Z</span>
+<span class="co">## 6 2017-04-18T00:00:00Z</span></code></pre>
 </div>
-</div>
-<div id="read-preprocessing" class="section level1">
-<h1 class="hasAnchor">
-<a href="#read-preprocessing" class="anchor"></a>Read Preprocessing</h1>
-<div id="read-preprocessing-with-cutadapt" class="section level2">
-<h2 class="hasAnchor">
-<a href="#read-preprocessing-with-cutadapt" class="anchor"></a>Read Preprocessing with <em><code>Cutadapt</code></em>
+<div class="section level2">
+<h2 id="project-initialization">Project initialization<a class="anchor" aria-label="anchor" href="#project-initialization"></a>
 </h2>
-<p><a href="https://cutadapt.readthedocs.io/en/stable/">Cutadapt</a> <span class="citation">(Martin 2011)</span> finds and removes adapter sequences, primers, poly-A tails and other types of unwanted sequence from your high-throughput sequencing reads. Reads from miRNA sequencing contain the 3’ sequencing adapter because the read is longer than the molecule that is sequenced. Please find full <a href="https://cutadapt.readthedocs.io/en/stable/installation.html">documentation</a> for installing the software on your system and the <a href="https://cutadapt.readthedocs.io/en/stable/guide.html">user guide</a>.</p>
-<p>The parameter settings of the <em>Cutadapt</em> are defined in the <code>cutadapt.cwl</code> and <code>cutadapt.yml</code> files. The following shows how to construct the corresponding <code>SYSargs2</code> object:</p>
+<p>To create a Workflow within <em><code>systemPipeR</code></em>, we can start by defining an empty container and checking the directory structure:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/cutadapt/"</span>, package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
-<span class="va">WF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWF</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"cutadapt.cwl"</span>, 
-    input_file <span class="op">=</span> <span class="st">"cutadapt.yml"</span>, dir_path <span class="op">=</span> <span class="va">dir_path</span><span class="op">)</span>
-<span class="va">WF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/renderWF.html">renderWF</a></span><span class="op">(</span><span class="va">WF</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>FileName <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, 
-    SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">cmdlist</a></span><span class="op">(</span><span class="va">WF</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></code></pre></div>
-<pre><code>## $wildtype_A
-## $wildtype_A$cutadapt
-## [1] "cutadapt --trimmed-only  -a TGGAATTCTCGGGTGCCAAGG -o ./results/cutadapt/wildtype_A.fastq.gz -m 18 -M 30 ./data/SRR5068868_1.fastq.gz"
-## 
-## 
-## $wildtype_B
-## $wildtype_B$cutadapt
-## [1] "cutadapt --trimmed-only  -a TGGAATTCTCGGGTGCCAAGG -o ./results/cutadapt/wildtype_B.fastq.gz -m 18 -M 30 ./data/SRR5068869_1.fastq.gz"</code></pre>
+<code class="sourceCode R"><span class="va">sal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SPRproject.html" class="external-link">SPRproject</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## Creating directory: /home/dcassol/danielac@ucr.edu/projects/SP/SPR_org/Workflow/SPmirnaseq/vignettes/data </span>
+<span class="co">## Creating directory: /home/dcassol/danielac@ucr.edu/projects/SP/SPR_org/Workflow/SPmirnaseq/vignettes/param </span>
+<span class="co">## Creating directory: /home/dcassol/danielac@ucr.edu/projects/SP/SPR_org/Workflow/SPmirnaseq/vignettes/results </span>
+<span class="co">## Creating directory '/home/dcassol/danielac@ucr.edu/projects/SP/SPR_org/Workflow/SPmirnaseq/vignettes/.SPRproject'</span>
+<span class="co">## Creating file '/home/dcassol/danielac@ucr.edu/projects/SP/SPR_org/Workflow/SPmirnaseq/vignettes/.SPRproject/SYSargsList.yml'</span></code></pre>
+</div>
+<div class="section level2">
+<h2 id="required-packages-and-resources">Required packages and resources<a class="anchor" aria-label="anchor" href="#required-packages-and-resources"></a>
+</h2>
+<p>The <code>systemPipeR</code> package needs to be loaded <span class="citation">(H Backman and Girke 2016)</span>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">output</a></span><span class="op">(</span><span class="va">WF</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></code></pre></div>
-<pre><code>## $wildtype_A
-## $wildtype_A$cutadapt
-## [1] "./results//cutadapt/wildtype_A.fastq.gz"
-## 
-## 
-## $wildtype_B
-## $wildtype_B$cutadapt
-## [1] "./results//cutadapt/wildtype_B.fastq.gz"</code></pre>
-<p>Interactive job submissions in a single machine:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">WF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html">runCommandline</a></span><span class="op">(</span><span class="va">WF</span>, make_bam <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu">systemPipeR</span><span class="fu">:::</span><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/check.output.html">check.output</a></span><span class="op">(</span><span class="va">WF</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/writeTargetsout.html">writeTargetsout</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">WF</span>, file <span class="op">=</span> <span class="st">"default"</span>, step <span class="op">=</span> <span class="fl">1</span>, new_col <span class="op">=</span> <span class="st">"FileTrim"</span>, 
-    new_col_output_index <span class="op">=</span> <span class="fl">1</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/LineWise-class.html" class="external-link">LineWise</a></span><span class="op">(</span><span class="op">{</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://systempipe.org/" class="external-link">systemPipeR</a></span><span class="op">)</span>
+<span class="op">}</span>, step_name <span class="op">=</span> <span class="st">"load_SPR"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="read-preprocessing-with-preprocessreads-function" class="section level2">
-<h2 class="hasAnchor">
-<a href="#read-preprocessing-with-preprocessreads-function" class="anchor"></a>Read Preprocessing with <em><code>preprocessReads</code></em> function</h2>
-<p>The function <em><code>preprocessReads</code></em> allows to apply predefined or custom read preprocessing functions to all FASTQ files referenced in a <em><code>SYSargs2</code></em> container, such as quality filtering or adaptor trimming routines. The paths to the resulting output FASTQ files are stored in the <em><code>output</code></em> slot of the <em><code>SYSargs2</code></em> object. Internally, <em><code>preprocessReads</code></em> uses the <em><code>FastqStreamer</code></em> function from the <em><code>ShortRead</code></em> package to stream through large FASTQ files in a memory-efficient manner. The following example performs adapter trimming with the <em><code>trimLRPatterns</code></em> function from the <em><code>Biostrings</code></em> package. After the trimming step a new targets file is generated (here <em><code>targets_trim-se.txt</code></em>) containing the paths to the trimmed FASTQ files. The new targets file can be used for the next workflow step with an updated <em><code>SYSargs2</code></em> instance, <em>e.g.</em> running the NGS alignments with the trimmed FASTQ files.</p>
-<p>Construct <em><code>SYSargs2</code></em> object from <em><code>cwl</code></em> and <em><code>yml</code></em> param and <em><code>targets</code></em> files.</p>
+</div>
+<div class="section level1">
+<h1 id="read-preprocessing">Read Preprocessing<a class="anchor" aria-label="anchor" href="#read-preprocessing"></a>
+</h1>
+<div class="section level2">
+<h2 id="read-preprocessing-with-cutadapt">Read Preprocessing with <em><code>Cutadapt</code></em><a class="anchor" aria-label="anchor" href="#read-preprocessing-with-cutadapt"></a>
+</h2>
+<p><a href="https://cutadapt.readthedocs.io/en/stable/" class="external-link">Cutadapt</a> <span class="citation">(Martin 2011)</span> finds and removes adapter sequences, primers, poly-A tails and other types of unwanted sequence from your high-throughput sequencing reads. Reads from miRNA sequencing contain the 3’ sequencing adapter because the read is longer than the molecule that is sequenced. Please find full <a href="https://cutadapt.readthedocs.io/en/stable/installation.html" class="external-link">documentation</a> for installing the software on your system and the <a href="https://cutadapt.readthedocs.io/en/stable/guide.html" class="external-link">user guide</a>.</p>
+<p>The parameter settings of the <em>Cutadapt</em> are defined in the <code>cutadapt.cwl</code> and <code>cutadapt.yml</code> files. The following shows how to construct the corresponding <code>SYSargsList</code> object:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">targetspath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"targets_mirnaseq.txt"</span>,
+    package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
+<span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">SYSargsList</a></span><span class="op">(</span>step_name <span class="op">=</span> <span class="st">"cutadapt"</span>, targets <span class="op">=</span> <span class="va">targetspath</span>,
+    dir <span class="op">=</span> <span class="cn">FALSE</span>, wf_file <span class="op">=</span> <span class="st">"cutadapt.cwl"</span>, input_file <span class="op">=</span> <span class="st">"cutadapt.yml"</span>,
+    dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/cutadapt/"</span>, package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>,
+    inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>FileName <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span>,
+    dependency <span class="op">=</span> <span class="st">"load_SPR"</span>, run_step <span class="op">=</span> <span class="st">"mandatory"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">outfiles</a></span><span class="op">(</span><span class="va">sal</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## $load_SPR</span>
+<span class="co">## DataFrame with 0 rows and 0 columns</span>
+<span class="co">## </span>
+<span class="co">## $cutadapt</span>
+<span class="co">## DataFrame with 6 rows and 1 column</span>
+<span class="co">##                  outfile</span>
+<span class="co">##              &lt;character&gt;</span>
+<span class="co">## 1 ./results//cutadapt/..</span>
+<span class="co">## 2 ./results//cutadapt/..</span>
+<span class="co">## 3 ./results//cutadapt/..</span>
+<span class="co">## 4 ./results//cutadapt/..</span>
+<span class="co">## 5 ./results//cutadapt/..</span>
+<span class="co">## 6 ./results//cutadapt/..</span></code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/preprocessReads.html">preprocessReads</a></span><span class="op">(</span>args <span class="op">=</span> <span class="va">trim</span>, Fct <span class="op">=</span> <span class="st">"trimLRPatterns(Lpattern='TGGAATTCTCGGGTGCCAAGG', 
-                subject=fq)"</span>, 
-    batchsize <span class="op">=</span> <span class="fl">1e+05</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, compress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p>The following example shows how one can design a custom read preprocessing function using utilities provided by the <em><code>ShortRead</code></em> package, and then run it in batch mode with the <em>‘preprocessReads’</em> function (here on paired-end reads).</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">filterFct</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">fq</span>, <span class="va">cutoff</span> <span class="op">=</span> <span class="fl">20</span>, <span class="va">Nexceptions</span> <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span>
-    <span class="va">qcount</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu">as</span><span class="op">(</span><span class="fu">quality</span><span class="op">(</span><span class="va">fq</span><span class="op">)</span>, <span class="st">"matrix"</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="va">cutoff</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-    <span class="co"># Retains reads where Phred scores are &gt;= cutoff with N</span>
-    <span class="co"># exceptions</span>
-    <span class="va">fq</span><span class="op">[</span><span class="va">qcount</span> <span class="op">&lt;=</span> <span class="va">Nexceptions</span><span class="op">]</span>
-<span class="op">}</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/preprocessReads.html">preprocessReads</a></span><span class="op">(</span>args <span class="op">=</span> <span class="va">trim</span>, Fct <span class="op">=</span> <span class="st">"filterFct(fq, cutoff=20, Nexceptions=0)"</span>, 
-    batchsize <span class="op">=</span> <span class="fl">1e+05</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">cmdlist</a></span><span class="op">(</span><span class="va">sal</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## load_SPR step have been dropped because it is not a SYSargs2 object.</span></code></pre>
+<pre><code><span class="co">## $cutadapt</span>
+<span class="co">## $cutadapt$wildtype_A</span>
+<span class="co">## $cutadapt$wildtype_A$cutadapt</span>
+<span class="co">## [1] "cutadapt --trimmed-only  -a TGGAATTCTCGGGTGCCAAGG -o ./results/cutadapt/wildtype_A.fastq.gz -m 18 -M 30 ./data/SRR5068868_1.fastq.gz"</span>
+<span class="co">## </span>
+<span class="co">## </span>
+<span class="co">## $cutadapt$wildtype_B</span>
+<span class="co">## $cutadapt$wildtype_B$cutadapt</span>
+<span class="co">## [1] "cutadapt --trimmed-only  -a TGGAATTCTCGGGTGCCAAGG -o ./results/cutadapt/wildtype_B.fastq.gz -m 18 -M 30 ./data/SRR5068869_1.fastq.gz"</span>
+<span class="co">## </span>
+<span class="co">## </span>
+<span class="co">## $cutadapt$wildtype_C</span>
+<span class="co">## $cutadapt$wildtype_C$cutadapt</span>
+<span class="co">## [1] "cutadapt --trimmed-only  -a TGGAATTCTCGGGTGCCAAGG -o ./results/cutadapt/wildtype_C.fastq.gz -m 18 -M 30 ./data/SRR5068870_1.fastq.gz"</span>
+<span class="co">## </span>
+<span class="co">## </span>
+<span class="co">## $cutadapt$DCL1_knockdown_A</span>
+<span class="co">## $cutadapt$DCL1_knockdown_A$cutadapt</span>
+<span class="co">## [1] "cutadapt --trimmed-only  -a TGGAATTCTCGGGTGCCAAGG -o ./results/cutadapt/DCL1_knockdown_A.fastq.gz -m 18 -M 30 ./data/SRR5068871_1.fastq.gz"</span>
+<span class="co">## </span>
+<span class="co">## </span>
+<span class="co">## $cutadapt$DCL1_knockdown_B</span>
+<span class="co">## $cutadapt$DCL1_knockdown_B$cutadapt</span>
+<span class="co">## [1] "cutadapt --trimmed-only  -a TGGAATTCTCGGGTGCCAAGG -o ./results/cutadapt/DCL1_knockdown_B.fastq.gz -m 18 -M 30 ./data/SRR5068872_1.fastq.gz"</span>
+<span class="co">## </span>
+<span class="co">## </span>
+<span class="co">## $cutadapt$DCL1_knockdown_C</span>
+<span class="co">## $cutadapt$DCL1_knockdown_C$cutadapt</span>
+<span class="co">## [1] "cutadapt --trimmed-only  -a TGGAATTCTCGGGTGCCAAGG -o ./results/cutadapt/DCL1_knockdown_C.fastq.gz -m 18 -M 30 ./data/SRR5068873_1.fastq.gz"</span></code></pre>
 </div>
-<div id="preprocessing-with-trimgalore" class="section level2">
-<h2 class="hasAnchor">
-<a href="#preprocessing-with-trimgalore" class="anchor"></a>Preprocessing with <em><code>TrimGalore!</code></em>
+<div class="section level2">
+<h2 id="read-preprocessing-with-preprocessreads-function">Read Preprocessing with <em><code>preprocessReads</code></em> function<a class="anchor" aria-label="anchor" href="#read-preprocessing-with-preprocessreads-function"></a>
 </h2>
-<p><a href="http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/">TrimGalore!</a> is a wrapper tool to consistently apply quality and adapter trimming to fastq files, with some extra functionality for removing Reduced Representation Bisulfite-Seq (RRBS) libraries.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/trim_galore/trim_galore-se"</span>, 
-    package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>
-<span class="va">trimG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"trim_galore-se.cwl"</span>, 
-    input_file <span class="op">=</span> <span class="st">"trim_galore-se.yml"</span>, dir_path <span class="op">=</span> <span class="va">dir_path</span><span class="op">)</span>
-<span class="va">trimG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/renderWF.html">renderWF</a></span><span class="op">(</span><span class="va">trimG</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>FileName <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, 
-    SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">trimG</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">cmdlist</a></span><span class="op">(</span><span class="va">trimG</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">output</a></span><span class="op">(</span><span class="va">trimG</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-<span class="co">## Run Single Machine Option</span>
-<span class="va">trimG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html">runCommandline</a></span><span class="op">(</span><span class="va">trimG</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, make_bam <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-</div>
-<div id="preprocessing-with-trimmomatic" class="section level2">
-<h2 class="hasAnchor">
-<a href="#preprocessing-with-trimmomatic" class="anchor"></a>Preprocessing with <em><code>Trimmomatic</code></em>
-</h2>
-<p>Trimmomatic <span class="citation">(Bolger, Lohse, and Usadel 2014)</span> is aflexible read trimming tool for Illumina NGS data. Please find full documentation <a href="http://www.usadellab.org/cms/?page=trimmomatic">here</a>.</p>
+<p>The function <em><code>preprocessReads</code></em> allows to apply predefined or custom read preprocessing functions to all FASTQ files referenced in a <em><code>SYSargs2</code></em> container, such as quality filtering or adaptor trimming routines. The paths to the resulting output FASTQ files are stored in the <em><code>output</code></em> slot of the <em><code>SYSargs2</code></em> object. Internally, <em><code>preprocessReads</code></em> uses the <em><code>FastqStreamer</code></em> function from the <em><code>ShortRead</code></em> package to stream through large FASTQ files in a memory-efficient manner. The following example performs adapter trimming with the <em><code>trimLRPatterns</code></em> function from the <em><code>Biostrings</code></em> package. After the trimming step a new targets file is generated (here <em><code>targets_trim-se.txt</code></em>) containing the paths to the trimmed FASTQ files. The new targets file can be used for the next workflow step with an updated <em><code>SYSargs2</code></em> instance, <em>e.g.</em> running the NGS alignments with the trimmed FASTQ files.</p>
+<p>Construct <em><code>SYSargsList</code></em> object from <em><code>cwl</code></em> and <em><code>yml</code></em> param and <em><code>targets</code></em> files.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/trimmomatic/trimmomatic-pe"</span>, 
-    package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>
-<span class="va">trimM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"trimmomatic-pe.cwl"</span>, 
-    input_file <span class="op">=</span> <span class="st">"trimmomatic-pe.yml"</span>, dir_path <span class="op">=</span> <span class="va">dir_path</span><span class="op">)</span>
-<span class="va">trimM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/renderWF.html">renderWF</a></span><span class="op">(</span><span class="va">trimM</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>FileName <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, 
-    SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">trimM</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">cmdlist</a></span><span class="op">(</span><span class="va">trimM</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">output</a></span><span class="op">(</span><span class="va">trimM</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-<span class="co">## Run Single Machine Option</span>
-<span class="va">trimM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html">runCommandline</a></span><span class="op">(</span><span class="va">trimM</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, make_bam <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">targetspath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"targets_mirnaseq.txt"</span>,
+    package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
+<span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">SYSargsList</a></span><span class="op">(</span>step_name <span class="op">=</span> <span class="st">"preprocessing"</span>, targets <span class="op">=</span> <span class="va">targetspath</span>,
+    dir <span class="op">=</span> <span class="cn">TRUE</span>, wf_file <span class="op">=</span> <span class="st">"preprocessReads/preprocessReads-se.cwl"</span>,
+    input_file <span class="op">=</span> <span class="st">"preprocessReads/preprocessReads-se.yml"</span>, dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl"</span>,
+        package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>FileName <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>,
+        SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span>, run_step <span class="op">=</span> <span class="st">"optional"</span>,
+    dependency <span class="op">=</span> <span class="st">"load_SPR"</span><span class="op">)</span></code></pre></div>
 </div>
-</div>
-<div id="fastq-quality-report" class="section level1">
-<h1 class="hasAnchor">
-<a href="#fastq-quality-report" class="anchor"></a>FASTQ quality report</h1>
-<p>The following <em><code>seeFastq</code></em> and <em><code>seeFastqPlot</code></em> functions generate and plot a series of useful quality statistics for a set of FASTQ files including per cycle quality box plots, base proportions, base-level quality trends, relative k-mer diversity, length and occurrence distribution of reads, number of reads above quality cutoffs and mean quality distribution.<br>
-The function <em><code>seeFastq</code></em> computes the quality statistics and stores the results in a relatively small list object that can be saved to disk with <em><code><a href="https://rdrr.io/r/base/save.html">save()</a></code></em> and reloaded with <em><code><a href="https://rdrr.io/r/base/load.html">load()</a></code></em> for later plotting. The argument <em><code>klength</code></em> specifies the k-mer length and <em><code>batchsize</code></em> the number of reads to a random sample from each FASTQ file.</p>
+<div class="section level2">
+<h2 id="preprocessing-with-trimgalore">Preprocessing with <em><code>TrimGalore!</code></em><a class="anchor" aria-label="anchor" href="#preprocessing-with-trimgalore"></a>
+</h2>
+<p><a href="http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/" class="external-link">TrimGalore!</a> is a wrapper tool to consistently apply quality and adapter trimming to fastq files, with some extra functionality for removing Reduced Representation Bisulfite-Seq (RRBS) libraries.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## Before</span>
-<span class="va">fqlist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/seeFastq.html">seeFastq</a></span><span class="op">(</span>fastq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs.html">infile1</a></span><span class="op">(</span><span class="va">WF</span><span class="op">)</span>, batchsize <span class="op">=</span> <span class="fl">10000</span>, klength <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/grDevices/pdf.html">pdf</a></span><span class="op">(</span><span class="st">"./results/fastqReport_before.pdf"</span>, height <span class="op">=</span> <span class="fl">18</span>, width <span class="op">=</span> <span class="fl">4</span> <span class="op">*</span> 
-    <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">fqlist</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/seeFastq.html">seeFastqPlot</a></span><span class="op">(</span><span class="va">fqlist</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<center>
-<img src="fastqReport_before.png">
-</center>
-<div align="left">
-<strong>Figure 1:</strong> FASTQ quality report before trimming.
+<code class="sourceCode R"><span class="va">targetspath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"targets_mirnaseq.txt"</span>,
+    package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
+<span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">SYSargsList</a></span><span class="op">(</span>step_name <span class="op">=</span> <span class="st">"trimGalore"</span>, targets <span class="op">=</span> <span class="va">targetspath</span>,
+    dir <span class="op">=</span> <span class="cn">TRUE</span>, wf_file <span class="op">=</span> <span class="st">"trim_galore/trim_galore-se.cwl"</span>, input_file <span class="op">=</span> <span class="st">"trim_galore/trim_galore-se.yml"</span>,
+    dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl"</span>, package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>,
+    inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>FileName <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span>,
+    dependency <span class="op">=</span> <span class="st">"load_SPR"</span>, run_step <span class="op">=</span> <span class="st">"optional"</span><span class="op">)</span></code></pre></div>
 </div>
-<p></p>
-<p>It is highly recommended to check the quality of the read trimmed.</p>
+<div class="section level2">
+<h2 id="preprocessing-with-trimmomatic">Preprocessing with <em><code>Trimmomatic</code></em><a class="anchor" aria-label="anchor" href="#preprocessing-with-trimmomatic"></a>
+</h2>
+<p>Trimmomatic <span class="citation">(Bolger, Lohse, and Usadel 2014)</span> is flexible read trimming tool for Illumina NGS data. Please find full documentation <a href="http://www.usadellab.org/cms/?page=trimmomatic" class="external-link">here</a>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## after trimming</span>
-<span class="va">output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/subsetWF.html">subsetWF</a></span><span class="op">(</span><span class="va">WF</span>, slot <span class="op">=</span> <span class="st">"output"</span>, subset <span class="op">=</span> <span class="fl">1</span>, index <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="va">fqlist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/seeFastq.html">seeFastq</a></span><span class="op">(</span>fastq <span class="op">=</span> <span class="va">output</span>, batchsize <span class="op">=</span> <span class="fl">10000</span>, klength <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/grDevices/pdf.html">pdf</a></span><span class="op">(</span><span class="st">"./results/fastqReport_after.pdf"</span>, height <span class="op">=</span> <span class="fl">18</span>, width <span class="op">=</span> <span class="fl">4</span> <span class="op">*</span> 
-    <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">fqlist</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/seeFastq.html">seeFastqPlot</a></span><span class="op">(</span><span class="va">fqlist</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">targetspath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"targets.txt"</span>, package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>
+<span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">SYSargsList</a></span><span class="op">(</span>step_name <span class="op">=</span> <span class="st">"trimmomatic"</span>, targets <span class="op">=</span> <span class="va">targetspath</span>,
+    dir <span class="op">=</span> <span class="cn">TRUE</span>, wf_file <span class="op">=</span> <span class="st">"trimmomatic/trimmomatic-se.cwl"</span>, input_file <span class="op">=</span> <span class="st">"trimmomatic/trimmomatic-se.yml"</span>,
+    dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl"</span>, package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>,
+    inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>FileName <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span>,
+    dependency <span class="op">=</span> <span class="st">"load_SPR"</span>, run_step <span class="op">=</span> <span class="st">"optional"</span><span class="op">)</span></code></pre></div>
+</div>
+</div>
+<div class="section level1">
+<h1 id="fastq-quality-report">FASTQ quality report<a class="anchor" aria-label="anchor" href="#fastq-quality-report"></a>
+</h1>
+<p>The following <em><code>seeFastq</code></em> and <em><code>seeFastqPlot</code></em> functions generate and plot a series of useful quality statistics for a set of FASTQ files including per cycle quality box plots, base proportions, base-level quality trends, relative k-mer diversity, length and occurrence distribution of reads, number of reads above quality cutoffs and mean quality distribution.<br>
+The function <em><code>seeFastq</code></em> computes the quality statistics and stores the results in a relatively small list object that can be saved to disk with <em><code><a href="https://rdrr.io/r/base/save.html" class="external-link">save()</a></code></em> and reloaded with <em><code><a href="https://rdrr.io/r/base/load.html" class="external-link">load()</a></code></em> for later plotting. The argument <em><code>klength</code></em> specifies the k-mer length and <em><code>batchsize</code></em> the number of reads to a random sample from each FASTQ file.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/LineWise-class.html" class="external-link">LineWise</a></span><span class="op">(</span><span class="op">{</span>
+    <span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">getColumn</a></span><span class="op">(</span><span class="va">sal</span>, step <span class="op">=</span> <span class="st">"cutadapt"</span>, <span class="st">"outfiles"</span><span class="op">)</span>  <span class="co"># get outfiles from cutadapt step</span>
+    <span class="va">fqlist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/seeFastq.html" class="external-link">seeFastq</a></span><span class="op">(</span>fastq <span class="op">=</span> <span class="va">files</span>, batchsize <span class="op">=</span> <span class="fl">10000</span>, klength <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/grDevices/pdf.html" class="external-link">pdf</a></span><span class="op">(</span><span class="st">"./results/fastqReport.pdf"</span>, height <span class="op">=</span> <span class="fl">6</span>, width <span class="op">=</span> <span class="fl">4</span> <span class="op">*</span>
+        <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">fqlist</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/seeFastq.html" class="external-link">seeFastqPlot</a></span><span class="op">(</span><span class="va">fqlist</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">}</span>, step_name <span class="op">=</span> <span class="st">"fastq_quality"</span>, dependency <span class="op">=</span> <span class="st">"cutadapt"</span><span class="op">)</span></code></pre></div>
 <center>
 <img src="fastqReport_after.png">
 </center>
 <div align="left">
-<strong>Figure 2:</strong> FASTQ quality report after trimming.
+<strong>Figure 1:</strong> FASTQ quality report after trimming.
 </div>
 <p></p>
-<div id="fastq-quality-report-with-fastqc" class="section level3">
-<h3 class="hasAnchor">
-<a href="#fastq-quality-report-with-fastqc" class="anchor"></a>FASTQ quality report with <em>FASTQC</em>
+<div class="section level3">
+<h3 id="fastq-quality-report-with-fastqc">FASTQ quality report with <em>FASTQC</em><a class="anchor" aria-label="anchor" href="#fastq-quality-report-with-fastqc"></a>
 </h3>
-<p>FastQC is a java application that provide quality control checks on raw sequence data.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/fastqc/"</span>, package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>
-<span class="va">fastqcWF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"fastqc.cwl"</span>, 
-    input_file <span class="op">=</span> <span class="st">"fastqc.yml"</span>, dir_path <span class="op">=</span> <span class="va">dir_path</span><span class="op">)</span>
-<span class="va">fastqcWF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/renderWF.html">renderWF</a></span><span class="op">(</span><span class="va">fastqcWF</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>FileName <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, 
-    SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">fastqcWF</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">cmdlist</a></span><span class="op">(</span><span class="va">fastqcWF</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">output</a></span><span class="op">(</span><span class="va">fastqcWF</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-<span class="co">## Run Single Machine Option</span>
-<span class="va">fastqcWF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html">runCommandline</a></span><span class="op">(</span><span class="va">fastqcWF</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, make_bam <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<p><code>FastQC</code> is a java application that provide quality control checks on raw sequence data.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">SYSargsList</a></span><span class="op">(</span>step_name <span class="op">=</span> <span class="st">"fastqc"</span>, targets <span class="op">=</span> <span class="st">"cutadapt"</span>,
+    dir <span class="op">=</span> <span class="cn">FALSE</span>, wf_file <span class="op">=</span> <span class="st">"fastqc/fastqc-se.cwl"</span>, input_file <span class="op">=</span> <span class="st">"fastqc/fastqc-se.yml"</span>,
+    dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl"</span>, package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>,
+    inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>outfile <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span><span class="op">)</span>, dependency <span class="op">=</span> <span class="st">"cutadapt"</span>,
+    run_step <span class="op">=</span> <span class="st">"optional"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="read-alignment" class="section level1">
-<h1 class="hasAnchor">
-<a href="#read-alignment" class="anchor"></a>Read Alignment</h1>
+<div class="section level1">
+<h1 id="read-alignment">Read Alignment<a class="anchor" aria-label="anchor" href="#read-alignment"></a>
+</h1>
 <p>After quality control, the sequence reads can be aligned to a reference genome or miRNA database. The following sessions present some NGS sequence alignment software. Select the most accurate aligner and determining the optimal parameter for your custom data set project.</p>
-<p>For all the following examples, it is necessary to install the respective software and export the PATH accordingly. If it is available Environment Module in the system, you can load all the request software with <code><a href="https://rdrr.io/pkg/systemPipeR/man/moduleload.html">moduleload(modules(idx))</a></code> function.</p>
-<div id="alignment-with-bowtie2" class="section level2">
-<h2 class="hasAnchor">
-<a href="#alignment-with-bowtie2" class="anchor"></a>Alignment with <em><code>Bowtie2</code></em>
+<p>For all the following examples, it is necessary to install the respective software and export the PATH accordingly. If it is available Environment Module in the system, you can load all the request software with <code>moduleload(modules(idx))</code> function.</p>
+<div class="section level2">
+<h2 id="alignment-with-bowtie2">Alignment with <em><code>Bowtie2</code></em><a class="anchor" aria-label="anchor" href="#alignment-with-bowtie2"></a>
 </h2>
 <p>The following example runs <em><code>Bowtie2</code></em> as a single process without submitting it to a cluster.</p>
-<p>Building the index:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/bowtie2/bowtie2-idx"</span>, package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
-<span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="cn">NULL</span>, wf_file <span class="op">=</span> <span class="st">"bowtie2-index.cwl"</span>, 
-    input_file <span class="op">=</span> <span class="st">"bowtie2-index.yml"</span>, dir_path <span class="op">=</span> <span class="va">dir_path</span><span class="op">)</span>
-<span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/renderWF.html">renderWF</a></span><span class="op">(</span><span class="va">idx</span><span class="op">)</span>
-<span class="va">idx</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">cmdlist</a></span><span class="op">(</span><span class="va">idx</span><span class="op">)</span>
-
-<span class="co">## Run in single machine</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html">runCommandline</a></span><span class="op">(</span><span class="va">idx</span>, make_bam <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p>Building all the command-line:</p>
+<ul>
+<li>Build <em><code>Bowtie2</code></em> index.</li>
+</ul>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">targetspath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"targets_cutadapt.txt"</span>, 
-    package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
-<span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/bowtie2/bowtie2-mi"</span>, package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
-<span class="va">bowtie</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"bowtie2-mapping-mi.cwl"</span>, 
-    input_file <span class="op">=</span> <span class="st">"bowtie2-mapping-mi.yml"</span>, dir_path <span class="op">=</span> <span class="va">dir_path</span><span class="op">)</span>
-<span class="va">bowtie</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/renderWF.html">renderWF</a></span><span class="op">(</span><span class="va">bowtie</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>FileTrim <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, 
-    SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">bowtie</span></code></pre></div>
-<pre><code>## Instance of 'SYSargs2':
-##    Slot names/accessors: 
-##       targets: 6 (wildtype_A...DCL1_knockdown_C), targetsheader: 4 (lines)
-##       modules: 1
-##       wf: 0, clt: 1, yamlinput: 9 (components)
-##       input: 6, output: 6
-##       cmdlist: 6
-##    WF Steps:
-##       1. bowtie2-mapping-mi (rendered: TRUE)</code></pre>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">cmdlist</a></span><span class="op">(</span><span class="va">bowtie</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></code></pre></div>
-<pre><code>## $wildtype_A
-## $wildtype_A$`bowtie2-mapping-mi`
-## [1] "bowtie2 --very-sensitive-local  -N  0  -k 50  -S ./results/wildtype_A.sam  -x ./data/tair10.fasta  -U ./results/cutadapt/wildtype_A.fastq.gz -p 4"
-## 
-## 
-## $wildtype_B
-## $wildtype_B$`bowtie2-mapping-mi`
-## [1] "bowtie2 --very-sensitive-local  -N  0  -k 50  -S ./results/wildtype_B.sam  -x ./data/tair10.fasta  -U ./results/cutadapt/wildtype_B.fastq.gz -p 4"</code></pre>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">output</a></span><span class="op">(</span><span class="va">bowtie</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></code></pre></div>
-<pre><code>## $wildtype_A
-## $wildtype_A$`bowtie2-mapping-mi`
-## [1] "./results/wildtype_A.sam"
-## 
-## 
-## $wildtype_B
-## $wildtype_B$`bowtie2-mapping-mi`
-## [1] "./results/wildtype_B.sam"</code></pre>
+<code class="sourceCode R"><span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">SYSargsList</a></span><span class="op">(</span>step_name <span class="op">=</span> <span class="st">"bowtie_index"</span>, targets <span class="op">=</span> <span class="cn">NULL</span>,
+    dir <span class="op">=</span> <span class="cn">FALSE</span>, wf_file <span class="op">=</span> <span class="st">"bowtie2/bowtie2-index.cwl"</span>, input_file <span class="op">=</span> <span class="st">"bowtie2/bowtie2-index.yml"</span>,
+    dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl"</span>, package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>,
+    inputvars <span class="op">=</span> <span class="cn">NULL</span>, dependency <span class="op">=</span> <span class="st">"cutadapt"</span>, run_step <span class="op">=</span> <span class="st">"mandatory"</span><span class="op">)</span></code></pre></div>
+<p>Building all the command-line:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">SYSargsList</a></span><span class="op">(</span>step_name <span class="op">=</span> <span class="st">"bowtie2_mapping"</span>,
+    targets <span class="op">=</span> <span class="st">"cutadapt"</span>, dir <span class="op">=</span> <span class="cn">TRUE</span>, wf_file <span class="op">=</span> <span class="st">"bowtie2/workflow_bowtie2-mapping-mi.cwl"</span>,
+    input_file <span class="op">=</span> <span class="st">"bowtie2/bowtie2-mapping-mi.yml"</span>, dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl"</span>,
+        package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>outfile <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>,
+        SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span>, dependency <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bowtie_index"</span><span class="op">)</span>,
+    run_session <span class="op">=</span> <span class="st">"local"</span>, run_step <span class="op">=</span> <span class="st">"mandatory"</span><span class="op">)</span></code></pre></div>
 <p>Please note that each experiment and/or each species may require an optimization of the parameters used. Here is an example where no mismatches are allowed, and <code>-k</code> mode is used. There is indicative that <code>Bowtie2</code> with very sensitive local (<code>--very-sensitive-local</code>) argument provides better accuracy and generates smaller <code>P-values</code> for true positives <span class="citation">(Ziemann, Kaspi, and El-Osta 2016)</span>.</p>
-<p>Running all the jobs to computing nodes.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">resources</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>walltime <span class="op">=</span> <span class="fl">120</span>, ntasks <span class="op">=</span> <span class="fl">1</span>, ncpus <span class="op">=</span> <span class="fl">4</span>, memory <span class="op">=</span> <span class="fl">1024</span><span class="op">)</span>
-<span class="va">reg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/clusterRun.html">clusterRun</a></span><span class="op">(</span><span class="va">bowtie</span>, FUN <span class="op">=</span> <span class="va">runCommandline</span>, more.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>args <span class="op">=</span> <span class="va">bowtiePE</span>, 
-    dir <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, conffile <span class="op">=</span> <span class="st">".batchtools.conf.R"</span>, template <span class="op">=</span> <span class="st">"batchtools.slurm.tmpl"</span>, 
-    Njobs <span class="op">=</span> <span class="fl">6</span>, runid <span class="op">=</span> <span class="st">"01"</span>, resourceList <span class="op">=</span> <span class="va">resources</span><span class="op">)</span>
-<span class="fu">getStatus</span><span class="op">(</span>reg <span class="op">=</span> <span class="va">reg</span><span class="op">)</span>
-<span class="va">bowtie</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/output_update.html">output_update</a></span><span class="op">(</span><span class="va">bowtie</span>, dir <span class="op">=</span> <span class="cn">FALSE</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, 
-    extension <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">".sam"</span>, <span class="st">".bam"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>Alternatively, it possible to run all the jobs in a single machine.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">bowtie</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html">runCommandline</a></span><span class="op">(</span><span class="va">bowtie</span>, make_bam <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu">systemPipeR</span><span class="fu">:::</span><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/check.output.html">check.output</a></span><span class="op">(</span><span class="va">bowtie</span><span class="op">)</span></code></pre></div>
-<p>Create new targets file.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">clt</a></span><span class="op">(</span><span class="va">bowtie</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/writeTargetsout.html">writeTargetsout</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">bowtie</span>, file <span class="op">=</span> <span class="st">"default"</span>, step <span class="op">=</span> <span class="fl">1</span>, new_col <span class="op">=</span> <span class="st">"bowtie"</span>, 
-    new_col_output_index <span class="op">=</span> <span class="fl">1</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div id="read-and-alignment-count-stats" class="section level3">
-<h3 class="hasAnchor">
-<a href="#read-and-alignment-count-stats" class="anchor"></a>Read and alignment count stats</h3>
+<div class="section level3">
+<h3 id="read-and-alignment-count-stats">Read and alignment count stats<a class="anchor" aria-label="anchor" href="#read-and-alignment-count-stats"></a>
+</h3>
 <p>Generate a table of read and alignment counts for all samples.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">read_statsDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/alignStats.html">alignStats</a></span><span class="op">(</span><span class="va">bowtie</span>, subset <span class="op">=</span> <span class="st">"FileTrim"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.table</a></span><span class="op">(</span><span class="va">read_statsDF</span>, <span class="st">"results/alignStats_bowtie.xls"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, 
-    quote <span class="op">=</span> <span class="cn">FALSE</span>, sep <span class="op">=</span> <span class="st">"\t"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/LineWise-class.html" class="external-link">LineWise</a></span><span class="op">(</span><span class="op">{</span>
+    <span class="va">read_statsDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/alignStats.html" class="external-link">alignStats</a></span><span class="op">(</span><span class="va">sal</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.table</a></span><span class="op">(</span><span class="va">read_statsDF</span>, <span class="st">"results/alignStats.xls"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>,
+        quote <span class="op">=</span> <span class="cn">FALSE</span>, sep <span class="op">=</span> <span class="st">"\t"</span><span class="op">)</span>
+<span class="op">}</span>, step_name <span class="op">=</span> <span class="st">"align_stats"</span>, dependency <span class="op">=</span> <span class="st">"bowtie2_mapping"</span><span class="op">)</span></code></pre></div>
 <p>The following shows the first four lines of the sample alignment stats file provided by the systemPipeR package.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"alignStats_bowtie.xls"</span>, package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span><span class="va">table</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co">## system</span></code></pre></div>
-<pre><code>##           FileName Nreads2x  Nalign Perc_Aligned Nalign_Primary
-## 1       wildtype_A  6142346 1681395     27.37382         954774
-## 2       wildtype_B  3526512  965633     27.38210         529667
-## 3       wildtype_C  5222902 1311727     25.11491         709049
-## 4 DCL1_knockdown_A 12323640 2107219     17.09900         681740
-## 5 DCL1_knockdown_B  9178448 2069296     22.54516         640212
-## 6 DCL1_knockdown_C 11274540 2483568     22.02811         743771
-##   Perc_Aligned_Primary
-## 1            15.544126
-## 2            15.019572
-## 3            13.575767
-## 4             5.531969
-## 5             6.975166
-## 6             6.596908</code></pre>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"alignStats_bowtie.xls"</span>, package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="va">table</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co">## system</span></code></pre></div>
+<pre><code><span class="co">##           FileName Nreads2x  Nalign Perc_Aligned Nalign_Primary</span>
+<span class="co">## 1       wildtype_A  6142346 1681395     27.37382         954774</span>
+<span class="co">## 2       wildtype_B  3526512  965633     27.38210         529667</span>
+<span class="co">## 3       wildtype_C  5222902 1311727     25.11491         709049</span>
+<span class="co">## 4 DCL1_knockdown_A 12323640 2107219     17.09900         681740</span>
+<span class="co">## 5 DCL1_knockdown_B  9178448 2069296     22.54516         640212</span>
+<span class="co">## 6 DCL1_knockdown_C 11274540 2483568     22.02811         743771</span>
+<span class="co">##   Perc_Aligned_Primary</span>
+<span class="co">## 1            15.544126</span>
+<span class="co">## 2            15.019572</span>
+<span class="co">## 3            13.575767</span>
+<span class="co">## 4             5.531969</span>
+<span class="co">## 5             6.975166</span>
+<span class="co">## 6             6.596908</span></code></pre>
 </div>
 </div>
-<div id="alignment-with-bwa" class="section level2">
-<h2 class="hasAnchor">
-<a href="#alignment-with-bwa" class="anchor"></a>Alignment with <em><code>BWA</code></em>
+<div class="section level2">
+<h2 id="alignment-with-bwa">Alignment with <em><code>BWA</code></em><a class="anchor" aria-label="anchor" href="#alignment-with-bwa"></a>
 </h2>
-<p>The following example runs <code>bwa-aln</code> <span class="citation">(Li and Durbin 2009)</span> as a single process without submitting it to a cluster. Please check the full documentation <a href="http://bio-bwa.sourceforge.net/bwa.shtml">here</a>.</p>
+<p>The following example runs <code>bwa-aln</code> <span class="citation">(Li and Durbin 2009)</span> as a single process without submitting it to a cluster. Please check the full documentation <a href="http://bio-bwa.sourceforge.net/bwa.shtml" class="external-link">here</a>.</p>
 <p>Build the index:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/bwa/bwa-idx"</span>, package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>
-<span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="cn">NULL</span>, wf_file <span class="op">=</span> <span class="st">"bwa-index.cwl"</span>, 
-    input_file <span class="op">=</span> <span class="st">"bwa-index.yml"</span>, dir_path <span class="op">=</span> <span class="va">dir_path</span><span class="op">)</span>
-<span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/renderWF.html">renderWF</a></span><span class="op">(</span><span class="va">idx</span><span class="op">)</span>
-<span class="va">idx</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">cmdlist</a></span><span class="op">(</span><span class="va">idx</span><span class="op">)</span>  <span class="co"># Indexes reference genome</span>
-
-<span class="co">## Run</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html">runCommandline</a></span><span class="op">(</span><span class="va">idx</span>, make_bam <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">SYSargsList</a></span><span class="op">(</span>step_name <span class="op">=</span> <span class="st">"bwa_index"</span>, targets <span class="op">=</span> <span class="cn">NULL</span>,
+    dir <span class="op">=</span> <span class="cn">FALSE</span>, wf_file <span class="op">=</span> <span class="st">"bwa/bwa-index.cwl"</span>, input_file <span class="op">=</span> <span class="st">"bwa/bwa-index.yml"</span>,
+    dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl"</span>, package <span class="op">=</span> <span class="st">"systemPipeR"</span><span class="op">)</span>,
+    inputvars <span class="op">=</span> <span class="cn">NULL</span>, dependency <span class="op">=</span> <span class="st">"cutadapt"</span>, run_step <span class="op">=</span> <span class="st">"optional"</span><span class="op">)</span></code></pre></div>
 <p>Please note that each experiment may require an optimization of the aligners parameters used. Here is an example allowing one mismatch across the entire read including the seed region. BWA was recommended for small RNA-seq data to recover miRNA abundance profiles <span class="citation">(Tam, Tsao, and McPherson 2015)</span>.</p>
 <p>Running the alignment:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">targetspath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"targets_cutadapt.txt"</span>, 
-    package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
-<span class="va">dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl/workflow-bwa-aln"</span>, package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
-<span class="va">bwa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"workflow_bwa-aln-se.cwl"</span>, 
-    input_file <span class="op">=</span> <span class="st">"workflow_bwa-aln-se.yml"</span>, dir_path <span class="op">=</span> <span class="va">dir_path</span><span class="op">)</span>
-<span class="va">bwa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/renderWF.html">renderWF</a></span><span class="op">(</span><span class="va">bwa</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>FileTrim <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, 
-    SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">bwa</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">cmdlist</a></span><span class="op">(</span><span class="va">bwa</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">output</a></span><span class="op">(</span><span class="va">bwa</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-
-<span class="co">## Single Machine</span>
-<span class="va">bwa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html">runCommandline</a></span><span class="op">(</span>args <span class="op">=</span> <span class="va">bwa</span>, make_bam <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="co">## Cluster</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mllg/batchtools">batchtools</a></span><span class="op">)</span>
-<span class="va">resources</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>walltime <span class="op">=</span> <span class="fl">120</span>, ntasks <span class="op">=</span> <span class="fl">1</span>, ncpus <span class="op">=</span> <span class="fl">4</span>, memory <span class="op">=</span> <span class="fl">1024</span><span class="op">)</span>
-<span class="va">reg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/clusterRun.html">clusterRun</a></span><span class="op">(</span><span class="va">bwa</span>, FUN <span class="op">=</span> <span class="va">runCommandline</span>, more.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>args <span class="op">=</span> <span class="va">bwa</span>, 
-    dir <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, conffile <span class="op">=</span> <span class="st">".batchtools.conf.R"</span>, template <span class="op">=</span> <span class="st">"batchtools.slurm.tmpl"</span>, 
-    Njobs <span class="op">=</span> <span class="fl">6</span>, runid <span class="op">=</span> <span class="st">"01"</span>, resourceList <span class="op">=</span> <span class="va">resources</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/batchtools/man/getStatus.html">getStatus</a></span><span class="op">(</span>reg <span class="op">=</span> <span class="va">reg</span><span class="op">)</span></code></pre></div>
-<p>Create new targets file.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">clt</a></span><span class="op">(</span><span class="va">bwa</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/writeTargetsout.html">writeTargetsout</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">bwa</span>, file <span class="op">=</span> <span class="st">"default"</span>, step <span class="op">=</span> <span class="fl">1</span>, new_col <span class="op">=</span> <span class="st">"bwa"</span>, 
-    new_col_output_index <span class="op">=</span> <span class="fl">1</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">SYSargsList</a></span><span class="op">(</span>step_name <span class="op">=</span> <span class="st">"bwa_mapping"</span>, targets <span class="op">=</span> <span class="st">"cutadapt"</span>,
+    dir <span class="op">=</span> <span class="cn">TRUE</span>, wf_file <span class="op">=</span> <span class="st">"workflow-bwa-aln/workflow_bwa-aln-se.cwl"</span>,
+    input_file <span class="op">=</span> <span class="st">"workflow-bwa-aln/workflow_bwa-aln-se.yml"</span>,
+    dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl"</span>, package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>,
+    inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>outfile <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span>,
+    dependency <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bwa_index"</span><span class="op">)</span>, run_session <span class="op">=</span> <span class="st">"local"</span>, run_step <span class="op">=</span> <span class="st">"optional"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="read-counting-for-mirna-profiling-experiments" class="section level2">
-<h2 class="hasAnchor">
-<a href="#read-counting-for-mirna-profiling-experiments" class="anchor"></a>Read counting for miRNA profiling experiments</h2>
+<div class="section level2">
+<h2 id="read-counting-for-mirna-profiling-experiments">Read counting for miRNA profiling experiments<a class="anchor" aria-label="anchor" href="#read-counting-for-mirna-profiling-experiments"></a>
+</h2>
 <p>Download miRNA genes from miRBase.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rtracklayer</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="st">"wget ftp://mirbase.org/pub/mirbase/CURRENT/genomes/ath.gff3 -P ./data/"</span><span class="op">)</span>
-<span class="va">gff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rtracklayer/man/GFFFile-class.html">import.gff</a></span><span class="op">(</span><span class="st">"./data/ath.gff3"</span><span class="op">)</span>
-<span class="fu">seqlevels</span><span class="op">(</span><span class="va">gff</span><span class="op">)</span>
-<span class="co"># system('grep '&gt;' data/tair10.fasta') seqlevels(gff) &lt;-</span>
-<span class="co"># c('Chr1', 'Chr2', 'Chr3', 'Chr4', 'Chr5') seqlevels(gff)</span>
-<span class="va">gff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">gff</span>, <span class="fu">elementMetadata</span><span class="op">(</span><span class="va">gff</span><span class="op">)</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span>
-<span class="va">bams</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/subsetWF.html">subsetWF</a></span><span class="op">(</span><span class="va">bowtie</span>, slot <span class="op">=</span> <span class="st">"output"</span>, subset <span class="op">=</span> <span class="fl">1</span>, index <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="co"># bams &lt;- subsetWF(bwa, slot = 'output', subset = 2, index =</span>
-<span class="co"># 1)</span>
-<span class="va">bfl</span> <span class="op">&lt;-</span> <span class="fu">BamFileList</span><span class="op">(</span><span class="va">bams</span>, yieldSize <span class="op">=</span> <span class="fl">50000</span>, index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">character</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="va">countDFmiR</span> <span class="op">&lt;-</span> <span class="fu">summarizeOverlaps</span><span class="op">(</span><span class="va">gff</span>, <span class="va">bfl</span>, mode <span class="op">=</span> <span class="st">"Union"</span>, ignore.strand <span class="op">=</span> <span class="cn">FALSE</span>, 
-    inter.feature <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>  <span class="co"># Note: inter.feature=FALSE important since pre and mature miRNA ranges overlap</span>
-<span class="va">rpkmDFmiR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="fu">assays</span><span class="op">(</span><span class="va">countDFmiR</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span>, <span class="fl">2</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/returnRPKM.html">returnRPKM</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="va">x</span>, 
-    ranges <span class="op">=</span> <span class="va">gff</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.table</a></span><span class="op">(</span><span class="fu">assays</span><span class="op">(</span><span class="va">countDFmiR</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span>, <span class="st">"results/countDFmiR.xls"</span>, 
-    col.names <span class="op">=</span> <span class="cn">NA</span>, quote <span class="op">=</span> <span class="cn">FALSE</span>, sep <span class="op">=</span> <span class="st">"\t"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.table</a></span><span class="op">(</span><span class="va">rpkmDFmiR</span>, <span class="st">"results/rpkmDFmiR.xls"</span>, col.names <span class="op">=</span> <span class="cn">NA</span>, 
-    quote <span class="op">=</span> <span class="cn">FALSE</span>, sep <span class="op">=</span> <span class="st">"\t"</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">countDFmiR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"countDFmiR.xls"</span>, 
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/LineWise-class.html" class="external-link">LineWise</a></span><span class="op">(</span><span class="op">{</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">rtracklayer</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/system.html" class="external-link">system</a></span><span class="op">(</span><span class="st">"wget ftp://mirbase.org/pub/mirbase/CURRENT/genomes/ath.gff3 -P ./data/"</span><span class="op">)</span>
+    <span class="va">gff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rtracklayer/man/GFFFile-class.html" class="external-link">import.gff</a></span><span class="op">(</span><span class="st">"./data/ath.gff3"</span><span class="op">)</span>
+    <span class="fu">seqlevels</span><span class="op">(</span><span class="va">gff</span><span class="op">)</span>
+    <span class="co"># system('grep '&gt;' data/tair10.fasta') seqlevels(gff)</span>
+    <span class="co"># &lt;- c('Chr1', 'Chr2', 'Chr3', 'Chr4', 'Chr5')</span>
+    <span class="co"># seqlevels(gff)</span>
+    <span class="va">gff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">gff</span>, <span class="fu">elementMetadata</span><span class="op">(</span><span class="va">gff</span><span class="op">)</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span>
+    <span class="va">bams</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">getColumn</a></span><span class="op">(</span><span class="va">sal</span>, step <span class="op">=</span> <span class="st">"bowtie2_mapping"</span>, <span class="st">"outfiles"</span><span class="op">)</span>
+    <span class="va">bfl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Rsamtools/man/BamFile-class.html" class="external-link">BamFileList</a></span><span class="op">(</span><span class="va">bams</span>, yieldSize <span class="op">=</span> <span class="fl">50000</span>, index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+    <span class="va">countDFmiR</span> <span class="op">&lt;-</span> <span class="fu">summarizeOverlaps</span><span class="op">(</span><span class="va">gff</span>, <span class="va">bfl</span>, mode <span class="op">=</span> <span class="st">"Union"</span>,
+        ignore.strand <span class="op">=</span> <span class="cn">FALSE</span>, inter.feature <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>  <span class="co"># Note:                             inter.feature=FALSE important since pre and mature miRNA ranges overlap</span>
+    <span class="va">rpkmDFmiR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fu">assays</span><span class="op">(</span><span class="va">countDFmiR</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span>, <span class="fl">2</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/returnRPKM.html" class="external-link">returnRPKM</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="va">x</span>,
+        ranges <span class="op">=</span> <span class="va">gff</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.table</a></span><span class="op">(</span><span class="fu">assays</span><span class="op">(</span><span class="va">countDFmiR</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span>, <span class="st">"results/countDFmiR.xls"</span>,
+        col.names <span class="op">=</span> <span class="cn">NA</span>, quote <span class="op">=</span> <span class="cn">FALSE</span>, sep <span class="op">=</span> <span class="st">"\t"</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.table</a></span><span class="op">(</span><span class="va">rpkmDFmiR</span>, <span class="st">"results/rpkmDFmiR.xls"</span>, col.names <span class="op">=</span> <span class="cn">NA</span>,
+        quote <span class="op">=</span> <span class="cn">FALSE</span>, sep <span class="op">=</span> <span class="st">"\t"</span><span class="op">)</span>
+<span class="op">}</span>, step_name <span class="op">=</span> <span class="st">"read_counting_mirna"</span>, dependency <span class="op">=</span> <span class="st">"bowtie2_mapping"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">countDFmiR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"countDFmiR.xls"</span>,
     package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">countDFmiR</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></code></pre></div>
-<pre><code>##           wildtype_A wildtype_B wildtype_C DCL1_knockdown_A
-## MI0000178        140         84        183              189
-## MI0000179        308        175        241              293
-## MI0000180        226        134        239              322
-## MI0000181        541        332        592              487</code></pre>
+<pre><code><span class="co">##           wildtype_A wildtype_B wildtype_C DCL1_knockdown_A</span>
+<span class="co">## MI0000178        140         84        183              189</span>
+<span class="co">## MI0000179        308        175        241              293</span>
+<span class="co">## MI0000180        226        134        239              322</span>
+<span class="co">## MI0000181        541        332        592              487</span></code></pre>
 </div>
 </div>
-<div id="alignment-against-mirbase-mature-mirna-and-hairpin" class="section level1">
-<h1 class="hasAnchor">
-<a href="#alignment-against-mirbase-mature-mirna-and-hairpin" class="anchor"></a>Alignment against miRBase mature miRNA and hairpin</h1>
-<p><code>sRNAbench</code> <span class="citation">(Aparicio-Puerta et al. 2019)</span> allows the expression profiling and prediction of novel microRNAs in deep sequencing experiments. Please find more details about this software <a href="https://arn.ugr.es/srnatoolbox/static/sRNAtoolbox_manual.pdf">here</a>.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bowtie-build</span> data/tair10.fasta data/tair10</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> data/<span class="pp">*</span>ebwt ~/sRNAtoolboxDB/index/</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 777 index/<span class="pp">*</span>ebwt</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="ex">java</span> <span class="at">-jar</span> makeSeqObj.jar data/tair10.fasta</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> data/tair10.zip ~/sRNAtoolboxDB/seqOBJ/</span></code></pre></div>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## 1 Preprocessing</span>
-<span class="va">targetspath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"targets_cutadapt.txt"</span>, 
-    package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
-<span class="va">pre</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"sRNAbench_pre.cwl"</span>, 
-    input_file <span class="op">=</span> <span class="st">"sRNAbench.yml"</span>, dir_path <span class="op">=</span> <span class="st">"param/cwl/sRNAbench/"</span><span class="op">)</span>
-<span class="va">pre</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/renderWF.html">renderWF</a></span><span class="op">(</span><span class="va">pre</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>FileTrim <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, 
-    SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">pre</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">cmdlist</a></span><span class="op">(</span><span class="va">pre</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">output</a></span><span class="op">(</span><span class="va">pre</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-
-<span class="co"># microRNA profiling (Library mapping mode)</span>
-<span class="va">pro</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"sRNAbench_profiling.cwl"</span>, 
-    input_file <span class="op">=</span> <span class="st">"sRNAbench.yml"</span>, dir_path <span class="op">=</span> <span class="st">"param/cwl/sRNAbench/"</span><span class="op">)</span>
-<span class="va">pro</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/renderWF.html">renderWF</a></span><span class="op">(</span><span class="va">pro</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>FileTrim <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, 
-    SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">pro</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">cmdlist</a></span><span class="op">(</span><span class="va">pro</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">output</a></span><span class="op">(</span><span class="va">pro</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-
-<span class="co">## Genome mapping mode</span>
-<span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"sRNAbench_mapping.cwl"</span>, 
-    input_file <span class="op">=</span> <span class="st">"sRNAbench.yml"</span>, dir_path <span class="op">=</span> <span class="st">"param/cwl/sRNAbench/"</span><span class="op">)</span>
-<span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/renderWF.html">renderWF</a></span><span class="op">(</span><span class="va">map</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>FileTrim <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, 
-    SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">map</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">cmdlist</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">output</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html">runCommandline</a></span><span class="op">(</span>args <span class="op">=</span> <span class="va">map</span>, make_bam <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-</div>
-<div id="prediction-of-novel-micrornas" class="section level1">
-<h1 class="hasAnchor">
-<a href="#prediction-of-novel-micrornas" class="anchor"></a>Prediction of novel microRNAs</h1>
-<div id="prediction-srnabench" class="section level2">
-<h2 class="hasAnchor">
-<a href="#prediction-srnabench" class="anchor"></a>Prediction <code>sRNAbench</code>
-</h2>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## Genome mapping mode</span>
-<span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"sRNAbench_predic.cwl"</span>, 
-    input_file <span class="op">=</span> <span class="st">"sRNAbench.yml"</span>, dir_path <span class="op">=</span> <span class="st">"param/cwl/sRNAbench/"</span><span class="op">)</span>
-<span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/renderWF.html">renderWF</a></span><span class="op">(</span><span class="va">map</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>FileTrim <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, 
-    SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">map</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">cmdlist</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">output</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html">runCommandline</a></span><span class="op">(</span>args <span class="op">=</span> <span class="va">map</span>, make_bam <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-</div>
-</div>
-<div id="deg-analysis-with-deseq2" class="section level1">
-<h1 class="hasAnchor">
-<a href="#deg-analysis-with-deseq2" class="anchor"></a>DEG analysis with <em><code>DESeq2</code></em>
+<div class="section level1">
+<h1 id="alignment-against-mirbase-mature-mirna-and-hairpin">Alignment against miRBase mature miRNA and hairpin<a class="anchor" aria-label="anchor" href="#alignment-against-mirbase-mature-mirna-and-hairpin"></a>
 </h1>
-<p>The following <em><code>run_DESeq2</code></em> function is a convenience wrapper for identifying DEGs in batch mode with <em><code>DESeq2</code></em> (Love, Huber, and Anders 2014) for any number of pairwise sample comparisons specified under the <em><code>cmp</code></em> argument. Users are strongly encouraged to consult the <a href="http://www.bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.pdf"><em><code>DESeq2</code></em></a> vignette for more detailed information on this topic and how to properly run <em><code>DESeq2</code></em> on data sets with more complex experimental designs.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">targets</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.delim</a></span><span class="op">(</span><span class="va">targetspath</span>, comment <span class="op">=</span> <span class="st">"#"</span><span class="op">)</span>
-<span class="va">cmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/readComp.html">readComp</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">targetspath</span>, format <span class="op">=</span> <span class="st">"matrix"</span>, delim <span class="op">=</span> <span class="st">"-"</span><span class="op">)</span>
-<span class="va">cmp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code>##      [,1]             [,2]      
-## [1,] "DCL1_knockdown" "wildtype"</code></pre>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">degseqDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/run_DESeq2.html">run_DESeq2</a></span><span class="op">(</span>countDF <span class="op">=</span> <span class="va">countDFmiR</span>, targets <span class="op">=</span> <span class="va">targets</span>, 
-    cmp <span class="op">=</span> <span class="va">cmp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, independent <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p>Filter and plot DEG results for up and down-regulated genes.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">DEG_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/filterDEGs.html">filterDEGs</a></span><span class="op">(</span>degDF <span class="op">=</span> <span class="va">degseqDF</span>, filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Fold <span class="op">=</span> <span class="fl">0.5</span>, 
-    FDR <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-</div>
-<div id="isomir-mapping-and-annotation" class="section level1">
-<h1 class="hasAnchor">
-<a href="#isomir-mapping-and-annotation" class="anchor"></a>isomiR mapping and annotation</h1>
-<p>isomiRs are miRNA sequences that have variations with respect to the reference sequence.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<p><code>sRNAbench</code> <span class="citation">(Aparicio-Puerta et al. 2019)</span> allows the expression profiling and prediction of novel microRNAs in deep sequencing experiments. Please find more details about this software <a href="https://arn.ugr.es/srnatoolbox/static/sRNAtoolbox_manual.pdf" class="external-link">here</a>.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bowtie-build</span> data/tair10.fasta data/tair10</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> data/<span class="pp">*</span>ebwt ~/sRNAtoolboxDB/index/</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 777 index/<span class="pp">*</span>ebwt</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="ex">java</span> <span class="at">-jar</span> makeSeqObj.jar data/tair10.fasta</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> data/tair10.zip ~/sRNAtoolboxDB/seqOBJ/</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">SYSargsList</a></span><span class="op">(</span>step_name <span class="op">=</span> <span class="st">"sRNAbench_pre"</span>, targets <span class="op">=</span> <span class="st">"cutadapt"</span>,
+    dir <span class="op">=</span> <span class="cn">TRUE</span>, wf_file <span class="op">=</span> <span class="st">"sRNAbench/sRNAbench_pre.cwl"</span>, input_file <span class="op">=</span> <span class="st">"sRNAbench/sRNAbench.yml"</span>,
+    dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl"</span>, package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>,
+    inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>outfile <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span>,
+    dependency <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cutadapt"</span><span class="op">)</span>, run_session <span class="op">=</span> <span class="st">"local"</span>, run_step <span class="op">=</span> <span class="st">"mandatory"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># microRNA profiling (Library mapping mode)</span>
+<span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">SYSargsList</a></span><span class="op">(</span>step_name <span class="op">=</span> <span class="st">"sRNAbench_profiling"</span>,
+    targets <span class="op">=</span> <span class="st">"cutadapt"</span>, dir <span class="op">=</span> <span class="cn">TRUE</span>, wf_file <span class="op">=</span> <span class="st">"sRNAbench/sRNAbench_profiling.cwl"</span>,
+    input_file <span class="op">=</span> <span class="st">"sRNAbench/sRNAbench.yml"</span>, dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl"</span>,
+        package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>outfile <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>,
+        SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span>, dependency <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sRNAbench_pre"</span><span class="op">)</span>,
+    run_session <span class="op">=</span> <span class="st">"local"</span>, run_step <span class="op">=</span> <span class="st">"mandatory"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Genome mapping mode</span>
-<span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"sRNAbench_isomiR.cwl"</span>, 
+<span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">SYSargsList</a></span><span class="op">(</span>step_name <span class="op">=</span> <span class="st">"sRNAbench_mapping"</span>,
+    targets <span class="op">=</span> <span class="st">"cutadapt"</span>, dir <span class="op">=</span> <span class="cn">TRUE</span>, wf_file <span class="op">=</span> <span class="st">"sRNAbench/sRNAbench_mapping.cwl"</span>,
+    input_file <span class="op">=</span> <span class="st">"sRNAbench/sRNAbench.yml"</span>, dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl"</span>,
+        package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>outfile <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>,
+        SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span>, dependency <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sRNAbench_profiling"</span><span class="op">)</span>,
+    run_session <span class="op">=</span> <span class="st">"local"</span>, run_step <span class="op">=</span> <span class="st">"mandatory"</span><span class="op">)</span></code></pre></div>
+</div>
+<div class="section level1">
+<h1 id="prediction-of-novel-micrornas">Prediction of novel microRNAs<a class="anchor" aria-label="anchor" href="#prediction-of-novel-micrornas"></a>
+</h1>
+<div class="section level2">
+<h2 id="prediction-srnabench">Prediction <code>sRNAbench</code><a class="anchor" aria-label="anchor" href="#prediction-srnabench"></a>
+</h2>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">SYSargsList</a></span><span class="op">(</span>step_name <span class="op">=</span> <span class="st">"sRNAbench_predic"</span>,
+    targets <span class="op">=</span> <span class="st">"cutadapt"</span>, dir <span class="op">=</span> <span class="cn">TRUE</span>, wf_file <span class="op">=</span> <span class="st">"sRNAbench/sRNAbench_predic.cwl"</span>,
+    input_file <span class="op">=</span> <span class="st">"sRNAbench/sRNAbench.yml"</span>, dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/cwl"</span>,
+        package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>outfile <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>,
+        SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span>, dependency <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sRNAbench_mapping"</span><span class="op">)</span>,
+    run_session <span class="op">=</span> <span class="st">"local"</span>, run_step <span class="op">=</span> <span class="st">"mandatory"</span><span class="op">)</span></code></pre></div>
+</div>
+</div>
+<div class="section level1">
+<h1 id="deg-analysis-with-deseq2">DEG analysis with <em><code>DESeq2</code></em><a class="anchor" aria-label="anchor" href="#deg-analysis-with-deseq2"></a>
+</h1>
+<p>The following <em><code>run_DESeq2</code></em> function is a convenience wrapper for identifying DEGs in batch mode with <em><code>DESeq2</code></em> (Love, Huber, and Anders 2014) for any number of pairwise sample comparisons specified under the <em><code>cmp</code></em> argument. Users are strongly encouraged to consult the <a href="http://www.bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.pdf" class="external-link"><em><code>DESeq2</code></em></a> vignette for more detailed information on this topic and how to properly run <em><code>DESeq2</code></em> on data sets with more complex experimental designs.</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">appendStep</span><span class="op">(</span><span class="va">sal</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/LineWise-class.html" class="external-link">LineWise</a></span><span class="op">(</span><span class="op">{</span>
+    <span class="va">targetspath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"targets_mirnaseq.txt"</span>,
+        package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>
+    <span class="va">targets</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.delim</a></span><span class="op">(</span><span class="va">targetspath</span>, comment <span class="op">=</span> <span class="st">"#"</span><span class="op">)</span>
+    <span class="va">cmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/readComp.html" class="external-link">readComp</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">targetspath</span>, format <span class="op">=</span> <span class="st">"matrix"</span>, delim <span class="op">=</span> <span class="st">"-"</span><span class="op">)</span>
+    <span class="va">countDFmiR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"countDFmiR.xls"</span>,
+        package <span class="op">=</span> <span class="st">"SPmirnaseq"</span><span class="op">)</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+    <span class="va">degseqDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/run_DESeq2.html" class="external-link">run_DESeq2</a></span><span class="op">(</span>countDF <span class="op">=</span> <span class="va">countDFmiR</span>, targets <span class="op">=</span> <span class="va">targets</span>,
+        cmp <span class="op">=</span> <span class="va">cmp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, independent <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+    <span class="va">DEG_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/filterDEGs.html" class="external-link">filterDEGs</a></span><span class="op">(</span>degDF <span class="op">=</span> <span class="va">degseqDF</span>, filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Fold <span class="op">=</span> <span class="fl">2</span>,
+        FDR <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span>, step_name <span class="op">=</span> <span class="st">"deseq2"</span>, dependency <span class="op">=</span> <span class="st">"bowtie2_mapping"</span><span class="op">)</span></code></pre></div>
+</div>
+<div class="section level1">
+<h1 id="isomir-mapping-and-annotation">isomiR mapping and annotation<a class="anchor" aria-label="anchor" href="#isomir-mapping-and-annotation"></a>
+</h1>
+<p>isomiRs are miRNA sequences that have variations with respect to the reference sequence.</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Genome mapping mode</span>
+<span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html" class="external-link">loadWorkflow</a></span><span class="op">(</span>targets <span class="op">=</span> <span class="va">targetspath</span>, wf_file <span class="op">=</span> <span class="st">"sRNAbench_isomiR.cwl"</span>,
     input_file <span class="op">=</span> <span class="st">"sRNAbench.yml"</span>, dir_path <span class="op">=</span> <span class="st">"param/cwl/sRNAbench/"</span><span class="op">)</span>
-<span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/renderWF.html">renderWF</a></span><span class="op">(</span><span class="va">map</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>FileTrim <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>, 
+<span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/loadWorkflow.html" class="external-link">renderWF</a></span><span class="op">(</span><span class="va">map</span>, inputvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>FileTrim <span class="op">=</span> <span class="st">"_FASTQ_PATH1_"</span>,
     SampleName <span class="op">=</span> <span class="st">"_SampleName_"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">map</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">cmdlist</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/sysargs2-methods.html">output</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html">runCommandline</a></span><span class="op">(</span>args <span class="op">=</span> <span class="va">map</span>, make_bam <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div id="todo-isomirs-package-is-designed-to-analyze-the-output-of-seqbuster-tool-or-any-other-tool-after-converting-to-the-desire-format-" class="section level2">
-<h2 class="hasAnchor">
-<a href="#todo-isomirs-package-is-designed-to-analyze-the-output-of-seqbuster-tool-or-any-other-tool-after-converting-to-the-desire-format-" class="anchor"></a>TODO: isomiRs package is designed to analyze the output of SeqBuster tool or any other tool after converting to the desire format.</h2>
+<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargsList-class.html" class="external-link">cmdlist</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
+<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/SYSargs2-class.html" class="external-link">output</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
+<span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/runCommandline.html" class="external-link">runCommandline</a></span><span class="op">(</span>args <span class="op">=</span> <span class="va">map</span>, make_bam <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div class="section level2">
+<h2 id="todo-isomirs-package-is-designed-to-analyze-the-output-of-seqbuster-tool-or-any-other-tool-after-converting-to-the-desire-format-">TODO: isomiRs package is designed to analyze the output of SeqBuster tool or any other tool after converting to the desire format.<a class="anchor" aria-label="anchor" href="#todo-isomirs-package-is-designed-to-analyze-the-output-of-seqbuster-tool-or-any-other-tool-after-converting-to-the-desire-format-"></a>
+</h2>
 </div>
 </div>
-<div id="visualization" class="section level1">
-<h1 class="hasAnchor">
-<a href="#visualization" class="anchor"></a>Visualization</h1>
-<p>We can visualize the transformation effect, here <code><a href="https://rdrr.io/r/base/Log.html">log(x+1)</a></code>, variance stabilizing transformation (<code>vst</code>) <span class="citation">(Anders and Huber 2010)</span>, and regularized-logarithm transformation or <code>rlog</code> <span class="citation">(Love, Huber, and Anders 2014)</span>, comparing a grid of all samples, as follows:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">systemPipeTools</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/exploreDDSplot.html">exploreDDSplot</a></span><span class="op">(</span><span class="va">countDFmiR</span>, <span class="va">targets</span>, cmp <span class="op">=</span> <span class="va">cmp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, preFilter <span class="op">=</span> <span class="cn">NULL</span>, 
-    samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, scattermatrix <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div id="samples-analysis" class="section level2">
-<h2 class="hasAnchor">
-<a href="#samples-analysis" class="anchor"></a>Samples analysis</h2>
-<div id="hierarchical-clustering-dendrogram" class="section level3">
-<h3 class="hasAnchor">
-<a href="#hierarchical-clustering-dendrogram" class="anchor"></a>Hierarchical Clustering Dendrogram</h3>
-<p>The following computes the sample-wise correlation coefficients using the <code><a href="https://rdrr.io/r/stats/cor.html">stats::cor()</a></code> function from the transformed expression values. After transformation to a distance matrix, hierarchical clustering is performed with the <code><a href="https://rdrr.io/r/stats/hclust.html">stats::hclust</a></code> function and the result is plotted as a dendrogram, as follows:</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">exploredds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/exploreDDS.html">exploreDDS</a></span><span class="op">(</span><span class="va">countDFmiR</span>, <span class="va">targets</span>, cmp <span class="op">=</span> <span class="va">cmp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, 
+<div class="section level1">
+<h1 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
+</h1>
+<p>We can visualize the transformation effect, here <code>log(x+1)</code>, variance stabilizing transformation (<code>vst</code>) <span class="citation">(Anders and Huber 2010)</span>, and regularized-logarithm transformation or <code>rlog</code> <span class="citation">(Love, Huber, and Anders 2014)</span>, comparing a grid of all samples, as follows:</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">systemPipeTools</span><span class="op">)</span>
+<span class="fu">exploreDDSplot</span><span class="op">(</span><span class="va">countDFmiR</span>, <span class="va">targets</span>, cmp <span class="op">=</span> <span class="va">cmp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, preFilter <span class="op">=</span> <span class="cn">NULL</span>,
+    samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, scattermatrix <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div class="section level2">
+<h2 id="samples-analysis">Samples analysis<a class="anchor" aria-label="anchor" href="#samples-analysis"></a>
+</h2>
+<div class="section level3">
+<h3 id="hierarchical-clustering-dendrogram">Hierarchical Clustering Dendrogram<a class="anchor" aria-label="anchor" href="#hierarchical-clustering-dendrogram"></a>
+</h3>
+<p>The following computes the sample-wise correlation coefficients using the <code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">stats::cor()</a></code> function from the transformed expression values. After transformation to a distance matrix, hierarchical clustering is performed with the <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">stats::hclust</a></code> function and the result is plotted as a dendrogram, as follows:</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">exploredds</span> <span class="op">&lt;-</span> <span class="fu">exploreDDS</span><span class="op">(</span><span class="va">countDFmiR</span>, <span class="va">targets</span>, cmp <span class="op">=</span> <span class="va">cmp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,
     preFilter <span class="op">=</span> <span class="cn">NULL</span>, transformationMethod <span class="op">=</span> <span class="st">"rlog"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/hclustplot.html">hclustplot</a></span><span class="op">(</span><span class="va">exploredds</span>, method <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span></code></pre></div>
+<span class="fu">hclustplot</span><span class="op">(</span><span class="va">exploredds</span>, method <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="hierarchical-clustering-heatmap" class="section level3">
-<h3 class="hasAnchor">
-<a href="#hierarchical-clustering-heatmap" class="anchor"></a>Hierarchical Clustering HeatMap</h3>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="section level3">
+<h3 id="hierarchical-clustering-heatmap">Hierarchical Clustering HeatMap<a class="anchor" aria-label="anchor" href="#hierarchical-clustering-heatmap"></a>
+</h3>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Samples plot</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/heatMaplot.html">heatMaplot</a></span><span class="op">(</span><span class="va">exploredds</span>, clust <span class="op">=</span> <span class="st">"samples"</span><span class="op">)</span></code></pre></div>
+<span class="fu">heatMaplot</span><span class="op">(</span><span class="va">exploredds</span>, clust <span class="op">=</span> <span class="st">"samples"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="principal-component-analysis" class="section level3">
-<h3 class="hasAnchor">
-<a href="#principal-component-analysis" class="anchor"></a>Principal Component Analysis</h3>
+<div class="section level3">
+<h3 id="principal-component-analysis">Principal Component Analysis<a class="anchor" aria-label="anchor" href="#principal-component-analysis"></a>
+</h3>
 <p>This function plots a Principal Component Analysis (PCA) from transformed expression matrix. This plot shows samples variation based on the expression values and identifies batch effects.</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/PCAplot.html">PCAplot</a></span><span class="op">(</span><span class="va">exploredds</span>, plotly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">PCAplot</span><span class="op">(</span><span class="va">exploredds</span>, plotly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="deg-analysis-visualization" class="section level2">
-<h2 class="hasAnchor">
-<a href="#deg-analysis-visualization" class="anchor"></a>DEG Analysis Visualization</h2>
-<div id="ma-plot" class="section level3">
-<h3 class="hasAnchor">
-<a href="#ma-plot" class="anchor"></a>MA plot</h3>
+<div class="section level2">
+<h2 id="deg-analysis-visualization">DEG Analysis Visualization<a class="anchor" aria-label="anchor" href="#deg-analysis-visualization"></a>
+</h2>
+<div class="section level3">
+<h3 id="ma-plot">MA plot<a class="anchor" aria-label="anchor" href="#ma-plot"></a>
+</h3>
 <p>This function plots log2 fold changes (y-axis) versus the mean of normalized counts (on the x-axis). Statistically significant features are colored.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">DEG_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/filterDEGs.html">filterDEGs</a></span><span class="op">(</span>degDF <span class="op">=</span> <span class="va">degseqDF</span>, filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Fold <span class="op">=</span> <span class="fl">2</span>, 
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">DEG_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/systemPipeR/man/filterDEGs.html" class="external-link">filterDEGs</a></span><span class="op">(</span>degDF <span class="op">=</span> <span class="va">degseqDF</span>, filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Fold <span class="op">=</span> <span class="fl">2</span>,
     FDR <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/MAplot.html">MAplot</a></span><span class="op">(</span><span class="va">degseqDF</span>, FDR.cutoff <span class="op">=</span> <span class="fl">0.05</span>, comparison <span class="op">=</span> <span class="st">"DCL1_knockdown-wildtype"</span>, 
-    filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Fold <span class="op">=</span> <span class="fl">2</span>, FDR <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, genes <span class="op">=</span> <span class="st">"MI0000208"</span><span class="op">)</span></code></pre></div>
+<span class="fu">MAplot</span><span class="op">(</span><span class="va">degseqDF</span>, FDR.cutoff <span class="op">=</span> <span class="fl">0.05</span>, comparison <span class="op">=</span> <span class="st">"DCL1_knockdown-wildtype"</span>,
+    filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Fold <span class="op">=</span> <span class="fl">2</span>, FDR <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, genes <span class="op">=</span> <span class="st">"MI0000208"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="hierarchical-clustering-heatmap-1" class="section level3">
-<h3 class="hasAnchor">
-<a href="#hierarchical-clustering-heatmap-1" class="anchor"></a>Hierarchical Clustering HeatMap</h3>
+<div class="section level3">
+<h3 id="hierarchical-clustering-heatmap-1">Hierarchical Clustering HeatMap<a class="anchor" aria-label="anchor" href="#hierarchical-clustering-heatmap-1"></a>
+</h3>
 <p>If <code>ind</code> selected in the <code>clust</code> argument, it is necessary to provide the list of differentially expressed genes for the <code>exploredds</code> subset.</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/heatMaplot.html">heatMaplot</a></span><span class="op">(</span><span class="va">exploredds</span>, clust <span class="op">=</span> <span class="st">"ind"</span>, DEGlist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">DEG_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">heatMaplot</span><span class="op">(</span><span class="va">exploredds</span>, clust <span class="op">=</span> <span class="st">"ind"</span>, DEGlist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">DEG_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="volcano-plot" class="section level2">
-<h2 class="hasAnchor">
-<a href="#volcano-plot" class="anchor"></a>Volcano plot</h2>
+<div class="section level2">
+<h2 id="volcano-plot">Volcano plot<a class="anchor" aria-label="anchor" href="#volcano-plot"></a>
+</h2>
 <p>A simple function that shows statistical significance (<code>p-value</code>) versus magnitude of change (<code>log2 fold change</code>).</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/systemPipeTools/man/volcanoplot.html">volcanoplot</a></span><span class="op">(</span><span class="va">degseqDF</span>, comparison <span class="op">=</span> <span class="st">"DCL1_knockdown-wildtype"</span>, 
-    filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Fold <span class="op">=</span> <span class="fl">2</span>, FDR <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, genes <span class="op">=</span> <span class="st">"MI0000208"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">volcanoplot</span><span class="op">(</span><span class="va">degseqDF</span>, comparison <span class="op">=</span> <span class="st">"DCL1_knockdown-wildtype"</span>,
+    filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Fold <span class="op">=</span> <span class="fl">2</span>, FDR <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, genes <span class="op">=</span> <span class="st">"MI0000208"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="version-information" class="section level1">
-<h1 class="hasAnchor">
-<a href="#version-information" class="anchor"></a>Version Information</h1>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## R Under development (unstable) (2021-02-04 r79940)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 20.04.2 LTS
-## 
-## Matrix products: default
-## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.9.0
-## LAPACK: /home/dcassol/src/R-devel/lib/libRlapack.so
-## 
-## locale:
-##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
-##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
-##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
-## 
-## attached base packages:
-## [1] stats4    parallel  stats     graphics  grDevices utils     datasets 
-## [8] methods   base     
-## 
-## other attached packages:
-##  [1] batchtools_0.9.15           systemPipeR_1.25.13        
-##  [3] ShortRead_1.49.2            GenomicAlignments_1.27.2   
-##  [5] SummarizedExperiment_1.21.3 Biobase_2.51.0             
-##  [7] MatrixGenerics_1.3.1        matrixStats_0.58.0         
-##  [9] BiocParallel_1.25.5         Rsamtools_2.7.2            
-## [11] Biostrings_2.59.2           XVector_0.31.1             
-## [13] GenomicRanges_1.43.4        GenomeInfoDb_1.27.11       
-## [15] IRanges_2.25.10             S4Vectors_0.29.18          
-## [17] BiocGenerics_0.37.4         BiocStyle_2.19.2           
-## 
-## loaded via a namespace (and not attached):
-##   [1] colorspace_2.0-1         rjson_0.2.20             hwriter_1.3.2           
-##   [4] ellipsis_0.3.2           rprojroot_2.0.2          fs_1.5.0                
-##   [7] bit64_4.0.5              AnnotationDbi_1.53.1     fansi_0.4.2             
-##  [10] splines_4.1.0            codetools_0.2-18         cachem_1.0.4            
-##  [13] geneplotter_1.69.0       knitr_1.33               jsonlite_1.7.2          
-##  [16] annotate_1.69.2          GO.db_3.12.1             dbplyr_2.1.1            
-##  [19] png_0.1-7                BiocManager_1.30.12      compiler_4.1.0          
-##  [22] httr_1.4.2               backports_1.2.1          assertthat_0.2.1        
-##  [25] Matrix_1.3-3             fastmap_1.1.0            limma_3.47.13           
-##  [28] formatR_1.9              htmltools_0.5.1.1        prettyunits_1.1.1       
-##  [31] tools_4.1.0              gtable_0.3.0             glue_1.4.2              
-##  [34] GenomeInfoDbData_1.2.4   dplyr_1.0.5              rsvg_2.1.2              
-##  [37] rappdirs_0.3.3           V8_3.4.2                 Rcpp_1.0.6              
-##  [40] jquerylib_0.1.4          pkgdown_1.6.1            vctrs_0.3.8             
-##  [43] rtracklayer_1.51.5       xfun_0.22                stringr_1.4.0           
-##  [46] lifecycle_1.0.0          restfulr_0.0.13          XML_3.99-0.6            
-##  [49] edgeR_3.33.3             scales_1.1.1             zlibbioc_1.37.0         
-##  [52] BSgenome_1.59.4          VariantAnnotation_1.37.1 ragg_1.1.2              
-##  [55] hms_1.0.0                RColorBrewer_1.1-2       yaml_2.2.1              
-##  [58] curl_4.3.1               memoise_2.0.0            ggplot2_3.3.3           
-##  [61] sass_0.3.1               biomaRt_2.47.9           latticeExtra_0.6-29     
-##  [64] stringi_1.5.3            RSQLite_2.2.7            genefilter_1.73.1       
-##  [67] BiocIO_1.1.2             desc_1.3.0               checkmate_2.0.0         
-##  [70] GenomicFeatures_1.43.8   filelock_1.0.2           DOT_0.1                 
-##  [73] rlang_0.4.11             pkgconfig_2.0.3          systemfonts_1.0.1       
-##  [76] bitops_1.0-7             evaluate_0.14            lattice_0.20-44         
-##  [79] purrr_0.3.4              bit_4.0.4                tidyselect_1.1.1        
-##  [82] DESeq2_1.31.21           magrittr_2.0.1           bookdown_0.22           
-##  [85] R6_2.5.0                 generics_0.1.0           base64url_1.4           
-##  [88] DelayedArray_0.17.13     DBI_1.1.1                pillar_1.6.0            
-##  [91] withr_2.4.2              survival_3.2-11          KEGGREST_1.31.1         
-##  [94] RCurl_1.98-1.3           tibble_3.1.1             crayon_1.4.1            
-##  [97] utf8_1.2.1               BiocFileCache_1.99.7     rmarkdown_2.7.12        
-## [100] jpeg_0.1-8.1             progress_1.2.2           locfit_1.5-9.4          
-## [103] grid_4.1.0               data.table_1.14.0        blob_1.2.1              
-## [106] digest_0.6.27            xtable_1.8-4             brew_1.0-6              
-## [109] textshaping_0.3.3        munsell_0.5.0            bslib_0.2.4</code></pre>
+<div class="section level1">
+<h1 id="version-information">Version Information<a class="anchor" aria-label="anchor" href="#version-information"></a>
+</h1>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## R Under development (unstable) (2021-10-25 r81105)</span>
+<span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span>
+<span class="co">## Running under: Ubuntu 20.04.3 LTS</span>
+<span class="co">## </span>
+<span class="co">## Matrix products: default</span>
+<span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.9.0</span>
+<span class="co">## LAPACK: /home/dcassol/src/R-devel/lib/libRlapack.so</span>
+<span class="co">## </span>
+<span class="co">## locale:</span>
+<span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span>
+<span class="co">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span>
+<span class="co">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span>
+<span class="co">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span>
+<span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span>
+<span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span>
+<span class="co">## </span>
+<span class="co">## attached base packages:</span>
+<span class="co">## [1] stats4    stats     graphics  grDevices utils     datasets  methods  </span>
+<span class="co">## [8] base     </span>
+<span class="co">## </span>
+<span class="co">## other attached packages:</span>
+<span class="co">##  [1] batchtools_0.9.15           systemPipeR_2.1.9          </span>
+<span class="co">##  [3] ShortRead_1.53.1            GenomicAlignments_1.31.2   </span>
+<span class="co">##  [5] SummarizedExperiment_1.25.2 Biobase_2.55.0             </span>
+<span class="co">##  [7] MatrixGenerics_1.7.0        matrixStats_0.61.0         </span>
+<span class="co">##  [9] BiocParallel_1.29.4         Rsamtools_2.11.0           </span>
+<span class="co">## [11] Biostrings_2.63.0           XVector_0.35.0             </span>
+<span class="co">## [13] GenomicRanges_1.47.5        GenomeInfoDb_1.31.1        </span>
+<span class="co">## [15] IRanges_2.29.1              S4Vectors_0.33.5           </span>
+<span class="co">## [17] BiocGenerics_0.41.2         BiocStyle_2.23.0           </span>
+<span class="co">## </span>
+<span class="co">## loaded via a namespace (and not attached):</span>
+<span class="co">##  [1] bitops_1.0-7           fs_1.5.1               RColorBrewer_1.1-2    </span>
+<span class="co">##  [4] progress_1.2.2         rprojroot_2.0.2        tools_4.2.0           </span>
+<span class="co">##  [7] backports_1.4.0        bslib_0.3.1            utf8_1.2.2            </span>
+<span class="co">## [10] R6_2.5.1               DBI_1.1.1              colorspace_2.0-2      </span>
+<span class="co">## [13] withr_2.4.3            prettyunits_1.1.1      tidyselect_1.1.1      </span>
+<span class="co">## [16] compiler_4.2.0         textshaping_0.3.6      formatR_1.11          </span>
+<span class="co">## [19] desc_1.4.0             DelayedArray_0.21.2    bookdown_0.24         </span>
+<span class="co">## [22] sass_0.4.0             scales_1.1.1           checkmate_2.0.0       </span>
+<span class="co">## [25] rappdirs_0.3.3         pkgdown_2.0.1          systemfonts_1.0.3     </span>
+<span class="co">## [28] stringr_1.4.0          digest_0.6.29          rmarkdown_2.11        </span>
+<span class="co">## [31] jpeg_0.1-9             pkgconfig_2.0.3        htmltools_0.5.2       </span>
+<span class="co">## [34] fastmap_1.1.0          htmlwidgets_1.5.4      rlang_0.4.12          </span>
+<span class="co">## [37] jquerylib_0.1.4        generics_0.1.1         hwriter_1.3.2         </span>
+<span class="co">## [40] jsonlite_1.7.2         dplyr_1.0.7            RCurl_1.98-1.5        </span>
+<span class="co">## [43] magrittr_2.0.1         GenomeInfoDbData_1.2.7 Matrix_1.3-4          </span>
+<span class="co">## [46] munsell_0.5.0          fansi_0.5.0            lifecycle_1.0.1       </span>
+<span class="co">## [49] stringi_1.7.6          yaml_2.2.1             zlibbioc_1.41.0       </span>
+<span class="co">## [52] grid_4.2.0             parallel_4.2.0         crayon_1.4.2          </span>
+<span class="co">## [55] lattice_0.20-45        hms_1.1.1              knitr_1.36            </span>
+<span class="co">## [58] pillar_1.6.4           base64url_1.4          codetools_0.2-18      </span>
+<span class="co">## [61] glue_1.5.1             evaluate_0.14          latticeExtra_0.6-29   </span>
+<span class="co">## [64] data.table_1.14.2      BiocManager_1.30.16    png_0.1-7             </span>
+<span class="co">## [67] vctrs_0.3.8            gtable_0.3.0           purrr_0.3.4           </span>
+<span class="co">## [70] assertthat_0.2.1       cachem_1.0.6           ggplot2_3.3.5         </span>
+<span class="co">## [73] xfun_0.28              ragg_1.2.1             tibble_3.1.6          </span>
+<span class="co">## [76] memoise_2.0.1          ellipsis_0.3.2         brew_1.0-6</span></code></pre>
 </div>
-<div id="funding" class="section level1">
-<h1 class="hasAnchor">
-<a href="#funding" class="anchor"></a>Funding</h1>
+<div class="section level1">
+<h1 id="funding">Funding<a class="anchor" aria-label="anchor" href="#funding"></a>
+</h1>
 <p>This project was supported by funds from the National Institutes of Health (NIH) and the National Science Foundation (NSF).</p>
 </div>
-<div id="references" class="section level1 unnumbered">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h1>
+<div class="section level1 unnumbered">
+<h1 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h1>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Anders2010-tp" class="csl-entry">
 Anders, Simon, and Wolfgang Huber. 2010. <span>“Differential Expression Analysis for Sequence Count Data.”</span> <em>Genome Biol.</em> 11 (10): R106.
@@ -747,11 +647,14 @@ Aparicio-Puerta, Ernesto, Ricardo Lebrón, Antonio Rueda, Cristina Gómez-Martı
 <div id="ref-Bolger2014-yr" class="csl-entry">
 Bolger, Anthony M, Marc Lohse, and Bjoern Usadel. 2014. <span>“Trimmomatic: A Flexible Trimmer for Illumina Sequence Data.”</span> <em>Bioinformatics</em> 30 (15): 2114–20.
 </div>
+<div id="ref-H_Backman2016-bt" class="csl-entry">
+H Backman, Tyler W, and Thomas Girke. 2016. <span>“<span class="nocase">systemPipeR: NGS workflow and report generation environment</span>.”</span> <em>BMC Bioinformatics</em> 17 (1): 388. <a href="https://doi.org/10.1186/s12859-016-1241-0" class="external-link">https://doi.org/10.1186/s12859-016-1241-0</a>.
+</div>
 <div id="ref-Li2009-ys" class="csl-entry">
 Li, Heng, and Richard Durbin. 2009. <span>“Fast and Accurate Short Read Alignment with <span>Burrows-Wheeler</span> Transform.”</span> <em>Bioinformatics</em> 25 (14): 1754–60.
 </div>
 <div id="ref-Love2014-sh" class="csl-entry">
-Love, Michael, Wolfgang Huber, and Simon Anders. 2014. <span>“Moderated Estimation of Fold Change and Dispersion for <span class="nocase">RNA-seq</span> Data with <span>DESeq2</span>.”</span> <em>Genome Biol.</em> 15 (12): 550. <a href="https://doi.org/10.1186/s13059-014-0550-8">https://doi.org/10.1186/s13059-014-0550-8</a>.
+Love, Michael, Wolfgang Huber, and Simon Anders. 2014. <span>“Moderated Estimation of Fold Change and Dispersion for <span class="nocase">RNA-seq</span> Data with <span>DESeq2</span>.”</span> <em>Genome Biol.</em> 15 (12): 550. <a href="https://doi.org/10.1186/s13059-014-0550-8" class="external-link">https://doi.org/10.1186/s13059-014-0550-8</a>.
 </div>
 <div id="ref-Martin2011-bh" class="csl-entry">
 Martin, Marcel. 2011. <span>“Cutadapt Removes Adapter Sequences from High-Throughput Sequencing Reads.”</span> <em>EMBnet.journal</em> 17 (1): 10–12.
@@ -777,11 +680,13 @@ Ziemann, Mark, Antony Kaspi, and Assam El-Osta. 2016. <span>“Evaluation of <sp
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://www.dcassol.com/">Daniela Cassol</a>, <a href="http://girke.bioinformatics.ucr.edu/">Thomas Girke</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://www.dcassol.com/" class="external-link">Daniela Cassol</a>, <a href="http://girke.bioinformatics.ucr.edu/" class="external-link">Thomas Girke</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -789,6 +694,8 @@ Ziemann, Mark, Antony Kaspi, and Assam El-Osta. 2016. <span>“Evaluation of <sp
 
   
 
+
+  
 
   </body>
 </html>

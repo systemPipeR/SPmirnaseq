@@ -1,0 +1,7 @@
+	sRNAbench_predic.outfile	sRNAbench_predic.FileName	sRNAbench_predic.SampleName	sRNAbench_predic.Factor	sRNAbench_predic.SampleLong	sRNAbench_predic.Organism	sRNAbench_predic.LibraryLayout	sRNAbench_predic.Date
+wildtype_A	./results//cutadapt/wildtype_A.fastq.gz	./data/SRR5068868_1.fastq.gz	wildtype_A	wildtype	wildtype_A_GSM2412286	Arabidopsis thaliana	SINGLE	2017-04-18T00:00:00Z
+wildtype_B	./results//cutadapt/wildtype_B.fastq.gz	./data/SRR5068869_1.fastq.gz	wildtype_B	wildtype	wildtype_B_GSM2412287	Arabidopsis thaliana	SINGLE	2017-04-18T00:00:00Z
+wildtype_C	./results//cutadapt/wildtype_C.fastq.gz	./data/SRR5068870_1.fastq.gz	wildtype_C	wildtype	wildtype_C_GSM2412288	Arabidopsis thaliana	SINGLE	2017-04-18T00:00:00Z
+DCL1_knockdown_A	./results//cutadapt/DCL1_knockdown_A.fastq.gz	./data/SRR5068871_1.fastq.gz	DCL1_knockdown_A	DCL1_knockdown	DCL1_knockdown_A_GSM2412289	Arabidopsis thaliana	SINGLE	2017-04-18T00:00:00Z
+DCL1_knockdown_B	./results//cutadapt/DCL1_knockdown_B.fastq.gz	./data/SRR5068872_1.fastq.gz	DCL1_knockdown_B	DCL1_knockdown	DCL1_knockdown_B_GSM2412290	Arabidopsis thaliana	SINGLE	2017-04-18T00:00:00Z
+DCL1_knockdown_C	./results//cutadapt/DCL1_knockdown_C.fastq.gz	./data/SRR5068873_1.fastq.gz	DCL1_knockdown_C	DCL1_knockdown	DCL1_knockdown_C_GSM2412291	Arabidopsis thaliana	SINGLE	2017-04-18T00:00:00Z
