@@ -36,6 +36,6 @@ cd SPmirnaseq
 To init the workflow management instance, run
 ```r
 library("systemPipeR")
-
+sal <- SPRproject()
 sal <- importWF(sal, file_path = "SPmirnaseq.Rmd")
 ```
