@@ -12,12 +12,6 @@
 
 ### Installation
 
-To install the package, please use the _`BiocManager::install`_ command:
-```
-if (!requireNamespace("BiocManager", quietly=TRUE))
-    install.packages("BiocManager")
-BiocManager::install("systemPipeR/SPmirnaseq", build_vignettes=TRUE, dependencies=TRUE)
-```
 To obtain the *systemPipeR* and *systemPipeRdata*, please run as follow:
 ```
 if (!requireNamespace("BiocManager", quietly=TRUE))
@@ -28,23 +22,20 @@ BiocManager::install("systemPipeRdata")
 
 ### Usage
 
-### Pipeline summary
+To test workflows quickly or design new ones from existing templates, users can
+generate with a single command workflow instances fully populated with sample data 
+and parameter files required for running a chosen workflow.
 
-- Read Preprocessing
-    - Read Preprocessing with _`Cutadapt`_
-  - Preprocessing with _`preprocessReads`_ function
-  - Preprocessing with TrimGalore!
-  - Preprocessing with Trimmomatic
-- FASTQ quality report
-- Alignment against reference genome
-    - Alignment with _`Bowtie2`_ 
-    - Alignment with _`BWA`_ 
-- Read counting for miRNA profiling experiments
-- Alignment against miRBase mature miRNA and hairpin
-    - Alignment with _`sRNAbench`_
+Use `git` or `git-bash.exe` (Windows) to download the template and run 
 
-- Prediction of novel microRNAs (miRDeep2, miRPara, sRNAbench)
-    - Prediction `sRNAbench`
-- DEG analysis with *`DESeq2`* 
-- isomiR mapping and annotation 
-- Visualization 
+```
+git clone https://github.com/systemPipeR/SPmirnaseq.git
+cd SPmirnaseq
+```
+
+To init the workflow management instance, run
+```r
+library("systemPipeR")
+
+sal <- importWF(sal, file_path = "SPmirnaseq.Rmd")
+```

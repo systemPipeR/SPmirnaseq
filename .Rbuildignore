@@ -1,8 +1,0 @@
-^SPscrnaseq\.Rproj$
-^\.Rproj\.user$
-inst/rmarkdown/templates/SPmirnaseq/skeleton/.batchtools.conf.R
-^\.github
-docs
-inst/extdata/.batchtools.conf.R
-inst/extdata/.batchtools.conf.R.sge
-inst/extdata/.batchtools.conf.R.torque
